@@ -1,0 +1,26 @@
+{
+  "name": "NijatMessenger Source",
+  "identifier": "com.nijatmessenger.altstore",
+  "sourceURL": "https://ВАШ_ДОМЕН/source.json",
+  "apps": [
+    {
+      "name": "NijatMessenger",
+      "bundleIdentifier": "CoolNijat.P2Pfarah67messenger",
+      "developerName": "NijatMessenger",
+      "subtitle": "Быстрый и приватный мессенджер",
+      "localizedDescription": "NijatMessenger — быстрый, безопасный и приватный мессенджер со сквозным шифрованием.",
+      "iconURL": "https://ВАШ_ДОМЕН/assets/icons/green.png",
+      "category": "social",
+      "versions": [
+        {
+          "version": "1.0",
+          "date": "2026-07-24T00:00:00Z",
+          "localizedDescription": "Первый релиз NijatMessenger.",
+          "downloadURL": "https://ВАШ_ДОМЕН/app/NijatMessenger.ipa",
+          "size": 2486870,
+          "minOSVersion": "26.2"
+        }
+      ]
+    }
+  ]
+}
