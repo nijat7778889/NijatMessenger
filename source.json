@@ -13,11 +13,11 @@
       "category": "social",
       "versions": [
         {
-          "version": "1.0",
-          "date": "2026-07-24T00:00:00Z",
-          "localizedDescription": "Первый релиз NijatMessenger.",
+          "version": "1.1",
+          "date": "2026-07-27T00:00:00Z",
+          "localizedDescription": "Мини-игры: «Предатель» (карта корабля, задания, саботажи, собрания) и «Дурак». Голосовой чат прямо в партии. Стикеры Tenor, магазин VIP, исправлен звук в звонках.",
           "downloadURL": "https://ВАШ_ДОМЕН/app/NijatMessenger.ipa",
-          "size": 2486870,
+          "size": 3790725,
           "minOSVersion": "26.2"
         }
       ]
