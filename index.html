@@ -11,16 +11,30 @@
   <meta name="color-scheme" content="dark" />
 
   <!-- Icons / favicon (reuse the app icon everywhere) -->
+  <!-- .ico идёт первым и без указания размера: часть краулеров и старых
+       браузеров запрашивает /favicon.ico напрямую, не читая разметку вовсе. -->
+  <link rel="icon" href="favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="64x64" href="assets/icons/green-64.png" />
   <link rel="icon" type="image/png" sizes="256x256" href="assets/icons/green-256.png" />
   <link rel="apple-touch-icon" href="assets/icons/green-180.png" />
 
   <!-- Open Graph / social -->
+  <!-- Ссылки здесь абсолютные, и это обязательно: превью собирают серверы
+       соцсетей и мессенджеров, где относительный путь разрешать не от чего. -->
+  <link rel="canonical" href="https://nijat7778889.github.io/NijatMessenger/" />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://nijat7778889.github.io/NijatMessenger/" />
+  <meta property="og:site_name" content="NijatMessenger" />
   <meta property="og:title" content="NijatMessenger — Secure. Fast. Private." />
   <meta property="og:description" content="A modern messenger built for speed and privacy. End-to-end encrypted. P2P. No compromises." />
-  <meta property="og:image" content="assets/icons/green.png" />
+  <meta property="og:image" content="https://nijat7778889.github.io/NijatMessenger/assets/icons/green.png" />
+  <meta property="og:image:width" content="1500" />
+  <meta property="og:image:height" content="1500" />
+  <meta property="og:image:alt" content="Иконка NijatMessenger" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="NijatMessenger — Secure. Fast. Private." />
+  <meta name="twitter:description" content="A modern messenger built for speed and privacy. End-to-end encrypted. P2P. No compromises." />
+  <meta name="twitter:image" content="https://nijat7778889.github.io/NijatMessenger/assets/icons/green.png" />
 
   <!-- Perf: warm up the hero icon which is the largest paint -->
   <link rel="preload" as="image" href="assets/icons/green-512.png" fetchpriority="high" />
@@ -230,7 +244,7 @@
           </div>
           <div class="specs__item">
             <dt>Size</dt>
-            <dd>2.4 MB</dd>
+            <dd>3.8 MB</dd>
           </div>
           <div class="specs__item">
             <dt>Minimum iOS</dt>
