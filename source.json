@@ -1,7 +1,7 @@
 {
   "name": "NijatMessenger Source",
   "identifier": "com.nijatmessenger.altstore",
-  "sourceURL": "https://ВАШ_ДОМЕН/source.json",
+  "sourceURL": "https://nijat7778889.github.io/NijatMessenger/source.json",
   "apps": [
     {
       "name": "NijatMessenger",
@@ -9,15 +9,15 @@
       "developerName": "NijatMessenger",
       "subtitle": "Быстрый и приватный мессенджер",
       "localizedDescription": "NijatMessenger — быстрый, безопасный и приватный мессенджер со сквозным шифрованием.",
-      "iconURL": "https://ВАШ_ДОМЕН/assets/icons/green.png",
+      "iconURL": "https://nijat7778889.github.io/NijatMessenger/assets/icons/green.png",
       "category": "social",
       "versions": [
         {
-          "version": "1.9.14",
-          "date": "2026-07-31T00:00:00Z",
-          "localizedDescription": "Костюмы в «Предателе» теперь одевают персонажа целиком, вместе со штанинами и обувью. В переписке появилась кнопка удаления всех сообщений — стирает только у вас, у собеседника история остаётся.",
-          "downloadURL": "https://ВАШ_ДОМЕН/app/NijatMessenger.ipa",
-          "size": 4177116,
+          "version": "1.9.15",
+          "date": "2026-08-01T00:00:00Z",
+          "localizedDescription": "Имя больше нельзя занять: сервер закрепляет все ваши ники, включая запасные у VIP, и сообщает об этом всем устройствам. Закрыты две дыры безопасности — самовольная выдача себе прав администратора и ключ подписи лицензий, попадавший в сборку.",
+          "downloadURL": "https://nijat7778889.github.io/NijatMessenger/app/NijatMessenger.ipa",
+          "size": 4181477,
           "minOSVersion": "16.0"
         }
       ]

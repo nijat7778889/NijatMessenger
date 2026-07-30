@@ -12,21 +12,21 @@
           <string>software-package</string>
           <!-- ЗАМЕНИТЕ на прямую HTTPS-ссылку на ваш подписанный .ipa -->
           <key>url</key>
-          <string>https://ВАШ_ДОМЕН/nijatmessenger.ipa</string>
+          <string>https://nijat7778889.github.io/NijatMessenger/app/NijatMessenger.ipa</string>
         </dict>
         <dict>
           <key>kind</key>
           <string>display-image</string>
           <!-- Иконка, показывается во время установки (iOS сама уменьшит) -->
           <key>url</key>
-          <string>https://ВАШ_ДОМЕН/assets/icons/green.png</string>
+          <string>https://nijat7778889.github.io/NijatMessenger/assets/icons/green.png</string>
         </dict>
         <dict>
           <key>kind</key>
           <string>full-size-image</string>
           <!-- Та же иконка в полном размере, показывается на экране установки -->
           <key>url</key>
-          <string>https://ВАШ_ДОМЕН/assets/icons/green.png</string>
+          <string>https://nijat7778889.github.io/NijatMessenger/assets/icons/green.png</string>
         </dict>
       </array>
       <key>metadata</key>
