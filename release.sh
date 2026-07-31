@@ -89,20 +89,33 @@ PY
 # новой разметке кнопку, которой там уже нет, падал — и вся страница ниже
 # первого экрана оставалась пустой. Версия в ссылке делает файлы разными
 # адресами, и подмена становится невозможной.
-python3 - "$VERSION" <<'PY'
+#
+# Заодно правим запасные значения версии и размера прямо в разметке. Обычно их
+# подставляет скрипт из source.json, и в разметке они нужны лишь на случай, когда
+# скрипт не отработал (или его отключили). Но именно поэтому они и устаревают
+# незаметно: страница молча показывает прошлый выпуск, и заметить это можно
+# только с выключенным JS. Раз уж версия правится здесь — правим и их.
+python3 - "$VERSION" "$SIZE_MB" <<'PY'
 import re, sys, pathlib
-version = sys.argv[1]
+version, size_mb = sys.argv[1], sys.argv[2]
 p = pathlib.Path("index.html")
 text = p.read_text(encoding="utf-8")
 before = text
-text = re.sub(r'(href="styles\.css)(?:\?v=[^"]*)?(")',
-              lambda m: m.group(1) + "?v=" + version + m.group(2), text)
-text = re.sub(r'(src="script\.js)(?:\?v=[^"]*)?(")',
-              lambda m: m.group(1) + "?v=" + version + m.group(2), text)
-if text == before:
+text, n_css = re.subn(r'(href="styles\.css)(?:\?v=[^"]*)?(")',
+                      lambda m: m.group(1) + "?v=" + version + m.group(2), text)
+text, n_js = re.subn(r'(src="script\.js)(?:\?v=[^"]*)?(")',
+                     lambda m: m.group(1) + "?v=" + version + m.group(2), text)
+# Считаем СОВПАДЕНИЯ, а не факт изменения текста. Повторный запуск с той же
+# версией — законная операция (например, пересобрали сборку и хотите обновить
+# только размер), и «ничего не поменялось» здесь означает «всё уже на месте»,
+# а не «ссылок нет».
+if n_css == 0 or n_js == 0:
     raise SystemExit("index.html: не нашёл ссылок на styles.css / script.js")
+# Запасные значения: <b data-version>1.9.20</b>, <span data-size>4.1 МБ</span>
+text = re.sub(r'(data-version>)[^<]*(<)', lambda m: m.group(1) + version + m.group(2), text)
+text = re.sub(r'(data-size>)[^<]*(<)', lambda m: m.group(1) + size_mb + " МБ" + m.group(2), text)
 p.write_text(text, encoding="utf-8")
-print(f"index.html      → styles.css?v={version}, script.js?v={version}")
+print(f"index.html      → ?v={version}, запасные значения {version} / {size_mb} МБ")
 PY
 
 echo
