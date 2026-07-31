@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
-  <!-- Primary meta -->
-  <title>NijatMessenger — Secure. Fast. Private.</title>
-  <meta name="description" content="NijatMessenger is a modern, end-to-end encrypted messenger built for speed and privacy. Download the .ipa and install on iPhone with iLoader." />
-  <meta name="theme-color" content="#050b0a" />
-  <meta name="color-scheme" content="dark" />
+  <!-- Заголовок и описание переписываются скриптом при смене языка (см. i18n
+       в script.js). Здесь — русский вариант: он же и язык по умолчанию. -->
+  <title>NijatMessenger — мессенджер без серверов и аккаунтов</title>
+  <meta name="description" content="Мессенджер для iPhone: сообщения идут напрямую между устройствами и шифруются на них же. Работает даже без интернета — рядом по Wi-Fi и Bluetooth. Скачайте .ipa и поставьте через iLoader." />
+  <meta name="theme-color" content="#F4F6F5" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0E1512" media="(prefers-color-scheme: dark)" />
+  <meta name="color-scheme" content="light dark" />
 
-  <!-- Icons / favicon (reuse the app icon everywhere) -->
   <!-- .ico идёт первым и без указания размера: часть краулеров и старых
        браузеров запрашивает /favicon.ico напрямую, не читая разметку вовсе. -->
   <link rel="icon" href="favicon.ico" sizes="any" />
@@ -18,395 +19,251 @@
   <link rel="icon" type="image/png" sizes="256x256" href="assets/icons/green-256.png" />
   <link rel="apple-touch-icon" href="assets/icons/green-180.png" />
 
-  <!-- Open Graph / social -->
   <!-- Ссылки здесь абсолютные, и это обязательно: превью собирают серверы
        соцсетей и мессенджеров, где относительный путь разрешать не от чего. -->
   <link rel="canonical" href="https://nijat7778889.github.io/NijatMessenger/" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://nijat7778889.github.io/NijatMessenger/" />
   <meta property="og:site_name" content="NijatMessenger" />
-  <meta property="og:title" content="NijatMessenger — Secure. Fast. Private." />
-  <meta property="og:description" content="A modern messenger built for speed and privacy. End-to-end encrypted. P2P. No compromises." />
+  <meta property="og:title" content="NijatMessenger — мессенджер без серверов и аккаунтов" />
+  <meta property="og:description" content="Сообщения идут напрямую между устройствами и шифруются на них же. Работает даже без интернета." />
   <meta property="og:image" content="https://nijat7778889.github.io/NijatMessenger/assets/icons/green.png" />
   <meta property="og:image:width" content="1500" />
   <meta property="og:image:height" content="1500" />
   <meta property="og:image:alt" content="Иконка NijatMessenger" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="NijatMessenger — Secure. Fast. Private." />
-  <meta name="twitter:description" content="A modern messenger built for speed and privacy. End-to-end encrypted. P2P. No compromises." />
+  <meta name="twitter:title" content="NijatMessenger — мессенджер без серверов и аккаунтов" />
+  <meta name="twitter:description" content="Сообщения идут напрямую между устройствами и шифруются на них же. Работает даже без интернета." />
   <meta name="twitter:image" content="https://nijat7778889.github.io/NijatMessenger/assets/icons/green.png" />
 
-  <!-- Perf: warm up the hero icon which is the largest paint -->
-  <link rel="preload" as="image" href="assets/icons/green-512.png" fetchpriority="high" />
+  <!-- Тема ставится ДО отрисовки, отдельным блокирующим скриптом.
+       Иначе при тёмной теме первый кадр всё равно белый — знаменитое мигание
+       на весь экран, которое особенно бьёт по глазам ночью. -->
+  <script>
+    (function () {
+      var d = document.documentElement;
+      d.classList.add("js");
+      try {
+        var t = localStorage.getItem("nm-theme");
+        if (!t) t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        d.dataset.theme = t;
+        var l = localStorage.getItem("nm-lang");
+        if (!l) l = (navigator.language || "ru").toLowerCase().indexOf("ru") === 0 ? "ru" : "en";
+        d.lang = l;
+      } catch (e) { d.dataset.theme = "light"; }
+    })();
+  </script>
 
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Skip link for keyboard / a11y -->
-  <a class="skip-link" href="#hero">Skip to content</a>
+  <a class="skip-link" href="#main" data-i18n="skip">К содержимому</a>
 
-  <!-- ============================================================= -->
-  <!-- Decorative background layers (aurora, blobs, grid, noise)     -->
-  <!-- ============================================================= -->
-  <div class="bg" aria-hidden="true">
-    <div class="bg__aurora"></div>
-    <div class="bg__blob bg__blob--1"></div>
-    <div class="bg__blob bg__blob--2"></div>
-    <div class="bg__blob bg__blob--3"></div>
-    <div class="bg__grid"></div>
-    <div class="bg__noise"></div>
-  </div>
-
-  <!-- Cursor glow (desktop pointer only, toggled from JS) -->
-  <div class="cursor-glow" aria-hidden="true"></div>
-
-  <!-- ============================================================= -->
-  <!-- Navigation                                                    -->
-  <!-- ============================================================= -->
-  <header class="nav" id="nav">
-    <div class="nav__inner">
-      <a class="brand" href="#hero" aria-label="NijatMessenger home">
-        <span class="brand__mark">
-          <img src="assets/icons/green-64.png" alt="" width="36" height="36" decoding="async" />
-        </span>
-        <span class="brand__name">Nijat<span>Messenger</span></span>
+  <header class="nav">
+    <div class="nav__inner wrap">
+      <a class="brand" href="#top" aria-label="NijatMessenger">
+        <img src="assets/icons/green-64.png" alt="" width="30" height="30" decoding="async" />
+        <span>Nijat<b>Messenger</b></span>
       </a>
 
-      <nav class="nav__links" aria-label="Primary">
-        <a href="#features">Features</a>
-        <a href="#download">Download</a>
-        <a href="#install">Install</a>
-        <a href="#tutorial">Tutorial</a>
-        <a href="#faq">FAQ</a>
-      </nav>
-
-      <div class="nav__actions">
-        <a class="btn btn--ghost btn--sm" href="#download" data-magnetic data-ripple>Get the app</a>
-        <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
-          <span></span><span></span><span></span>
+      <div class="nav__tools">
+        <div class="seg" role="group" aria-label="Язык / Language">
+          <button type="button" class="seg__btn" data-lang="ru" aria-pressed="false">RU</button>
+          <button type="button" class="seg__btn" data-lang="en" aria-pressed="false">EN</button>
+        </div>
+        <button type="button" class="icon-btn" id="themeToggle" aria-label="Тема" data-i18n-aria="themeLabel">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.6M12 19.4V22M2 12h2.6M19.4 12H22M4.9 4.9l1.9 1.9M17.2 17.2l1.9 1.9M19.1 4.9l-1.9 1.9M6.8 17.2l-1.9 1.9"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.4 8.4 0 1 0 10.2 10.2z"/></svg>
         </button>
       </div>
     </div>
-
-    <!-- Mobile dropdown menu -->
-    <div class="nav__mobile" id="mobileMenu" hidden>
-      <a href="#features">Features</a>
-      <a href="#download">Download</a>
-      <a href="#install">Install</a>
-      <a href="#tutorial">Tutorial</a>
-      <a href="#faq">FAQ</a>
-      <a class="btn btn--primary btn--block" href="app/NijatMessenger.ipa" download="NijatMessenger.ipa">Download .ipa</a>
-    </div>
   </header>
 
-  <main>
-    <!-- ============================================================= -->
-    <!-- Hero                                                          -->
-    <!-- ============================================================= -->
-    <section class="hero" id="hero">
-      <div class="hero__inner">
-        <span class="pill reveal" data-reveal>
-          <span class="pill__dot"></span> Secure. Fast. Private.
-        </span>
+  <main id="main">
+    <!-- Первый экран.
+         Ни одного data-reveal: всё, что человек должен увидеть сразу, приходит
+         видимым из разметки. Раньше здесь было пусто около секунды, а без JS —
+         навсегда. -->
+    <section class="hero wrap" id="top">
+      <img class="hero__icon" src="assets/icons/green-256.png" alt="" width="72" height="72" fetchpriority="high" decoding="async" />
 
-        <!-- Floating app icon with glow -->
-        <figure class="app-icon reveal" data-reveal data-parallax="7" aria-hidden="true">
-          <span class="app-icon__ring"></span>
-          <img class="app-icon__img" src="assets/icons/green-512.png" alt="" width="220" height="220" fetchpriority="high" decoding="async" />
-        </figure>
+      <h1 class="hero__title" data-i18n="heroTitle">Переписка, которая никуда не уходит</h1>
+      <p class="hero__lead" data-i18n="heroLead">
+        Сообщения идут напрямую с телефона на телефон и шифруются на них же. Рядом —
+        по Wi-Fi и Bluetooth, вообще без интернета. Ни аккаунта, ни номера телефона.
+      </p>
 
-        <h1 class="hero__title reveal" data-reveal>
-          <span class="gradient-text">Nijat</span><span class="gradient-text gradient-text--alt">Messenger</span>
-        </h1>
-        <p class="hero__subtitle reveal" data-reveal>Secure. Fast. Private.</p>
-        <p class="hero__lead reveal" data-reveal>
-          A modern messenger built for speed and privacy.<br />
-          End-to-end encrypted. Peer-to-peer. No compromises.
-        </p>
-
-        <div class="hero__cta reveal" data-reveal>
-          <a class="btn btn--primary" href="app/NijatMessenger.ipa" download="NijatMessenger.ipa" data-magnetic data-ripple>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0l-4-4m4 4l4-4M5 20h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Install with iLoader
-          </a>
-          <a class="btn btn--glass" href="#install" data-magnetic data-ripple>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22a10 10 0 100-20 10 10 0 000 20z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 8v4l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            View Installation Guide
-          </a>
-        </div>
-
-        <p class="hero__meta reveal" data-reveal>
-          Works on iOS&nbsp;16+ &nbsp;·&nbsp; 4.0&nbsp;MB &nbsp;·&nbsp; Version&nbsp;1.9.18
-        </p>
-      </div>
-    </section>
-
-    <!-- ============================================================= -->
-    <!-- Features                                                      -->
-    <!-- ============================================================= -->
-    <section class="section" id="features">
-      <header class="section__head">
-        <span class="section__eyebrow reveal" data-reveal>Features</span>
-        <h2 class="section__title reveal" data-reveal>Everything you need. Nothing you don't.</h2>
-        <p class="section__sub reveal" data-reveal>Built like a native iOS app, engineered for privacy from the ground up.</p>
-      </header>
-
-      <div class="features">
-        <!-- End-to-End Encryption -->
-        <article class="feature-card animated-border reveal" data-reveal data-tilt>
-          <span class="feature-card__glow"></span>
-          <span class="feature-card__icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 10V7a4 4 0 018 0v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="15.5" r="1.6" fill="currentColor"/></svg>
-          </span>
-          <h3>End-to-End Encryption</h3>
-          <p>Every message and call is encrypted on your device. Not even we can read them.</p>
-        </article>
-
-        <!-- Fast Messaging -->
-        <article class="feature-card animated-border reveal" data-reveal data-tilt>
-          <span class="feature-card__glow"></span>
-          <span class="feature-card__icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-          </span>
-          <h3>Fast Messaging</h3>
-          <p>A peer-to-peer core delivers messages instantly, even on a weak connection.</p>
-        </article>
-
-        <!-- Voice & Video Calls -->
-        <article class="feature-card animated-border reveal" data-reveal data-tilt>
-          <span class="feature-card__glow"></span>
-          <span class="feature-card__icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="12" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15 11l6-3v8l-6-3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-          </span>
-          <h3>Voice &amp; Video Calls</h3>
-          <p>Crystal-clear, low-latency calls with the people and groups that matter.</p>
-        </article>
-
-        <!-- Groups -->
-        <article class="feature-card animated-border reveal" data-reveal data-tilt>
-          <span class="feature-card__glow"></span>
-          <span class="feature-card__icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="9" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 19a5.5 5.5 0 0111 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M16 6.2a3.2 3.2 0 010 5.6M17.5 19a5.5 5.5 0 00-3-4.9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          </span>
-          <h3>Groups</h3>
-          <p>Create groups and stay connected — from tiny circles to big communities.</p>
-        </article>
-
-        <!-- Native iOS Experience -->
-        <article class="feature-card animated-border reveal" data-reveal data-tilt>
-          <span class="feature-card__glow"></span>
-          <span class="feature-card__icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M11 5.2h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="18.4" r="1" fill="currentColor"/></svg>
-          </span>
-          <h3>Native iOS Experience</h3>
-          <p>Designed for iPhone with fluid gestures and haptics. It feels right at home.</p>
-        </article>
-
-        <!-- Privacy First -->
-        <article class="feature-card animated-border reveal" data-reveal data-tilt>
-          <span class="feature-card__glow"></span>
-          <span class="feature-card__icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10v-5l7-3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-          <h3>Privacy First</h3>
-          <p>No ads. No trackers. No data harvesting. Just private conversations.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- ============================================================= -->
-    <!-- Download                                                      -->
-    <!-- ============================================================= -->
-    <section class="section" id="download">
-      <header class="section__head">
-        <span class="section__eyebrow reveal" data-reveal>Download</span>
-        <h2 class="section__title reveal" data-reveal>Get NijatMessenger</h2>
-        <p class="section__sub reveal" data-reveal>Download the latest build and install it on your iPhone with iLoader.</p>
-      </header>
-
-      <div class="download-card glass animated-border reveal" data-reveal data-tilt>
-        <span class="download-card__glow"></span>
-
-        <div class="download-card__head">
-          <figure class="download-card__icon" aria-hidden="true">
-            <img src="assets/icons/green-256.png" alt="" width="76" height="76" loading="lazy" decoding="async" />
-          </figure>
-          <div>
-            <h3 class="download-card__title">NijatMessenger <span class="tag">Version 1.9.18</span></h3>
-            <p class="download-card__desc">Thanks for choosing NijatMessenger. Download the file below and open it in iLoader to install.</p>
-          </div>
-        </div>
-
-        <dl class="specs">
-          <div class="specs__item">
-            <dt>Version</dt>
-            <dd>1.9.18</dd>
-          </div>
-          <div class="specs__item">
-            <dt>Size</dt>
-            <dd>4.0 MB</dd>
-          </div>
-          <div class="specs__item">
-            <dt>Minimum iOS</dt>
-            <dd>16.0</dd>
-          </div>
-          <div class="specs__item">
-            <dt>Last updated</dt>
-            <dd>Jul 28, 2026</dd>
-          </div>
-        </dl>
-
-        <a class="btn btn--primary btn--lg btn--block" href="app/NijatMessenger.ipa" download="NijatMessenger.ipa" data-magnetic data-ripple>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0l-4-4m4 4l4-4M5 20h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Download .ipa
-          <span class="btn__hint">app/NijatMessenger.ipa</span>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="app/NijatMessenger.ipa" download="NijatMessenger.ipa" id="downloadBtn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>
+          <span data-i18n="download">Скачать .ipa</span>
         </a>
-
-        <p class="download-card__note">
-          <svg viewBox="0 0 24 24" aria-hidden="true" width="16" height="16"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 11v5M12 8h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          After downloading, open the file in iLoader to install. See the guide below.
-        </p>
+        <a class="btn btn--quiet" href="#install" data-i18n="howTo">Как поставить</a>
       </div>
+
+      <p class="facts">
+        <span class="facts__item"><b data-version>1.9.19</b> <span data-i18n="version">версия</span></span>
+        <span class="facts__sep" aria-hidden="true">·</span>
+        <span class="facts__item"><b data-size>4.1 МБ</b></span>
+        <span class="facts__sep" aria-hidden="true">·</span>
+        <span class="facts__item"><b>iOS 16+</b></span>
+      </p>
+
+      <p class="notice">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+        <span data-i18n="noticeSign">Приложение подписывается вашим Apple ID прямо на телефоне. У бесплатного Apple ID подпись действует 7 дней — потом её нужно продлить одним нажатием.</span>
+      </p>
     </section>
 
-    <!-- ============================================================= -->
-    <!-- Installation timeline                                         -->
-    <!-- ============================================================= -->
-    <section class="section" id="install">
-      <header class="section__head">
-        <span class="section__eyebrow reveal" data-reveal>Installation</span>
-        <h2 class="section__title reveal" data-reveal>Install in five simple steps</h2>
-        <p class="section__sub reveal" data-reveal>The .ipa downloads straight to your iPhone. You just sign it once with iLoader.</p>
-      </header>
+    <!-- Установка идёт сразу за первым экраном: это и есть настоящая работа
+         сайта. Два пути — выбором, а не одной стеной из пяти шагов. -->
+    <section class="section wrap" id="install">
+      <h2 class="section__title reveal" data-reveal data-i18n="installTitle">Как поставить</h2>
+      <p class="section__sub reveal" data-reveal data-i18n="installSub">Два пути. Оба ставят одно и то же приложение и одинаково безопасны — подпись делается вашим Apple ID на вашем устройстве.</p>
 
-      <ol class="timeline">
-        <li class="timeline__step reveal" data-reveal>
-          <span class="timeline__marker"><span>1</span></span>
-          <div class="timeline__body glass">
-            <h3>Download the IPA</h3>
-            <p>Open this page in Safari on your iPhone and tap <strong>Download .ipa</strong>. Safari saves it to the Files app.</p>
-          </div>
+      <div class="seg seg--wide reveal" data-reveal role="tablist" aria-label="Способ установки">
+        <button type="button" class="seg__btn" id="tabILoader" role="tab" aria-selected="true" aria-controls="panelILoader">
+          iLoader <span class="seg__note" data-i18n="noPC">без компьютера</span>
+        </button>
+        <button type="button" class="seg__btn" id="tabAltStore" role="tab" aria-selected="false" aria-controls="panelAltStore">
+          AltStore <span class="seg__note" data-i18n="withPC">с компьютером</span>
+        </button>
+      </div>
+
+      <ol class="steps reveal" data-reveal id="panelILoader" role="tabpanel" aria-labelledby="tabILoader">
+        <li>
+          <h3 data-i18n="il1t">Поставьте iLoader</h3>
+          <p data-i18n="il1p">Если его ещё нет — по инструкции с <a href="https://iloader.site/" target="_blank" rel="noopener noreferrer">сайта iLoader</a>.</p>
         </li>
-        <li class="timeline__step reveal" data-reveal>
-          <span class="timeline__marker"><span>2</span></span>
-          <div class="timeline__body glass">
-            <h3>Open in Files</h3>
-            <p>In the <strong>Files</strong> app, go to <strong>Downloads</strong> and find <code>NijatMessenger.ipa</code>.</p>
-          </div>
+        <li>
+          <h3 data-i18n="il2t">Скачайте файл</h3>
+          <p data-i18n="il2p">Откройте эту страницу в Safari на iPhone и нажмите «Скачать .ipa». Файл попадёт в «Файлы» → «Загрузки».</p>
         </li>
-        <li class="timeline__step reveal" data-reveal>
-          <span class="timeline__marker"><span>3</span></span>
-          <div class="timeline__body glass">
-            <h3>Open iLoader</h3>
-            <p>Install <a href="https://iloader.site/" target="_blank" rel="noopener noreferrer">iLoader</a> if you haven't yet. Then share the file to iLoader, or open iLoader → <strong>My Apps → +</strong>.</p>
-          </div>
+        <li>
+          <h3 data-i18n="il3t">Передайте его в iLoader</h3>
+          <p data-i18n="il3p">Нажмите на файл → «Поделиться» → iLoader. Либо наоборот: откройте iLoader → My Apps → «+» и выберите файл.</p>
         </li>
-        <li class="timeline__step reveal" data-reveal>
-          <span class="timeline__marker"><span>4</span></span>
-          <div class="timeline__body glass">
-            <h3>Install the app</h3>
-            <p>Select <code>NijatMessenger.ipa</code> in iLoader. It signs the app with your Apple ID and installs it to your Home Screen.</p>
-          </div>
+        <li>
+          <h3 data-i18n="il4t">Подтвердите доверие</h3>
+          <p data-i18n="il4p">Один раз: Настройки → Основные → VPN и управление устройством → выберите профиль → «Доверять».</p>
         </li>
-        <li class="timeline__step reveal" data-reveal>
-          <span class="timeline__marker"><span>5</span></span>
-          <div class="timeline__body glass">
-            <h3>Trust the developer</h3>
-            <p>Go to <strong>Settings → General → VPN &amp; Device Management</strong>, select the profile and tap <strong>Trust</strong>. Done — open the app.</p>
-          </div>
+      </ol>
+
+      <ol class="steps reveal" data-reveal id="panelAltStore" role="tabpanel" aria-labelledby="tabAltStore" hidden>
+        <li>
+          <h3 data-i18n="as1t">Поставьте AltServer на компьютер</h3>
+          <p data-i18n="as1p">По инструкции с <a href="https://altstore.io" target="_blank" rel="noopener noreferrer">altstore.io</a>, затем AltStore на iPhone. Компьютер и телефон — в одной сети Wi-Fi.</p>
+        </li>
+        <li>
+          <h3 data-i18n="as2t">Скачайте файл</h3>
+          <p data-i18n="as2p">Так же, как выше: Safari на iPhone → «Скачать .ipa».</p>
+        </li>
+        <li>
+          <h3 data-i18n="as3t">Откройте его через AltStore</h3>
+          <p data-i18n="as3p">Нажмите на файл → «Поделиться» → «Скопировать в AltStore». Либо в самом AltStore: My Apps → «+».</p>
+        </li>
+        <li>
+          <h3 data-i18n="as4t">Подтвердите доверие</h3>
+          <p data-i18n="as4p">Настройки → Основные → VPN и управление устройством → профиль → «Доверять». Дальше AltStore умеет продлевать подпись сам.</p>
         </li>
       </ol>
     </section>
 
-    <!-- ============================================================= -->
-    <!-- Video tutorial                                                -->
-    <!-- ============================================================= -->
-    <section class="section" id="tutorial">
-      <header class="section__head">
-        <span class="section__eyebrow reveal" data-reveal>Tutorial</span>
-        <h2 class="section__title reveal" data-reveal>Watch the video guide</h2>
-        <p class="section__sub reveal" data-reveal>Prefer to follow along? This short walkthrough shows the whole install, step by step.</p>
-      </header>
-
-      <div class="video-card glass animated-border reveal" data-reveal>
-        <span class="video-card__glow"></span>
-        <div class="video-embed">
-          <iframe
-            src="https://www.youtube-nocookie.com/embed/DCPNOSXj9Kk?rel=0"
-            title="NijatMessenger installation tutorial"
-            loading="lazy"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen></iframe>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================= -->
-    <!-- FAQ                                                           -->
-    <!-- ============================================================= -->
-    <section class="section" id="faq">
-      <header class="section__head">
-        <span class="section__eyebrow reveal" data-reveal>FAQ</span>
-        <h2 class="section__title reveal" data-reveal>Frequently asked questions</h2>
-      </header>
-
-      <div class="faq">
-        <details class="faq__item glass reveal" data-reveal>
-          <summary>The file opens a preview instead of downloading</summary>
-          <p>Long-press the <strong>Download .ipa</strong> button and choose <em>Download Linked File</em>. Safari will then save it into the Files app.</p>
-        </details>
-        <details class="faq__item glass reveal" data-reveal>
-          <summary>It downloaded, but there's no Home Screen icon</summary>
-          <p>That's expected. A raw <code>.ipa</code> doesn't install itself — open it in iLoader (step 4) so it gets signed and installed.</p>
-        </details>
-        <details class="faq__item glass reveal" data-reveal>
-          <summary>Do I need to sign in to iLoader?</summary>
-          <p>Yes. iLoader signs apps with your personal Apple ID the first time you install or refresh them.</p>
-        </details>
-        <details class="faq__item glass reveal" data-reveal>
-          <summary>It says "Untrusted Developer"</summary>
-          <p>Go to <strong>Settings → General → VPN &amp; Device Management</strong>, select the profile and tap <strong>Trust</strong>.</p>
-        </details>
-        <details class="faq__item glass reveal" data-reveal>
-          <summary>The app stopped opening after a week</summary>
-          <p>Free Apple IDs limit signatures to 7 days. Open iLoader and tap <strong>Refresh</strong> to re-sign the app.</p>
-        </details>
-      </div>
-    </section>
-
-    <!-- ============================================================= -->
-    <!-- Final CTA                                                     -->
-    <!-- ============================================================= -->
-    <section class="section final-cta">
-      <div class="final-cta__card glass animated-border reveal" data-reveal>
-        <span class="final-cta__glow"></span>
-        <figure class="final-cta__icon" aria-hidden="true">
-          <img src="assets/icons/green-256.png" alt="" width="88" height="88" loading="lazy" decoding="async" />
+    <!-- Скриншоты. Раньше приложение продавалось вслепую: на сайте не было ни
+         одного снимка того, что человек скачивает. -->
+    <section class="section wrap" id="look">
+      <h2 class="section__title reveal" data-reveal data-i18n="lookTitle">Как это выглядит</h2>
+      <div class="shots">
+        <figure class="shot reveal" data-reveal>
+          <img src="assets/screens/chat.webp" alt="Экран переписки NijatMessenger" width="640" height="1391" loading="lazy" decoding="async" />
+          <figcaption data-i18n="shotChat">Общая комната: реплики одного человека идут группой, без повторов имени</figcaption>
         </figure>
-        <h2>Ready to talk, privately?</h2>
-        <p>Download NijatMessenger and take your conversations off the grid.</p>
-        <a class="btn btn--primary btn--lg" href="app/NijatMessenger.ipa" download="NijatMessenger.ipa" data-magnetic data-ripple>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0l-4-4m4 4l4-4M5 20h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Install with iLoader
+        <figure class="shot reveal" data-reveal>
+          <img src="assets/screens/empty.webp" alt="Пустая переписка в NijatMessenger" width="640" height="1391" loading="lazy" decoding="async" />
+          <figcaption data-i18n="shotEmpty">45 тем оформления, светлых и тёмных</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section wrap" id="about">
+      <h2 class="section__title reveal" data-reveal data-i18n="aboutTitle">Чем отличается</h2>
+      <div class="cards">
+        <article class="card reveal" data-reveal>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5a7 7 0 0 1 14 0M8.5 15.5a3.5 3.5 0 0 1 7 0M2 9.5a11 11 0 0 1 20 0"/><circle cx="12" cy="19" r="1.2"/></svg>
+          <h3 data-i18n="f1t">Работает без интернета</h3>
+          <p data-i18n="f1p">С теми, кто рядом, телефон связывается напрямую — по Wi-Fi и Bluetooth. В самолёте, в подвале, при отключённой сети переписка продолжается.</p>
+        </article>
+        <article class="card reveal" data-reveal>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2.4"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>
+          <h3 data-i18n="f2t">Шифруется на устройстве</h3>
+          <p data-i18n="f2p">Ключи не покидают телефон. Ретранслятор в интернете видит только, кому переслать пакет, но не то, что внутри.</p>
+        </article>
+        <article class="card reveal" data-reveal>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/></svg>
+          <h3 data-i18n="f3t">Без аккаунта и номера</h3>
+          <p data-i18n="f3p">Регистрация — это выбрать имя. Ни телефона, ни почты, ни пароля. Имя закрепляется за устройством, и занять чужое нельзя.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Видео грузится по нажатию. Iframe на загрузке тянул скрипты YouTube
+         каждому, кто открыл страницу, — на мобильном интернете это заметно. -->
+    <section class="section wrap" id="video">
+      <h2 class="section__title reveal" data-reveal data-i18n="videoTitle">Видео с установкой</h2>
+      <div class="video reveal" data-reveal id="videoBox" data-embed="https://www.youtube-nocookie.com/embed/DCPNOSXj9Kk?rel=0&amp;autoplay=1">
+        <button type="button" class="video__play" id="videoPlay">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+          <span data-i18n="playVideo">Смотреть на YouTube</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="section wrap" id="faq">
+      <h2 class="section__title reveal" data-reveal data-i18n="faqTitle">Частые вопросы</h2>
+      <div class="faq">
+        <details class="reveal" data-reveal>
+          <summary data-i18n="q1">Файл не скачивается, а открывается предпросмотром</summary>
+          <p data-i18n="a1">Зажмите кнопку «Скачать .ipa» и выберите «Скачать связанный файл» — Safari сохранит его в «Файлы».</p>
+        </details>
+        <details class="reveal" data-reveal>
+          <summary data-i18n="q2">Скачал, но иконки на «Домой» нет</summary>
+          <p data-i18n="a2">Так и должно быть: сам по себе .ipa ничего не устанавливает. Его нужно подписать через iLoader или AltStore — тогда иконка и появится.</p>
+        </details>
+        <details class="reveal" data-reveal>
+          <summary data-i18n="q3">Просит войти в Apple ID</summary>
+          <p data-i18n="a3">Это нормально и требуется обоими способами: так приложение подписывается лично для вас при установке и при каждом продлении.</p>
+        </details>
+        <details class="reveal" data-reveal>
+          <summary data-i18n="q4">Пишет «Ненадёжный разработчик»</summary>
+          <p data-i18n="a4">Настройки → Основные → VPN и управление устройством → выберите профиль → «Доверять».</p>
+        </details>
+        <details class="reveal" data-reveal>
+          <summary data-i18n="q5">Приложение перестало открываться через неделю</summary>
+          <p data-i18n="a5">Ограничение бесплатного Apple ID: подпись живёт 7 дней. В AltStore нажмите Refresh, в iLoader переустановите тем же файлом. Данные останутся на месте.</p>
+        </details>
+        <details class="reveal" data-reveal>
+          <summary data-i18n="q6">Можно поставить обоими способами сразу?</summary>
+          <p data-i18n="a6">Нет, выберите один. Это одно и то же приложение с одним идентификатором: установка вторым способом просто заменит первое.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="section wrap">
+      <div class="closing reveal" data-reveal>
+        <h2 data-i18n="closingTitle">Готовы попробовать?</h2>
+        <p data-i18n="closingSub">Версия <span data-version>1.9.19</span>, <span data-size>4.1 МБ</span>, iOS 16 и новее.</p>
+        <a class="btn btn--primary" href="app/NijatMessenger.ipa" download="NijatMessenger.ipa">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>
+          <span data-i18n="download">Скачать .ipa</span>
         </a>
       </div>
     </section>
   </main>
 
-  <!-- ============================================================= -->
-  <!-- Footer                                                        -->
-  <!-- ============================================================= -->
   <footer class="footer">
-    <div class="footer__inner">
-      <a class="brand" href="#hero" aria-label="NijatMessenger home">
-        <span class="brand__mark">
-          <img src="assets/icons/green-64.png" alt="" width="32" height="32" loading="lazy" decoding="async" />
-        </span>
-        <span class="brand__name">Nijat<span>Messenger</span></span>
-      </a>
-      <p class="footer__tagline">Secure. Fast. Private.</p>
-      <p class="footer__copy">© <span id="year">2026</span> NijatMessenger. All rights reserved.</p>
+    <div class="wrap footer__inner">
+      <p data-i18n="footerNote">Сообщения и звонки шифруются на устройстве. Рекламы нет, данные о вас не собираются.</p>
+      <p class="footer__copy">© <span id="year">2026</span> NijatMessenger</p>
     </div>
   </footer>
 

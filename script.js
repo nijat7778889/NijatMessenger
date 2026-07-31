@@ -1,242 +1,264 @@
-/* =============================================================================
-   NijatMessenger — interactions
-   Vanilla JS, no dependencies. Each behaviour is a small self-contained module
-   initialised at the bottom. Everything degrades gracefully and respects
-   prefers-reduced-motion and coarse (touch) pointers.
+/* ==========================================================================
+   NijatMessenger — поведение страницы
+
+   Что здесь есть и чего намеренно нет.
+   ЕСТЬ: два языка, две темы, появление блоков при прокрутке, выбор способа
+   установки, отложенная загрузка видео и подстановка версии из source.json.
+   НЕТ: свечения под курсором, наклона карточек и «магнитных» кнопок, которые
+   были раньше. Страницу открывают с iPhone — там нет курсора, и весь этот код
+   исполнялся впустую, отнимая время на разбор и подписку на события.
    ========================================================================== */
 (function () {
   "use strict";
 
-  // Global capability flags ---------------------------------------------------
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const finePointer = window.matchMedia("(pointer: fine)").matches;
-
-  const on = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
-  const $ = (sel, ctx = document) => ctx.querySelector(sel);
-  const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+  var root = document.documentElement;
+  var $  = function (s, c) { return (c || document).querySelector(s); };
+  var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
 
   /* ------------------------------------------------------------------ */
-  /* Footer year                                                         */
+  /* Словарь                                                             */
   /* ------------------------------------------------------------------ */
-  function initYear() {
-    const el = $("#year");
-    if (el) el.textContent = new Date().getFullYear();
+  /* Русский лежит в самой разметке — так страница читается и без скрипта, и
+     поисковиком. Здесь только английский плюс несколько ключей, которые
+     нужны обоим языкам (заголовок вкладки, описание). */
+  var EN = {
+    skip: "Skip to content",
+    themeLabel: "Theme",
+    heroTitle: "Messages that never leave your phones",
+    heroLead: "Messages go straight from one phone to another and are encrypted on the devices themselves. Nearby they travel over Wi-Fi and Bluetooth — no internet at all. No account, no phone number.",
+    download: "Download .ipa",
+    howTo: "How to install",
+    version: "version",
+    noticeSign: "The app is signed with your own Apple ID, on your phone. With a free Apple ID that signature lasts 7 days — renewing it takes one tap.",
+
+    installTitle: "How to install",
+    installSub: "Two ways. Both install the same app and are equally safe — the signing happens with your own Apple ID, on your own device.",
+    noPC: "no computer",
+    withPC: "needs a computer",
+    il1t: "Install iLoader",
+    il1p: "If you don't have it yet, follow the guide on the <a href=\"https://iloader.site/\" target=\"_blank\" rel=\"noopener noreferrer\">iLoader site</a>.",
+    il2t: "Download the file",
+    il2p: "Open this page in Safari on your iPhone and tap “Download .ipa”. It lands in Files → Downloads.",
+    il3t: "Hand it to iLoader",
+    il3p: "Tap the file → Share → iLoader. Or the other way round: open iLoader → My Apps → “+” and pick the file.",
+    il4t: "Trust the developer",
+    il4p: "Once only: Settings → General → VPN &amp; Device Management → pick the profile → Trust.",
+    as1t: "Install AltServer on a computer",
+    as1p: "Follow the guide at <a href=\"https://altstore.io\" target=\"_blank\" rel=\"noopener noreferrer\">altstore.io</a>, then put AltStore on the iPhone. Both must be on the same Wi-Fi.",
+    as2t: "Download the file",
+    as2p: "Same as above: Safari on the iPhone → “Download .ipa”.",
+    as3t: "Open it through AltStore",
+    as3p: "Tap the file → Share → Copy to AltStore. Or inside AltStore: My Apps → “+”.",
+    as4t: "Trust the developer",
+    as4p: "Settings → General → VPN &amp; Device Management → profile → Trust. After that AltStore can renew the signature on its own.",
+
+    lookTitle: "What it looks like",
+    shotChat: "The shared room: messages from one person are grouped, without repeating the name",
+    shotEmpty: "45 themes, light and dark",
+
+    aboutTitle: "What makes it different",
+    f1t: "Works without the internet",
+    f1p: "With people nearby the phone connects directly — over Wi-Fi and Bluetooth. On a plane, in a basement, with mobile data off, the conversation carries on.",
+    f2t: "Encrypted on the device",
+    f2p: "Keys never leave the phone. The relay only sees who to forward a packet to, never what is inside it.",
+    f3t: "No account, no phone number",
+    f3p: "Signing up means picking a name. No phone, no email, no password. A name belongs to a device, and nobody can take one that's already taken.",
+
+    videoTitle: "Installation video",
+    playVideo: "Watch on YouTube",
+
+    faqTitle: "Common questions",
+    q1: "The file previews instead of downloading",
+    a1: "Press and hold “Download .ipa” and choose “Download Linked File” — Safari will save it into Files.",
+    q2: "It downloaded, but there's no icon on the Home Screen",
+    a2: "That's expected: an .ipa installs nothing by itself. It has to be signed through iLoader or AltStore — then the icon appears.",
+    q3: "It asks me to sign in to Apple ID",
+    a3: "That's normal and both ways require it: this is how the app gets signed for you personally, on install and on every renewal.",
+    q4: "It says “Untrusted Developer”",
+    a4: "Settings → General → VPN &amp; Device Management → pick the profile → Trust.",
+    q5: "The app stopped opening after a week",
+    a5: "That's the free Apple ID limit: a signature lasts 7 days. In AltStore tap Refresh, in iLoader reinstall with the same file. Your data stays put.",
+    q6: "Can I use both ways at once?",
+    a6: "No, pick one. It's the same app with the same identifier: installing the second way simply replaces the first.",
+
+    closingTitle: "Ready to try it?",
+    closingSub: "Version <span data-version></span>, <span data-size></span>, iOS 16 and newer.",
+    footerNote: "Messages and calls are encrypted on the device. No ads, no data collected about you.",
+
+    docTitle: "NijatMessenger — a messenger with no servers and no accounts",
+    docDesc: "A messenger for iPhone: messages go straight between devices and are encrypted on them. Works even without the internet — nearby over Wi-Fi and Bluetooth. Download the .ipa and install it with iLoader."
+  };
+
+  /* Русские значения снимаем с разметки при первом запуске: держать их ещё и
+     здесь значило бы иметь два источника правды и однажды их рассинхронить. */
+  var RU = null;
+  function captureRussian() {
+    RU = { docTitle: document.title, docDesc: metaContent("description") };
+    $$("[data-i18n]").forEach(function (el) { RU[el.dataset.i18n] = el.innerHTML; });
+    $$("[data-i18n-aria]").forEach(function (el) { RU[el.dataset.i18nAria] = el.getAttribute("aria-label"); });
+  }
+  function metaContent(name) {
+    var m = $('meta[name="' + name + '"]');
+    return m ? m.getAttribute("content") : "";
+  }
+  function setMeta(name, value) {
+    var m = $('meta[name="' + name + '"]'); if (m) m.setAttribute("content", value);
+  }
+
+  function applyLang(lang) {
+    if (!RU) captureRussian();
+    var dict = lang === "en" ? EN : RU;
+
+    $$("[data-i18n]").forEach(function (el) {
+      var v = dict[el.dataset.i18n];
+      if (v != null) el.innerHTML = v;
+    });
+    $$("[data-i18n-aria]").forEach(function (el) {
+      var v = dict[el.dataset.i18nAria];
+      if (v != null) el.setAttribute("aria-label", v);
+    });
+
+    document.title = dict.docTitle || document.title;
+    setMeta("description", dict.docDesc || metaContent("description"));
+    var ogT = $('meta[property="og:title"]'), ogD = $('meta[property="og:description"]');
+    if (ogT && dict.docTitle) ogT.setAttribute("content", dict.docTitle);
+    if (ogD && dict.docDesc) ogD.setAttribute("content", dict.docDesc);
+
+    root.lang = lang;
+    try { localStorage.setItem("nm-lang", lang); } catch (e) {}
+    $$("[data-lang]").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.lang === lang));
+    });
+    // Версия и размер живут в отдельных узлах, а перевод переписал innerHTML
+    // родителей — поэтому подставляем их заново.
+    fillVersion();
   }
 
   /* ------------------------------------------------------------------ */
-  /* Navigation: scrolled state + mobile menu                            */
+  /* Версия и размер — из source.json                                    */
   /* ------------------------------------------------------------------ */
-  function initNav() {
-    const nav = $("#nav");
-    const toggle = $("#navToggle");
-    const menu = $("#mobileMenu");
-
-    // Add a frosted background once the page is scrolled a little.
-    if (nav) {
-      const onScroll = () => nav.classList.toggle("is-scrolled", window.scrollY > 12);
-      onScroll();
-      on(window, "scroll", onScroll, { passive: true });
-    }
-
-    // Mobile dropdown open/close.
-    if (toggle && menu) {
-      const setOpen = (open) => {
-        toggle.setAttribute("aria-expanded", String(open));
-        menu.hidden = !open;
-      };
-      on(toggle, "click", () => setOpen(menu.hidden));
-      // Close after tapping a link.
-      $$("a", menu).forEach((a) => on(a, "click", () => setOpen(false)));
-      // Close when resizing up to desktop.
-      on(window, "resize", () => { if (window.innerWidth > 780) setOpen(false); });
-    }
+  /* Одно место вместо шести. Раньше число было вписано руками в index.html
+     (трижды), source.json, manifest.plist и README, и дважды разъезжалось:
+     сайт показывал одну версию, манифест — другую. */
+  var release = null;
+  function fillVersion() {
+    if (!release) return;
+    $$("[data-version]").forEach(function (n) { n.textContent = release.version; });
+    $$("[data-size]").forEach(function (n) { n.textContent = release.size; });
+  }
+  function loadRelease() {
+    if (!window.fetch) return;
+    fetch("source.json", { cache: "no-cache" }).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (data) {
+      if (!data) return;
+      var v = data.apps && data.apps[0] && data.apps[0].versions && data.apps[0].versions[0];
+      if (!v) return;
+      release = { version: v.version, mb: (v.size / 1048576).toFixed(1) };
+      fillVersion();
+    }).catch(function () { /* останется то, что в разметке */ });
   }
 
   /* ------------------------------------------------------------------ */
-  /* Scroll reveal via IntersectionObserver                              */
+  /* Тема                                                                */
+  /* ------------------------------------------------------------------ */
+  function applyTheme(theme) {
+    root.dataset.theme = theme;
+    try { localStorage.setItem("nm-theme", theme); } catch (e) {}
+    var meta = $('meta[name="theme-color"]:not([media])');
+    if (meta) meta.setAttribute("content", theme === "dark" ? "#0E1512" : "#F4F6F5");
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Появление при прокрутке                                             */
   /* ------------------------------------------------------------------ */
   function initReveal() {
-    const items = $$(".reveal");
+    var items = $$(".reveal");
     if (!items.length) return;
-
-    // No IO support (or reduced motion): just show everything.
-    if (!("IntersectionObserver" in window) || prefersReducedMotion) {
-      items.forEach((el) => el.classList.add("is-visible"));
+    var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!("IntersectionObserver" in window) || reduced) {
+      items.forEach(function (el) { el.classList.add("is-visible"); });
       return;
     }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add("is-visible");
+        io.unobserve(e.target);
+      });
+    }, { threshold: 0.08, rootMargin: "0px 0px -6% 0px" });
+    items.forEach(function (el) { io.observe(el); });
+  }
 
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          // Stagger siblings that share a parent for a nicer cascade.
-          const el = entry.target;
-          const siblings = Array.from(el.parentElement.children).filter((c) => c.classList.contains("reveal"));
-          const index = siblings.indexOf(el);
-          el.style.transitionDelay = Math.min(index * 70, 350) + "ms";
-          el.classList.add("is-visible");
-          io.unobserve(el);
+  /* ------------------------------------------------------------------ */
+  /* Способ установки                                                    */
+  /* ------------------------------------------------------------------ */
+  function initInstallTabs() {
+    var tabs = [
+      { btn: $("#tabILoader"),  panel: $("#panelILoader") },
+      { btn: $("#tabAltStore"), panel: $("#panelAltStore") }
+    ];
+    if (!tabs[0].btn || !tabs[1].btn) return;
+    tabs.forEach(function (t) {
+      t.btn.addEventListener("click", function () {
+        tabs.forEach(function (o) {
+          var on = o === t;
+          o.btn.setAttribute("aria-selected", String(on));
+          o.panel.hidden = !on;
+          // Панель могла появиться уже после прохода наблюдателя.
+          if (on) o.panel.classList.add("is-visible");
         });
-      },
-      { threshold: 0.14, rootMargin: "0px 0px -8% 0px" }
-    );
-    items.forEach((el) => io.observe(el));
-  }
-
-  /* ------------------------------------------------------------------ */
-  /* Cursor glow (desktop, fine pointer only)                            */
-  /* ------------------------------------------------------------------ */
-  function initCursorGlow() {
-    const glow = $(".cursor-glow");
-    if (!glow || !finePointer || prefersReducedMotion) return;
-
-    let x = window.innerWidth / 2, y = window.innerHeight / 2;
-    let tx = x, ty = y, raf = null;
-
-    const render = () => {
-      // Ease toward the target for a smooth trailing feel.
-      x += (tx - x) * 0.18;
-      y += (ty - y) * 0.18;
-      glow.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-      raf = Math.abs(tx - x) > 0.5 || Math.abs(ty - y) > 0.5 ? requestAnimationFrame(render) : null;
-    };
-
-    on(window, "pointermove", (e) => {
-      tx = e.clientX; ty = e.clientY;
-      glow.classList.add("is-active");
-      if (!raf) raf = requestAnimationFrame(render);
-    });
-    on(document, "pointerleave", () => glow.classList.remove("is-active"));
-  }
-
-  /* ------------------------------------------------------------------ */
-  /* Magnetic buttons                                                    */
-  /* ------------------------------------------------------------------ */
-  function initMagnetic() {
-    if (!finePointer || prefersReducedMotion) return;
-    const strength = 0.4;
-
-    $$("[data-magnetic]").forEach((el) => {
-      on(el, "pointermove", (e) => {
-        const r = el.getBoundingClientRect();
-        const mx = e.clientX - r.left - r.width / 2;
-        const my = e.clientY - r.top - r.height / 2;
-        el.style.transform = `translate(${mx * strength}px, ${my * strength}px)`;
-      });
-      on(el, "pointerleave", () => { el.style.transform = ""; });
-    });
-  }
-
-  /* ------------------------------------------------------------------ */
-  /* Ripple click effect                                                 */
-  /* ------------------------------------------------------------------ */
-  function initRipple() {
-    $$("[data-ripple]").forEach((el) => {
-      on(el, "pointerdown", (e) => {
-        const r = el.getBoundingClientRect();
-        const size = Math.max(r.width, r.height);
-        const span = document.createElement("span");
-        span.className = "ripple";
-        span.style.width = span.style.height = size + "px";
-        span.style.left = e.clientX - r.left - size / 2 + "px";
-        span.style.top = e.clientY - r.top - size / 2 + "px";
-        el.appendChild(span);
-        on(span, "animationend", () => span.remove());
       });
     });
   }
 
   /* ------------------------------------------------------------------ */
-  /* Tilt + pointer-follow glow on cards                                 */
+  /* Видео по нажатию                                                    */
   /* ------------------------------------------------------------------ */
-  function initTilt() {
-    if (!finePointer || prefersReducedMotion) return;
-    const max = 7; // degrees
-
-    $$("[data-tilt]").forEach((card) => {
-      const glow = $(".feature-card__glow", card);
-      on(card, "pointermove", (e) => {
-        const r = card.getBoundingClientRect();
-        const px = (e.clientX - r.left) / r.width;
-        const py = (e.clientY - r.top) / r.height;
-        card.style.transform = `perspective(900px) rotateX(${(0.5 - py) * max}deg) rotateY(${(px - 0.5) * max}deg) translateY(-4px)`;
-        if (glow) {
-          glow.style.setProperty("--mx", px * 100 + "%");
-          glow.style.setProperty("--my", py * 100 + "%");
-        }
-      });
-      on(card, "pointerleave", () => { card.style.transform = ""; });
+  /* Iframe на загрузке тянул скрипты YouTube каждому, кто просто открыл
+     страницу. На мобильном интернете это заметно, а видео смотрят единицы. */
+  function initVideo() {
+    var box = $("#videoBox"), play = $("#videoPlay");
+    if (!box || !play) return;
+    play.addEventListener("click", function () {
+      var f = document.createElement("iframe");
+      f.src = box.dataset.embed;
+      f.title = "NijatMessenger";
+      f.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      f.referrerPolicy = "strict-origin-when-cross-origin";
+      f.allowFullscreen = true;
+      box.innerHTML = "";
+      box.appendChild(f);
     });
   }
 
   /* ------------------------------------------------------------------ */
-  /* Mouse parallax on hero elements                                     */
-  /* ------------------------------------------------------------------ */
-  function initParallax() {
-    if (!finePointer || prefersReducedMotion) return;
-    const items = $$("[data-parallax]");
-    const blobs = $$(".bg__blob");
-    if (!items.length && !blobs.length) return;
-
-    let tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
-
-    const render = () => {
-      cx += (tx - cx) * 0.08;
-      cy += (ty - cy) * 0.08;
-      items.forEach((el) => {
-        const depth = parseFloat(el.dataset.parallax) || 6;
-        el.style.transform = `translate(${cx * depth}px, ${cy * depth}px)`;
-      });
-      blobs.forEach((el, i) => {
-        const depth = (i + 1) * 6;
-        el.style.marginLeft = cx * depth + "px";
-        el.style.marginTop = cy * depth + "px";
-      });
-      raf = Math.abs(tx - cx) > 0.001 || Math.abs(ty - cy) > 0.001 ? requestAnimationFrame(render) : null;
-    };
-
-    on(window, "pointermove", (e) => {
-      // Normalise to -0.5..0.5 around the viewport centre.
-      tx = e.clientX / window.innerWidth - 0.5;
-      ty = e.clientY / window.innerHeight - 0.5;
-      if (!raf) raf = requestAnimationFrame(render);
-    });
-  }
-
-  /* ------------------------------------------------------------------ */
-  /* Smooth anchor scrolling (accounts for the sticky nav)               */
-  /* CSS handles smooth-scroll; this also closes the mobile menu and     */
-  /* keeps focus correct for accessibility.                              */
-  /* ------------------------------------------------------------------ */
-  function initSmoothScroll() {
-    $$('a[href^="#"]').forEach((a) => {
-      on(a, "click", (e) => {
-        const id = a.getAttribute("href");
-        if (id === "#" || id.length < 2) return;
-        const target = document.getElementById(id.slice(1));
-        if (!target) return;
-        e.preventDefault();
-        target.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "start" });
-        // Move focus for keyboard users without an extra scroll jump.
-        target.setAttribute("tabindex", "-1");
-        target.focus({ preventScroll: true });
-      });
-    });
-  }
-
-  /* ------------------------------------------------------------------ */
-  /* Boot                                                                */
+  /* Запуск                                                              */
   /* ------------------------------------------------------------------ */
   function init() {
-    initYear();
-    initNav();
+    captureRussian();
+
+    var lang = root.lang === "en" ? "en" : "ru";
+    if (lang === "en") applyLang("en");
+    $$("[data-lang]").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.lang === lang));
+      b.addEventListener("click", function () { applyLang(b.dataset.lang); });
+    });
+
+    var themeBtn = $("#themeToggle");
+    if (themeBtn) {
+      themeBtn.addEventListener("click", function () {
+        applyTheme(root.dataset.theme === "dark" ? "light" : "dark");
+      });
+    }
+
+    var year = $("#year");
+    if (year) year.textContent = String(new Date().getFullYear());
+
     initReveal();
-    initCursorGlow();
-    initMagnetic();
-    initRipple();
-    initTilt();
-    initParallax();
-    initSmoothScroll();
+    initInstallTabs();
+    initVideo();
+    loadRelease();
   }
 
   if (document.readyState === "loading") {
