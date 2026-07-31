@@ -5,7 +5,9 @@
 # index.html и source.json показывали 1.9.17, а manifest.plist и README.md
 # оставались на 1.9.12 — то есть страница обещала одно, а манифест установки
 # сообщал другое. Из index.html число теперь подставляется из source.json на
-# лету, а остальные три файла правит этот скрипт.
+# лету, а остальные три файла правит этот скрипт. В index.html он всё же
+# заглядывает, но за другим: проставить версию в ссылках на стили и скрипт,
+# чтобы браузер не смешал новую разметку со старым кэшем.
 #
 #   ./release.sh 1.9.19 "Что нового в этом релизе"
 #
@@ -79,6 +81,28 @@ text = re.sub(r"(\| Размер\s*\|\s*)[^|]*(\|)", lambda m: m.group(1) + size
 text = re.sub(r"(\| Обновлено\s*\|\s*)[^|]*(\|)", lambda m: m.group(1) + today + " " + m.group(2), text)
 p.write_text(text, encoding="utf-8")
 print(f"README.md       → {version}, {size_mb} МБ, {today}")
+PY
+
+# --- index.html: версия в ссылках на стили и скрипт --------------------
+# Обновление ломало страницу тем, кто уже заходил: разметка приходила новая, а
+# styles.css и script.js браузер брал из кэша старые. Старый скрипт искал в
+# новой разметке кнопку, которой там уже нет, падал — и вся страница ниже
+# первого экрана оставалась пустой. Версия в ссылке делает файлы разными
+# адресами, и подмена становится невозможной.
+python3 - "$VERSION" <<'PY'
+import re, sys, pathlib
+version = sys.argv[1]
+p = pathlib.Path("index.html")
+text = p.read_text(encoding="utf-8")
+before = text
+text = re.sub(r'(href="styles\.css)(?:\?v=[^"]*)?(")',
+              lambda m: m.group(1) + "?v=" + version + m.group(2), text)
+text = re.sub(r'(src="script\.js)(?:\?v=[^"]*)?(")',
+              lambda m: m.group(1) + "?v=" + version + m.group(2), text)
+if text == before:
+    raise SystemExit("index.html: не нашёл ссылок на styles.css / script.js")
+p.write_text(text, encoding="utf-8")
+print(f"index.html      → styles.css?v={version}, script.js?v={version}")
 PY
 
 echo

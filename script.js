@@ -24,6 +24,7 @@
   var EN = {
     skip: "Skip to content",
     themeLabel: "Theme",
+    eyebrow: "Direct link · no server",
     heroTitle: "Messages that never leave your phones",
     heroLead: "Messages go straight from one phone to another and are encrypted on the devices themselves. Nearby they travel over Wi-Fi and Bluetooth — no internet at all. No account, no phone number.",
     download: "Download .ipa",
@@ -31,22 +32,29 @@
     version: "version",
     noticeSign: "The app is signed with your own Apple ID, on your phone. With a free Apple ID that signature lasts 7 days — renewing it takes one tap.",
 
+    schemaAlt: "Two phones linked directly, with no server in between",
+    schemaYou: "Your phone",
+    schemaPeer: "The other person",
+    schemaVia: "Wi-Fi · Bluetooth",
+    schemaNoServer: "No server",
+
+    installTag: "4 steps",
     installTitle: "How to install",
     installSub: "Two ways. Both install the same app and are equally safe — the signing happens with your own Apple ID, on your own device.",
     noPC: "no computer",
     withPC: "needs a computer",
-    il1t: "Install iLoader",
-    il1p: "If you don't have it yet, follow the guide on the <a href=\"https://iloader.site/\" target=\"_blank\" rel=\"noopener noreferrer\">iLoader site</a>.",
-    il2t: "Download the file",
-    il2p: "Open this page in Safari on your iPhone and tap “Download .ipa”. It lands in Files → Downloads.",
-    il3t: "Hand it to iLoader",
-    il3p: "Tap the file → Share → iLoader. Or the other way round: open iLoader → My Apps → “+” and pick the file.",
+    il1t: "Install iLoader on a computer",
+    il1p: "It is a desktop program — follow the guide on the <a href=\"https://iloader.site/\" target=\"_blank\" rel=\"noopener noreferrer\">iLoader site</a>. You will connect the phone by cable.",
+    il2t: "Download the file to that computer",
+    il2p: "Tap “Download .ipa” on this page in the computer's browser, not the phone's: the file has to sit where iLoader is.",
+    il3t: "Connect the iPhone by cable",
+    il3p: "Sign in to your Apple ID inside iLoader and wait for the phone to appear in the device list. Then Import IPA — and pick the file you downloaded.",
     il4t: "Trust the developer",
-    il4p: "Once only: Settings → General → VPN &amp; Device Management → pick the profile → Trust.",
-    as1t: "Install AltServer on a computer",
-    as1p: "Follow the guide at <a href=\"https://altstore.io\" target=\"_blank\" rel=\"noopener noreferrer\">altstore.io</a>, then put AltStore on the iPhone. Both must be on the same Wi-Fi.",
+    il4p: "Once only, now on the phone: Settings → General → VPN &amp; Device Management → pick the profile → Trust.",
+    as1t: "Install AltStore on the iPhone",
+    as1p: "Follow the guide at <a href=\"https://altstore.io\" target=\"_blank\" rel=\"noopener noreferrer\">altstore.io</a>, straight from the phone. No computer needed for this route.",
     as2t: "Download the file",
-    as2p: "Same as above: Safari on the iPhone → “Download .ipa”.",
+    as2p: "Open this page in Safari on your iPhone and tap “Download .ipa”. It lands in Files → Downloads.",
     as3t: "Open it through AltStore",
     as3p: "Tap the file → Share → Copy to AltStore. Or inside AltStore: My Apps → “+”.",
     as4t: "Trust the developer",
@@ -57,6 +65,9 @@
     shotEmpty: "45 themes, light and dark",
 
     aboutTitle: "What makes it different",
+    f1tag: "Link",
+    f2tag: "Encryption",
+    f3tag: "Name",
     f1t: "Works without the internet",
     f1p: "With people nearby the phone connects directly — over Wi-Fi and Bluetooth. On a plane, in a basement, with mobile data off, the conversation carries on.",
     f2t: "Encrypted on the device",
@@ -92,6 +103,7 @@
   /* Русские значения снимаем с разметки при первом запуске: держать их ещё и
      здесь значило бы иметь два источника правды и однажды их рассинхронить. */
   var RU = null;
+  var currentLang = "ru";
   function captureRussian() {
     RU = { docTitle: document.title, docDesc: metaContent("description") };
     $$("[data-i18n]").forEach(function (el) { RU[el.dataset.i18n] = el.innerHTML; });
@@ -125,6 +137,7 @@
     if (ogD && dict.docDesc) ogD.setAttribute("content", dict.docDesc);
 
     root.lang = lang;
+    currentLang = lang;
     try { localStorage.setItem("nm-lang", lang); } catch (e) {}
     $$("[data-lang]").forEach(function (b) {
       b.setAttribute("aria-pressed", String(b.dataset.lang === lang));
@@ -141,10 +154,15 @@
      (трижды), source.json, manifest.plist и README, и дважды разъезжалось:
      сайт показывал одну версию, манифест — другую. */
   var release = null;
+
+  /* Единица измерения живёт здесь, а не в разметке: английский словарь
+     подставляет в предложение голый <span data-size>, без «МБ». Значит,
+     подписать число может только тот, кто его и ставит. */
   function fillVersion() {
     if (!release) return;
+    var unit = currentLang === "en" ? " MB" : " МБ";
     $$("[data-version]").forEach(function (n) { n.textContent = release.version; });
-    $$("[data-size]").forEach(function (n) { n.textContent = release.size; });
+    $$("[data-size]").forEach(function (n) { n.textContent = release.mb + unit; });
   }
   function loadRelease() {
     if (!window.fetch) return;
@@ -172,12 +190,30 @@
   /* ------------------------------------------------------------------ */
   /* Появление при прокрутке                                             */
   /* ------------------------------------------------------------------ */
+  /* Скрытое до прокрутки содержимое — единственное место, где ошибка в скрипте
+     стоит человеку всей страницы, поэтому здесь подстраховка.
+
+     Так уже было: после обновления сайта вернувшимся посетителям доставался из
+     кэша старый скрипт, он искал в новой разметке кнопку, которой там больше
+     нет, падал на ней — и все 22 блока с .reveal навсегда оставались на
+     opacity: 0. Ниже первого экрана страница была пустой: ни установки, ни
+     вопросов, ни кнопки скачивания.
+
+     Правило простое: оформление имеет право не сработать, содержимое обязано
+     остаться видимым. */
+  var revealReady = false;
+  function showEverything() {
+    $$(".reveal").forEach(function (el) { el.classList.add("is-visible"); });
+  }
+  setTimeout(function () { if (!revealReady) showEverything(); }, 2000);
+
   function initReveal() {
     var items = $$(".reveal");
-    if (!items.length) return;
+    if (!items.length) { revealReady = true; return; }
     var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!("IntersectionObserver" in window) || reduced) {
-      items.forEach(function (el) { el.classList.add("is-visible"); });
+      showEverything();
+      revealReady = true;
       return;
     }
     var io = new IntersectionObserver(function (entries) {
@@ -188,6 +224,7 @@
       });
     }, { threshold: 0.08, rootMargin: "0px 0px -6% 0px" });
     items.forEach(function (el) { io.observe(el); });
+    revealReady = true;
   }
 
   /* ------------------------------------------------------------------ */
@@ -261,9 +298,21 @@
     loadRelease();
   }
 
+  /* init целиком под присмотром: одна опечатка в любом из обработчиков не
+     должна уносить с собой всю страницу. Если упали — показываем содержимое
+     и оставляем след в консоли. */
+  function start() {
+    try {
+      init();
+    } catch (e) {
+      showEverything();
+      if (window.console && console.error) console.error("NijatMessenger:", e);
+    }
+  }
+
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
+    document.addEventListener("DOMContentLoaded", start);
   } else {
-    init();
+    start();
   }
 })();

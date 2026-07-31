@@ -4,49 +4,123 @@
    ГЛАВНОЕ ПРО ЭТОТ ФАЙЛ. Страницу открывают с iPhone, в Safari, чтобы скачать
    файл и поставить приложение. Поэтому вёрстка написана от мобильного: базовые
    правила — телефонные, а медиазапросы только добавляют простора на широком
-   экране. Раньше было наоборот, и телефону доставались три правки поверх
-   десктопной сетки.
+   экране.
+
+   ЗАМЫСЕЛ. Страница притворялась лендингом: всё по центру, системный шрифт и
+   одинаковые скруглённые карточки в каждом разделе — от шагов установки до
+   вопросов. Читалась она поэтому как один длинный список коробок, и ничего из
+   того, чем приложение отличается, в оформлении не участвовало.
+
+   Теперь это вкладыш к полевой рации. Связь напрямую между двумя телефонами,
+   без вышки посередине, — главный факт продукта, и он вынесен в первый экран
+   схемой, а не словами. Отсюда всё остальное: моноширинный технический голос
+   для служебных подписей, волосяные линии вместо рамок, левое поле, по которому
+   выстроены номера и надзаголовки, скругление 4px вместо 13px.
 
    Светлая тема — по умолчанию. Сайт читают на улице, с телефона, и разборчивость
    там важнее атмосферы; тёмная включается системной настройкой и переключателем.
 
    Содержание:
-     1. Токены и темы
-     2. Сброс и основа
-     3. Шапка, переключатели
-     4. Кнопки
-     5. Первый экран
-     6. Секции, появление при прокрутке
-     7. Шаги установки
-     8. Скриншоты, карточки
-     9. Видео, вопросы, финал, подвал
-    10. Широкие экраны
-    11. Уменьшенное движение
+     1. Шрифты
+     2. Токены и темы
+     3. Сброс и основа
+     4. Шапка, переключатели
+     5. Кнопки
+     6. Первый экран и схема связи
+     7. Секции, появление при прокрутке
+     8. Шаги установки
+     9. Снимки экрана, отличия
+    10. Видео, вопросы, финал, подвал
+    11. Широкие экраны
+    12. Наведение и уменьшенное движение
    ========================================================================== */
 
 /* ------------------------------------------------------------------ */
-/* 1. Токены                                                           */
+/* 1. Шрифты                                                           */
 /* ------------------------------------------------------------------ */
+/* Лежат в репозитории, а не грузятся с Google Fonts: страница обещает, что
+   данные о человеке никуда не уходят, и тянуть ради шрифта запрос на чужой
+   домен было бы обещанию прямо противоположно.
+
+   Кириллица и латиница — раздельными файлами с теми же unicode-range, что у
+   Google: русскому читателю не приходится качать латиницу, и наоборот. Файлы
+   переменные, поэтому одно начертание покрывает весь диапазон веса. */
+
+/* Golos Text — текст и заголовки. Русский интерфейсный шрифт: его ровная,
+   почти казённая интонация здесь к месту, страница ведь инструкция. */
+@font-face {
+  font-family: "Golos Text";
+  src: url("assets/fonts/golostext-cyrillic.woff2") format("woff2");
+  font-weight: 400 900;
+  font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Golos Text";
+  src: url("assets/fonts/golostext-latin.woff2") format("woff2");
+  font-weight: 400 900;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+                 U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+                 U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Martian Mono — служебный голос: надзаголовки, номера шагов, версия и размер,
+   подписи на схеме. Именно он даёт странице характер, поэтому и взят вместо
+   системного моноширинного. Крупные заголовки им не набираются: у моноширинного
+   все знаки одной ширины, и «Переписка, которая никуда не уходит» на телефон
+   просто не поместится. */
+@font-face {
+  font-family: "Martian Mono";
+  src: url("assets/fonts/martianmono-cyrillic.woff2") format("woff2");
+  font-weight: 400 700;
+  font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Martian Mono";
+  src: url("assets/fonts/martianmono-latin.woff2") format("woff2");
+  font-weight: 400 700;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+                 U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+                 U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. Токены и темы                                                    */
+/* ------------------------------------------------------------------ */
+/* Зелёный остался — он в иконке приложения, — но перестал быть заливкой во
+   весь экран. Раньше это был кислотный тон на почти чёрном: самый частый вид
+   для всего, что про приватность. Сейчас фон поднят от черноты, а сам зелёный
+   взят печатный, приглушённый, и работает точкой, а не фоном.
+
+   Нейтральные не серые: у них уклон в зелёный. Ровно серый читается как взятый
+   по умолчанию, а сдвинутый к акценту — как выбранный. */
 :root {
   color-scheme: light;
-  --ground: #f4f6f5;
-  --raised: #ffffff;
-  --sunken: #eaeeec;
-  --ink: #0f1a16;
-  --muted: #5a6b64;
-  --line: rgba(15, 26, 22, 0.12);
-  --line-soft: rgba(15, 26, 22, 0.07);
-  --brand: #0e8f63;
-  --brand-ink: #ffffff;
-  --brand-soft: rgba(14, 143, 99, 0.09);
-  --warn: #8a5a12;
-  --warn-soft: rgba(138, 90, 18, 0.09);
-  --shadow-s: 0 1px 2px rgba(15, 26, 22, 0.05);
-  --shadow-m: 0 2px 4px rgba(15, 26, 22, 0.05), 0 10px 28px rgba(15, 26, 22, 0.07);
 
-  --step: clamp(15px, 1.2vw, 16.5px);
-  --gap: clamp(16px, 4vw, 26px);
-  --bleed: clamp(18px, 5vw, 32px);
+  --ground: #e7e4dc;          /* приборная бумага */
+  --raised: #f5f3ee;          /* панель поверх неё */
+  --ink: #14201b;
+  --muted: #5f6e67;
+  --signal: #1e7a4f;          /* единственный акцент */
+  --signal-ink: #ffffff;      /* текст на акценте */
+  --signal-soft: rgba(30, 122, 79, 0.1);
+  --rule: rgba(20, 32, 27, 0.16);
+  --rule-soft: rgba(20, 32, 27, 0.09);
+
+  /* Шкала. Один шаг — один смысл, промежуточных размеров нет. */
+  --t-hero: clamp(33px, 7.6vw, 60px);
+  --t-h2: clamp(23px, 4.4vw, 33px);
+  --t-h3: 17px;
+  --t-body: clamp(15.5px, 1.1vw, 17px);
+  --t-small: 14px;
+  --t-label: 11.5px;
+
+  --bleed: clamp(20px, 5vw, 40px);
+  --gap: clamp(18px, 4vw, 28px);
+  --rail: 3rem;               /* левое поле под номера и подписи */
 }
 
 /* Тёмная — та же структура токенов, другие значения. Ни один компонент ниже
@@ -55,125 +129,159 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --ground: #0e1512;
-    --raised: #16201c;
-    --sunken: #121a17;
-    --ink: #e4ede8;
-    --muted: #93a69e;
-    --line: rgba(228, 237, 232, 0.14);
-    --line-soft: rgba(228, 237, 232, 0.08);
-    --brand: #3fd69a;
-    --brand-ink: #06241a;
-    --brand-soft: rgba(63, 214, 154, 0.13);
-    --warn: #e0a445;
-    --warn-soft: rgba(224, 164, 69, 0.13);
-    --shadow-s: 0 1px 2px rgba(0, 0, 0, 0.4);
-    --shadow-m: 0 2px 4px rgba(0, 0, 0, 0.4), 0 12px 32px rgba(0, 0, 0, 0.36);
+    --ground: #1a2422;
+    --raised: #212d2a;
+    --ink: #e8ede7;
+    --muted: #94a69e;
+    --signal: #4fb07c;
+    --signal-ink: #0b1a13;
+    --signal-soft: rgba(79, 176, 124, 0.14);
+    --rule: rgba(232, 237, 231, 0.18);
+    --rule-soft: rgba(232, 237, 231, 0.1);
   }
 }
+/* Переключатель должен побеждать системную настройку в обе стороны, поэтому
+   тёмная объявлена дважды, а светлая — отдельным блоком ниже. */
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --ground: #0e1512;
-  --raised: #16201c;
-  --sunken: #121a17;
-  --ink: #e4ede8;
-  --muted: #93a69e;
-  --line: rgba(228, 237, 232, 0.14);
-  --line-soft: rgba(228, 237, 232, 0.08);
-  --brand: #3fd69a;
-  --brand-ink: #06241a;
-  --brand-soft: rgba(63, 214, 154, 0.13);
-  --warn: #e0a445;
-  --warn-soft: rgba(224, 164, 69, 0.13);
-  --shadow-s: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-m: 0 2px 4px rgba(0, 0, 0, 0.4), 0 12px 32px rgba(0, 0, 0, 0.36);
+  --ground: #1a2422;
+  --raised: #212d2a;
+  --ink: #e8ede7;
+  --muted: #94a69e;
+  --signal: #4fb07c;
+  --signal-ink: #0b1a13;
+  --signal-soft: rgba(79, 176, 124, 0.14);
+  --rule: rgba(232, 237, 231, 0.18);
+  --rule-soft: rgba(232, 237, 231, 0.1);
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --ground: #e7e4dc;
+  --raised: #f5f3ee;
+  --ink: #14201b;
+  --muted: #5f6e67;
+  --signal: #1e7a4f;
+  --signal-ink: #ffffff;
+  --signal-soft: rgba(30, 122, 79, 0.1);
+  --rule: rgba(20, 32, 27, 0.16);
+  --rule-soft: rgba(20, 32, 27, 0.09);
 }
 
 /* ------------------------------------------------------------------ */
-/* 2. Сброс и основа                                                   */
+/* 3. Сброс и основа                                                   */
 /* ------------------------------------------------------------------ */
 *, *::before, *::after { box-sizing: border-box; }
+
+/* Обязательно и не для красоты: `.steps` задавал display:grid, и это перебивало
+   браузерное [hidden]{display:none} — авторское правило сильнее правила
+   браузера при любой специфичности. Из-за этого вторая вкладка установки не
+   пряталась никогда, и оба способа показывались разом, с нумерацией
+   1-2-3-4-1-2-3-4. Держать здесь, выше всех компонентов. */
+[hidden] { display: none !important; }
+
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 body {
   margin: 0;
   background: var(--ground);
   color: var(--ink);
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
-               Roboto, ui-sans-serif, system-ui, sans-serif;
-  font-size: var(--step);
-  line-height: 1.62;
+  font-family: "Golos Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: var(--t-body);
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  /* Страница не должна ездить вбок ни на одной ширине. */
+  overflow-x: hidden;
 }
 img, svg { max-width: 100%; }
 img { height: auto; display: block; }
-a { color: var(--brand); text-decoration-thickness: 1px; text-underline-offset: 3px; }
-h1, h2, h3 { line-height: 1.18; letter-spacing: -0.02em; text-wrap: balance; margin: 0; }
+a { color: var(--signal); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+h1, h2, h3 { margin: 0; line-height: 1.14; letter-spacing: -0.02em; text-wrap: balance; }
 p { margin: 0; }
-:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 6px; }
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 2px; }
 
-.wrap { width: 100%; max-width: 1080px; margin: 0 auto; padding: 0 var(--bleed); }
+.wrap { width: 100%; max-width: 1060px; margin: 0 auto; padding: 0 var(--bleed); }
 
 .skip-link {
   position: absolute; left: -9999px; top: 8px; z-index: 60;
   background: var(--raised); color: var(--ink);
-  padding: 10px 16px; border-radius: 8px; box-shadow: var(--shadow-m);
+  padding: 10px 16px; border: 1px solid var(--rule);
 }
 .skip-link:focus { left: 12px; }
 
-/* Служебный голос: версия, размер, номера шагов. Табличные цифры, чтобы
-   числа не «плясали» при смене версии. */
-.facts b, .steps li::before, .footer__copy {
-  font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, monospace;
+/* Технический голос. Всё, что не проза: надзаголовки, номера, версия, размер,
+   подписи на схеме. Табличные цифры, чтобы числа не «плясали» при смене
+   версии. */
+.mono, .label, .facts b, .steps li::before, .feature__tag,
+.schema text, .footer__copy {
+  font-family: "Martian Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   font-variant-numeric: tabular-nums;
 }
 
+/* Надзаголовок раздела. Стоит в левом поле — по той же линии, что номера
+   шагов, — и работает как подпись на полях чертежа. */
+.label {
+  display: block;
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--signal);
+  margin-bottom: 14px;
+}
+
 /* ------------------------------------------------------------------ */
-/* 3. Шапка                                                            */
+/* 4. Шапка и переключатели                                            */
 /* ------------------------------------------------------------------ */
 .nav {
   position: sticky; top: 0; z-index: 40;
-  background: color-mix(in srgb, var(--ground) 86%, transparent);
+  background: color-mix(in srgb, var(--ground) 88%, transparent);
   backdrop-filter: saturate(180%) blur(12px);
   -webkit-backdrop-filter: saturate(180%) blur(12px);
-  border-bottom: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--rule-soft);
 }
 .nav__inner {
   display: flex; align-items: center; justify-content: space-between;
-  gap: 12px; min-height: 56px;
+  gap: 12px; min-height: 58px;
 }
 .brand {
-  display: inline-flex; align-items: center; gap: 9px;
-  color: inherit; text-decoration: none; font-weight: 650; letter-spacing: -0.01em;
+  display: inline-flex; align-items: center; gap: 10px;
+  color: inherit; text-decoration: none;
+  font-weight: 600; font-size: 16px; letter-spacing: -0.01em;
 }
-.brand img { border-radius: 7px; }
-.brand b { color: var(--brand); font-weight: 650; }
+.brand img { border-radius: 6px; }
+.brand b { font-weight: 600; color: var(--signal); }
 .nav__tools { display: flex; align-items: center; gap: 8px; }
 
-/* Переключатель из двух состояний: язык в шапке, способ установки в разделе. */
+/* Переключатель из двух состояний: язык в шапке, способ установки в разделе.
+   Не «пилюля», а сегмент с прямыми углами — под приборную интонацию. */
 .seg {
   display: inline-flex; padding: 2px; gap: 2px;
-  background: var(--sunken); border: 1px solid var(--line-soft); border-radius: 9px;
+  border: 1px solid var(--rule); border-radius: 4px;
 }
 .seg__btn {
   appearance: none; border: 0; background: transparent; color: var(--muted);
-  font: inherit; font-size: 13px; font-weight: 600;
-  padding: 5px 10px; border-radius: 7px; cursor: pointer;
+  font-family: "Martian Mono", ui-monospace, monospace;
+  font-size: 11.5px; font-weight: 600; letter-spacing: 0.04em;
+  padding: 6px 10px; border-radius: 2px; cursor: pointer;
   transition: background .18s ease, color .18s ease;
 }
 .seg__btn[aria-pressed="true"], .seg__btn[aria-selected="true"] {
-  background: var(--raised); color: var(--ink); box-shadow: var(--shadow-s);
+  background: var(--signal); color: var(--signal-ink);
 }
-.seg--wide { display: grid; grid-template-columns: 1fr 1fr; width: 100%; margin-bottom: 22px; }
-.seg--wide .seg__btn { padding: 11px 8px; font-size: 15px; }
-.seg__note { display: block; font-size: 12px; font-weight: 500; opacity: .72; }
+.seg--wide { display: grid; grid-template-columns: 1fr 1fr; width: 100%; margin-bottom: 4px; }
+.seg--wide .seg__btn { padding: 12px 8px; font-size: 13px; }
+.seg__note {
+  display: block; margin-top: 3px;
+  font-size: 10.5px; font-weight: 400; letter-spacing: 0.02em; opacity: .8;
+  text-transform: none;
+}
 
 .icon-btn {
   appearance: none; display: grid; place-items: center;
   width: 34px; height: 34px; padding: 0; cursor: pointer;
-  background: var(--sunken); color: var(--ink);
-  border: 1px solid var(--line-soft); border-radius: 9px;
+  background: transparent; color: var(--ink);
+  border: 1px solid var(--rule); border-radius: 4px;
 }
-.icon-btn svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; }
+.icon-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; }
 .icon-moon { display: none; }
 :root[data-theme="dark"] .icon-sun { display: none; }
 :root[data-theme="dark"] .icon-moon { display: block; }
@@ -183,180 +291,284 @@ p { margin: 0; }
 }
 
 /* ------------------------------------------------------------------ */
-/* 4. Кнопки                                                           */
+/* 5. Кнопки                                                           */
 /* ------------------------------------------------------------------ */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 9px;
-  padding: 13px 20px; border-radius: 11px;
-  font-weight: 640; font-size: 16px; text-decoration: none; cursor: pointer;
-  border: 1px solid transparent; transition: transform .16s ease, background .18s ease;
+  padding: 14px 22px; border-radius: 4px;
+  font-family: inherit; font-weight: 600; font-size: 16px;
+  text-decoration: none; cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform .16s ease, background .18s ease, border-color .18s ease;
 }
-.btn svg { width: 19px; height: 19px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.btn--primary { background: var(--brand); color: var(--brand-ink); box-shadow: var(--shadow-m); }
-.btn--quiet { background: var(--raised); color: var(--ink); border-color: var(--line); }
-.btn:active { transform: scale(.985); }
+.btn svg { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.btn--primary { background: var(--signal); color: var(--signal-ink); }
+.btn--quiet { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn:active { transform: translateY(1px); }
 
 /* ------------------------------------------------------------------ */
-/* 5. Первый экран                                                     */
+/* 6. Первый экран и схема связи                                       */
 /* ------------------------------------------------------------------ */
-/* Ничего не анимируется и не прячется: всё видно из разметки. Высота
-   рассчитана так, чтобы кнопка скачивания помещалась на экране iPhone
-   вместе с полосками Safari — ради этого экран и переписан. */
-.hero { padding: 30px 0 34px; text-align: center; }
-.hero__icon { width: 68px; height: 68px; border-radius: 16px; margin: 0 auto 18px; box-shadow: var(--shadow-m); }
-.hero__title { font-size: clamp(27px, 7vw, 46px); font-weight: 720; margin-bottom: 14px; }
-.hero__lead { color: var(--muted); max-width: 46ch; margin: 0 auto; font-size: clamp(15px, 4vw, 17px); }
-.hero__actions { display: flex; flex-direction: column; gap: 10px; margin: 24px auto 0; max-width: 380px; }
+/* Ничего не анимируется и не прячется: всё видно из разметки сразу. */
+.hero { padding: 40px 0 48px; }
+.hero__title {
+  font-size: var(--t-hero);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  max-width: 16ch;
+  margin-bottom: 18px;
+}
+.hero__lead {
+  color: var(--muted);
+  max-width: 46ch;
+  font-size: clamp(16px, 1.6vw, 19px);
+  line-height: 1.55;
+}
+/* На телефоне кнопки стоят столбиком во всю ширину: «Скачать .ipa» — то, ради
+   чего сюда пришли, и делить с ней строку нечему. В ряд они встают только когда
+   экран это позволяет. */
+.hero__actions { display: flex; flex-direction: column; gap: 10px; margin-top: 28px; max-width: 380px; }
 
 .facts {
-  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center;
-  gap: 8px; margin-top: 18px; color: var(--muted); font-size: 14px;
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: 10px; margin-top: 20px;
+  color: var(--muted); font-size: 12px;
 }
-.facts b { color: var(--ink); font-weight: 600; }
-.facts__sep { opacity: .5; }
+.facts b { color: var(--ink); font-weight: 600; font-size: 12.5px; }
+.facts__sep { opacity: .45; }
 
+/* Предупреждение про 7 дней. Было янтарной плашкой прямо под кнопкой — то есть
+   выглядело ошибкой ровно в ту секунду, когда человек решается скачать. Это не
+   ошибка, а условие, поэтому теперь сноска на волосяной линии. */
 .notice {
-  display: flex; gap: 10px; align-items: flex-start; text-align: left;
-  max-width: 52ch; margin: 22px auto 0; padding: 12px 14px;
-  background: var(--warn-soft); border-radius: 11px;
-  color: var(--warn); font-size: 13.5px; line-height: 1.55;
+  display: flex; gap: 10px; align-items: flex-start;
+  max-width: 54ch; margin-top: 26px; padding-top: 16px;
+  border-top: 1px solid var(--rule-soft);
+  color: var(--muted); font-size: 13.5px; line-height: 1.5;
 }
-.notice svg { width: 17px; height: 17px; flex: none; margin-top: 2px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; }
+.notice svg { width: 15px; height: 15px; flex: none; margin-top: 3px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; }
+
+/* --- Схема связи --------------------------------------------------- */
+/* Два телефона, кольца охвата, дуга между ними и пакет, идущий по дуге.
+   Это и есть весь продукт одной картинкой: посередине ничего нет.
+
+   Инлайновый SVG, а не canvas: фигура задана заранее и проста, а так она ещё
+   и рисуется без единой строчки JS — на странице, которую открывают в Safari
+   на телефоне, это дешевле и надёжнее. */
+/* Предел ширины обязателен: без него схема на планшете растягивалась бы на всю
+   строку, а вместе с ней разъезжались бы и подписи. */
+.schema { display: block; width: 100%; max-width: 520px; height: auto; margin-top: 34px; }
+.schema__ring { fill: none; stroke: var(--signal); opacity: .3; }
+.schema__body { fill: none; stroke: var(--ink); stroke-width: 1.6; }
+.schema__screen { fill: var(--signal-soft); stroke: none; }
+.schema__link { fill: none; stroke: var(--signal); stroke-width: 1.6; stroke-dasharray: 5 5; opacity: .75; }
+.schema__packet { fill: var(--signal); }
+/* Размер подписей задан в единицах viewBox, то есть масштабируется вместе со
+   схемой. На телефоне схема ужимается примерно до двух третей, и подпись в 9
+   единиц превратилась бы в нечитаемые 6 пикселей — поэтому на узком экране
+   единиц больше, а не меньше. Ниже, на широких экранах, размер возвращается. */
+.schema text {
+  font-size: 15px; font-weight: 500; letter-spacing: 0.1em;
+  text-transform: uppercase; fill: var(--muted);
+}
+.schema__hint { fill: var(--signal); }
+
+/* Единственная анимация на странице. Пакет идёт по той же кривой, что нарисована
+   дугой, — путь продублирован в offset-path, потому что CSS не умеет ссылаться
+   на путь из разметки. При правке дуги править обе. */
+.schema__packet {
+  offset-path: path("M 128 116 Q 260 46 392 116");
+  offset-rotate: 0deg;
+  animation: packet 3.4s cubic-bezier(.45,.05,.55,.95) infinite;
+}
+@keyframes packet {
+  0%        { offset-distance: 0%;   opacity: 0; }
+  12%       { opacity: 1; }
+  88%       { opacity: 1; }
+  100%      { offset-distance: 100%; opacity: 0; }
+}
+/* Кольца охвата дышат — очень медленно, чтобы читаться как радиосигнал, а не
+   как мигание. */
+.schema__ring { animation: ring 3.4s ease-in-out infinite; }
+.schema__ring--2 { animation-delay: .5s; }
+.schema__ring--3 { animation-delay: 1s; }
+@keyframes ring {
+  0%, 100% { opacity: .14; }
+  50%      { opacity: .42; }
+}
 
 /* ------------------------------------------------------------------ */
-/* 6. Секции и появление                                               */
+/* 7. Секции и появление при прокрутке                                 */
 /* ------------------------------------------------------------------ */
-.section { padding: 46px 0; border-top: 1px solid var(--line-soft); }
-.section__title { font-size: clamp(21px, 5vw, 30px); font-weight: 690; margin-bottom: 10px; }
-.section__sub { color: var(--muted); max-width: 56ch; margin-bottom: 24px; }
+.section { padding: 52px 0; border-top: 1px solid var(--rule-soft); }
+.section__title { font-size: var(--t-h2); font-weight: 700; letter-spacing: -0.03em; }
+.section__sub { color: var(--muted); max-width: 58ch; margin-top: 12px; }
 
 /* Появление при прокрутке — только для того, что НИЖЕ первого экрана.
-   Прячем лишь когда скрипт подтвердил, что он жив (html.js): без него
-   страница просто статична, а не пуста. */
-.js .reveal { opacity: 0; transform: translateY(14px); }
+   Прячем лишь когда скрипт подтвердил, что он жив (html.js): без него страница
+   просто статична, а не пуста. Скрипт вдобавок показывает всё принудительно
+   через полторы секунды — см. script.js. Один раз это уже стоило странице
+   всего содержимого ниже шапки, и повторять нельзя. */
+.js .reveal { opacity: 0; transform: translateY(10px); }
 .js .reveal.is-visible {
   opacity: 1; transform: none;
   transition: opacity .5s ease, transform .5s cubic-bezier(.22,.61,.36,1);
 }
 
 /* ------------------------------------------------------------------ */
-/* 7. Шаги установки                                                   */
+/* 8. Шаги установки                                                   */
 /* ------------------------------------------------------------------ */
-.steps { list-style: none; counter-reset: s; margin: 0; padding: 0; display: grid; gap: 12px; }
+/* Не карточки, а нумерованный список на линиях — как в инструкции к прибору.
+   Нумерация здесь честная: это настоящая последовательность, шаг 3 без шага 2
+   не имеет смысла. Разделы страницы, наоборот, не нумеруются: их порядок
+   ничего не сообщает. */
+.steps { list-style: none; counter-reset: s; margin: 22px 0 0; padding: 0; }
 .steps li {
-  counter-increment: s; position: relative;
-  padding: 16px 16px 16px 52px;
-  background: var(--raised); border: 1px solid var(--line-soft);
-  border-radius: 13px; box-shadow: var(--shadow-s);
+  counter-increment: s;
+  display: grid; grid-template-columns: var(--rail) 1fr;
+  gap: 0 4px; padding: 18px 0;
+  border-top: 1px solid var(--rule-soft);
 }
+.steps li:first-child { border-top: 0; }
 .steps li::before {
-  content: counter(s);
-  position: absolute; left: 16px; top: 16px;
-  display: grid; place-items: center; width: 24px; height: 24px;
-  background: var(--brand-soft); color: var(--brand);
-  border-radius: 7px; font-size: 13px; font-weight: 700;
+  content: counter(s, decimal-leading-zero);
+  color: var(--signal); font-size: 12px; font-weight: 600;
+  padding-top: 2px;
 }
-.steps h3 { font-size: 16px; font-weight: 650; margin-bottom: 4px; }
-.steps p { color: var(--muted); font-size: 14.5px; }
+/* Номер занимает первую колонку сам, а весь текст шага обязан идти во вторую.
+   Без этого автораскладка сетки уводит <p> на новую строку в колонку номера —
+   шириной в 3rem, — и описание начинает переноситься по одному слову. */
+.steps li > * { grid-column: 2; }
+.steps h3 { font-size: var(--t-h3); font-weight: 600; letter-spacing: -0.01em; margin-bottom: 5px; }
+.steps p { color: var(--muted); font-size: var(--t-small); line-height: 1.55; }
 
 /* ------------------------------------------------------------------ */
-/* 8. Скриншоты и карточки                                             */
+/* 9. Снимки экрана и отличия                                          */
 /* ------------------------------------------------------------------ */
-.shots { display: grid; gap: var(--gap); grid-template-columns: 1fr 1fr; }
+.shots { display: grid; gap: var(--gap); grid-template-columns: 1fr 1fr; margin-top: 24px; }
 .shot { margin: 0; }
 .shot img {
-  width: 100%; border-radius: 14px;
-  border: 1px solid var(--line); box-shadow: var(--shadow-m);
+  width: 100%;
+  border: 1px solid var(--rule);
+  border-radius: 18px;              /* радиус устройства, а не карточки */
 }
-.shot figcaption { margin-top: 11px; color: var(--muted); font-size: 13.5px; line-height: 1.5; }
+.shot figcaption { margin-top: 12px; color: var(--muted); font-size: 13px; line-height: 1.45; }
 
-.cards { display: grid; gap: 12px; }
-.card {
-  padding: 18px; background: var(--raised);
-  border: 1px solid var(--line-soft); border-radius: 13px; box-shadow: var(--shadow-s);
+/* Отличия — три колонки на линиях, без подложки. Подложка делала их такими же
+   коробками, как шаги и вопросы, и разделы переставали отличаться друг от друга. */
+.features { display: grid; gap: 0; margin-top: 24px; }
+.feature { padding: 20px 0; border-top: 1px solid var(--rule-soft); }
+.feature:first-child { border-top: 0; }
+.feature__tag {
+  display: block; font-size: var(--t-label); font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--signal); margin-bottom: 12px;
 }
-.card svg {
-  width: 22px; height: 22px; margin-bottom: 12px;
-  fill: none; stroke: var(--brand); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
-}
-.card h3 { font-size: 16.5px; font-weight: 650; margin-bottom: 6px; }
-.card p { color: var(--muted); font-size: 14.5px; }
+.feature h3 { font-size: var(--t-h3); font-weight: 600; margin-bottom: 6px; }
+.feature p { color: var(--muted); font-size: var(--t-small); line-height: 1.55; }
 
 /* ------------------------------------------------------------------ */
-/* 9. Видео, вопросы, финал, подвал                                    */
+/* 10. Видео, вопросы, финал, подвал                                   */
 /* ------------------------------------------------------------------ */
+/* Раньше здесь зияла пустая коробка 16:9 во всю ширину — на десктопе больше
+   тысячи пикселей серого с крошечным треугольником посередине. Теперь у блока
+   есть предел ширины и настоящий кадр под кнопкой. */
 .video {
   position: relative; aspect-ratio: 16 / 9; overflow: hidden;
-  background: var(--sunken); border: 1px solid var(--line-soft);
-  border-radius: 14px; box-shadow: var(--shadow-s);
+  max-width: 720px; margin-top: 24px;
+  background: var(--raised);
+  border: 1px solid var(--rule); border-radius: 4px;
 }
 .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.video__poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .video__play {
   position: absolute; inset: 0; width: 100%;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
-  background: transparent; border: 0; cursor: pointer;
-  color: var(--ink); font: inherit; font-weight: 600;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+  background: color-mix(in srgb, var(--ground) 45%, transparent);
+  border: 0; cursor: pointer;
+  color: var(--ink); font: inherit; font-weight: 600; font-size: 15px;
 }
-.video__play svg { width: 54px; height: 54px; fill: var(--brand); stroke: none; }
+.video__play svg { width: 30px; height: 30px; fill: var(--signal-ink); stroke: none; }
+.video__disc {
+  display: grid; place-items: center;
+  width: 62px; height: 62px; border-radius: 50%;
+  background: var(--signal);
+}
 
-.faq { display: grid; gap: 8px; }
-.faq details {
-  background: var(--raised); border: 1px solid var(--line-soft);
-  border-radius: 12px; box-shadow: var(--shadow-s); overflow: hidden;
-}
+.faq { margin-top: 24px; }
+.faq details { border-top: 1px solid var(--rule-soft); }
+.faq details:first-child { border-top: 0; }
 .faq summary {
-  padding: 14px 16px; cursor: pointer; font-weight: 600; font-size: 15px;
-  list-style: none;
+  display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: baseline;
+  padding: 16px 0; cursor: pointer;
+  font-weight: 600; font-size: 15.5px; list-style: none;
 }
 .faq summary::-webkit-details-marker { display: none; }
-.faq summary::after { content: "+"; float: right; color: var(--muted); font-weight: 500; }
-.faq details[open] summary::after { content: "−"; }
-.faq p { padding: 0 16px 15px; color: var(--muted); font-size: 14.5px; }
-
-.closing {
-  text-align: center; padding: 30px 22px;
-  background: var(--raised); border: 1px solid var(--line-soft);
-  border-radius: 16px; box-shadow: var(--shadow-m);
+.faq summary::after {
+  content: "+"; color: var(--signal); font-weight: 500; font-size: 18px; line-height: 1;
 }
-.closing h2 { font-size: clamp(20px, 5vw, 27px); font-weight: 690; margin-bottom: 8px; }
-.closing p { color: var(--muted); margin-bottom: 20px; }
+.faq details[open] summary::after { content: "−"; }
+.faq p { padding: 0 0 18px; color: var(--muted); font-size: var(--t-small); line-height: 1.55; max-width: 62ch; }
 
-.footer { border-top: 1px solid var(--line-soft); padding: 26px 0 34px; }
-.footer__inner { text-align: center; display: grid; gap: 7px; }
-.footer p { color: var(--muted); font-size: 13.5px; }
-.footer__copy { font-size: 12.5px; opacity: .8; }
+/* Финал — единственное место, где подложка уместна: это отдельная врезка,
+   а не очередной пункт списка. */
+.closing {
+  margin-top: 8px; padding: 32px var(--bleed);
+  background: var(--raised);
+  border: 1px solid var(--rule-soft); border-radius: 4px;
+}
+.closing h2 { font-size: var(--t-h2); font-weight: 700; letter-spacing: -0.03em; }
+.closing p { color: var(--muted); margin: 10px 0 22px; }
+
+.footer { border-top: 1px solid var(--rule-soft); padding: 28px 0 40px; }
+.footer__inner { display: grid; gap: 8px; }
+.footer p { color: var(--muted); font-size: 13px; max-width: 60ch; }
+.footer__copy { font-size: 11px; letter-spacing: 0.06em; opacity: .75; }
 
 /* ------------------------------------------------------------------ */
-/* 10. Широкие экраны                                                  */
+/* 11. Широкие экраны                                                  */
 /* ------------------------------------------------------------------ */
 @media (min-width: 620px) {
-  .hero { padding: 52px 0 46px; }
-  .hero__actions { flex-direction: row; justify-content: center; max-width: none; }
-  .btn { padding: 13px 24px; }
-  .section { padding: 60px 0; }
-  .steps { grid-template-columns: 1fr 1fr; }
-  .cards { grid-template-columns: repeat(3, 1fr); }
-}
-@media (min-width: 900px) {
-  .hero { padding: 64px 0 56px; }
-  .shots { grid-template-columns: repeat(2, minmax(0, 300px)); justify-content: center; }
+  .hero { padding: 56px 0 64px; }
+  .hero__actions { flex-direction: row; max-width: none; }
+  .schema text { font-size: 10px; }
+  .section { padding: 68px 0; }
+  .steps li { grid-template-columns: var(--rail) 1fr; }
+  .features { grid-template-columns: repeat(3, 1fr); gap: 0 var(--gap); }
+  .feature { border-top: 1px solid var(--rule); }
+  .feature:first-child { border-top: 1px solid var(--rule); }
+  .closing { padding: 44px; }
 }
 
-/* Наведение и его эффекты — только там, где есть настоящий курсор.
-   На телефоне :hover «залипает» после нажатия, и кнопка остаётся подсвеченной. */
+/* Схема уезжает вправо от текста и заполняет пустоту, которая на широком экране
+   иначе остаётся справа от заголовка. */
+@media (min-width: 940px) {
+  .hero { padding: 76px 0 84px; }
+  .hero__grid {
+    display: grid; grid-template-columns: 1.02fr 1fr;
+    gap: 48px; align-items: center;
+  }
+  .schema { margin-top: 0; }
+  .schema text { font-size: 11px; }
+  .hero__title { margin-bottom: 20px; }
+  .shots { grid-template-columns: repeat(2, minmax(0, 296px)); }
+}
+
+/* ------------------------------------------------------------------ */
+/* 12. Наведение и уменьшенное движение                                */
+/* ------------------------------------------------------------------ */
+/* Наведение — только там, где есть настоящий курсор. На телефоне :hover
+   «залипает» после нажатия, и кнопка остаётся подсвеченной. */
 @media (hover: hover) and (pointer: fine) {
-  .btn--primary:hover { background: color-mix(in srgb, var(--brand) 88%, var(--ink)); }
-  .btn--quiet:hover { background: var(--sunken); }
+  .btn--primary:hover { background: color-mix(in srgb, var(--signal) 86%, var(--ink)); }
+  .btn--quiet:hover { border-color: var(--ink); }
   .seg__btn:hover { color: var(--ink); }
-  .icon-btn:hover { background: var(--raised); }
-  .faq summary:hover { color: var(--brand); }
-  .shot img { transition: transform .3s cubic-bezier(.22,.61,.36,1); }
-  .shot:hover img { transform: translateY(-3px); }
+  .seg__btn[aria-pressed="true"]:hover, .seg__btn[aria-selected="true"]:hover { color: var(--signal-ink); }
+  .icon-btn:hover { border-color: var(--ink); }
+  .faq summary:hover { color: var(--signal); }
+  .video__play:hover .video__disc { background: color-mix(in srgb, var(--signal) 86%, var(--ink)); }
 }
 
-/* ------------------------------------------------------------------ */
-/* 11. Уменьшенное движение                                            */
-/* ------------------------------------------------------------------ */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
@@ -365,4 +577,8 @@ p { margin: 0; }
     transition-duration: .001ms !important;
   }
   .js .reveal { opacity: 1; transform: none; }
+  /* Пакет замирает посередине дуги, а не исчезает: схема должна остаться
+     читаемой и без движения. */
+  .schema__packet { offset-distance: 50%; opacity: 1; }
+  .schema__ring { opacity: .3; }
 }
