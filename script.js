@@ -22,6 +22,21 @@
      поисковиком. Здесь только английский плюс несколько ключей, которые
      нужны обоим языкам (заголовок вкладки, описание). */
   var EN = {
+    donateTag: "Support",
+    donateTitle: "VIP and admin rights",
+    donateSub: "The app is free and will stay free. A donation unlocks optional extras and helps keep the server running: VIP gives up to three names on one account plus profile styling, admin rights add moderation of the public room.",
+    donateVip: "VIP",
+    donateVipText: "Up to three names on one account, nick colour, avatar ring and a crown. 30, 90 or 365 days.",
+    donateAdmin: "Administrator",
+    donateAdminText: "Everything in VIP, plus moderation of the public room: mute, kick and ban. 30, 90 or 365 days.",
+    donate1t: "Send a donation",
+    donate1p: "The amount is up to you. In the comment, state your nickname in the app, whether you want VIP or admin, and for how many days. Without a nickname there is nobody to issue the key to.",
+    donate2t: "Wait for the key",
+    donate2p: "The key comes back the same way the donation arrived, usually within a day. Issuing is still manual: there is no automatic checkout on this site.",
+    donate3t: "Enter it in the app",
+    donate3p: "Settings, then Store, then \"I have a key\". The key is issued for your nickname and will not work on another one.",
+    donateBtn: "Send a donation",
+    donateNote: "Payment goes through DonationAlerts. This is not an App Store purchase: Apple refunds do not apply, and any questions are settled directly with me.",
     skip: "Skip to content",
     themeLabel: "Theme",
     eyebrow: "Direct link · no server",
