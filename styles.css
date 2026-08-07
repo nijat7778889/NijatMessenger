@@ -582,3 +582,14 @@ p { margin: 0; }
   .schema__packet { offset-distance: 50%; opacity: 1; }
   .schema__ring { opacity: .3; }
 }
+
+
+/* Цены в карточках поддержки. Сумма прижата вправо и набрана жирным: взгляд
+   идёт по столбцу цифр, а не выискивает их в тексте. */
+.price { list-style: none; margin: 14px 0 0; padding: 0; }
+.price li {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 7px 0; border-top: 1px solid rgba(128, 128, 128, .18);
+}
+.price li:first-child { border-top: 0; }
+.price b { font-variant-numeric: tabular-nums; white-space: nowrap; }
