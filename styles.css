@@ -584,12 +584,56 @@ p { margin: 0; }
 }
 
 
-/* Цены в карточках поддержки. Сумма прижата вправо и набрана жирным: взгляд
-   идёт по столбцу цифр, а не выискивает их в тексте. */
-.price { list-style: none; margin: 14px 0 0; padding: 0; }
-.price li {
-  display: flex; justify-content: space-between; align-items: baseline;
-  padding: 7px 0; border-top: 1px solid rgba(128, 128, 128, .18);
+/* Цены в карточках поддержки.
+   Прайс — это то, ради чего человек сюда доскроллил, поэтому он оформлен как
+   отдельный блок, а не как хвост абзаца: своя подложка, воздух между строками и
+   крупная сумма справа. Взгляд идёт по столбцу цифр, а не выискивает их в тексте. */
+.price {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 6px 14px;
+  background: var(--ground);
+  border: 1px solid var(--rule-soft);
+  border-radius: 14px;
 }
+
+.price li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 13px 0;
+  border-top: 1px solid var(--rule-soft);
+}
+
 .price li:first-child { border-top: 0; }
-.price b { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.price span {
+  color: var(--muted);
+  font-size: var(--t-small);
+}
+
+.price b {
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Самый выгодный срок выделен: без подсказки люди берут месяц по привычке,
+   хотя год у нас дешевле почти на треть. */
+.price li:last-child { position: relative; }
+.price li:last-child span { color: var(--signal); font-weight: 600; }
+.price li:last-child b { color: var(--signal); }
+
+/* Карточкам поддержки нужен воздух: текст и прайс стояли вплотную и читались
+   как одно сплошное пятно. */
+#support .card { padding: 24px 22px; }
+#support .card h3 { margin-bottom: 10px; }
+#support .card p { margin: 0; line-height: 1.6; }
+#support .steps li { padding-bottom: 6px; }
+#support .steps h3 { margin-bottom: 6px; }
+#support .steps p { line-height: 1.65; }
+#support .closing { margin-top: 34px; }
+#support .closing .section__sub { margin-top: 18px; }

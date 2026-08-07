@@ -30,6 +30,7 @@
     p30: "30 days",
     p90: "90 days",
     p365: "365 days",
+    p365best: "365 days · best value",
     donateAdmin: "Administrator",
     donateAdminText: "Everything in VIP, plus moderation of the public room: mute, kick and ban.",
     donate1t: "Send a donation",
