@@ -2,8 +2,8 @@
    NijatMessenger — поведение страницы
 
    Что здесь есть и чего намеренно нет.
-   ЕСТЬ: два языка, две темы, появление блоков при прокрутке, выбор способа
-   установки, отложенная загрузка видео и подстановка версии из source.json.
+   ЕСТЬ: два языка, две темы, появление блоков при прокрутке и подстановка
+   версии из source.json.
    НЕТ: свечения под курсором, наклона карточек и «магнитных» кнопок, которые
    были раньше. Страницу открывают с iPhone — там нет курсора, и весь этот код
    исполнялся впустую, отнимая время на разбор и подписку на события.
@@ -22,8 +22,6 @@
      поисковиком. Здесь только английский плюс несколько ключей, которые
      нужны обоим языкам (заголовок вкладки, описание). */
   var EN = {
-    direct: "Install now",
-    noticeDirect: "\"Install now\" installs the app straight from this page, with no computer and no Apple ID — but the signature on that build belongs to somebody else's enterprise certificate, and Apple can revoke it at any moment. When that happens the app stops opening and has to be installed again. If you want something dependable, install through iLoader or AltStore with your own Apple ID.",
     donateTag: "Support",
     donateTitle: "VIP and admin rights",
     donateSub: "The app is free and will stay free. A donation unlocks optional extras and helps keep the server running: VIP gives up to three names on one account plus profile styling, admin rights add moderation of the public room.",
@@ -48,10 +46,8 @@
     eyebrow: "Direct link · no server",
     heroTitle: "Messages that never leave your phones",
     heroLead: "Messages go straight from one phone to another and are encrypted on the devices themselves. Nearby they travel over Wi-Fi and Bluetooth — no internet at all. No account, no phone number.",
-    download: "Download .ipa",
     howTo: "How to install",
     version: "version",
-    noticeSign: "The app is signed with your own Apple ID, on your phone. With a free Apple ID that signature lasts 7 days — renewing it takes one tap.",
 
     schemaAlt: "Two phones linked directly, with no server in between",
     schemaYou: "Your phone",
@@ -59,31 +55,19 @@
     schemaVia: "Wi-Fi · Bluetooth",
     schemaNoServer: "No server",
 
-    installTag: "4 steps",
-    installTitle: "How to install",
-    installSub: "Two ways. Both install the same app and are equally safe — the signing happens with your own Apple ID, on your own device.",
-    noPC: "no computer",
-    withPC: "needs a computer",
-    il1t: "Install iLoader on a computer",
-    il1p: "It is a desktop program — follow the guide on the <a href=\"https://iloader.site/\" target=\"_blank\" rel=\"noopener noreferrer\">iLoader site</a>. You will connect the phone by cable.",
-    il2t: "Download the file to that computer",
-    il2p: "Tap “Download .ipa” on this page in the computer's browser, not the phone's: the file has to sit where iLoader is.",
-    il3t: "Connect the iPhone by cable",
-    il3p: "Sign in to your Apple ID inside iLoader and wait for the phone to appear in the device list. Then Import IPA — and pick the file you downloaded.",
-    il4t: "Trust the developer",
-    il4p: "Once only, now on the phone: Settings → General → VPN &amp; Device Management → pick the profile → Trust.",
-    as1t: "Install AltStore on the iPhone",
-    as1p: "Follow the guide at <a href=\"https://altstore.io\" target=\"_blank\" rel=\"noopener noreferrer\">altstore.io</a>, straight from the phone. No computer needed for this route.",
-    as2t: "Download the file",
-    as2p: "Open this page in Safari on your iPhone and tap “Download .ipa”. It lands in Files → Downloads.",
-    as3t: "Open it through AltStore",
-    as3p: "Tap the file → Share → Copy to AltStore. Or inside AltStore: My Apps → “+”.",
-    as4t: "Trust the developer",
-    as4p: "Settings → General → VPN &amp; Device Management → profile → Trust. After that AltStore can renew the signature on its own.",
-
-    lookTitle: "What it looks like",
-    shotChat: "The shared room: messages from one person are grouped, without repeating the name",
-    shotEmpty: "45 themes, light and dark",
+    profileBtn: "Download the profile",
+    factNoPC: "no computer",
+    noticeProfile: "The profile installs straight from the phone: no computer, no cable, no Apple ID. It signs nothing and asks for nothing — it just puts an icon on your Home Screen that opens NijatMessenger.",
+    profileEyebrow: "No computer · no signing",
+    profileTitle: "iPhone profile",
+    profileLead: "Puts NijatMessenger on your Home Screen in three taps, straight from the phone. It opens in its own window, like an app. The profile asks for nothing and changes no settings — it only adds an icon, and you remove it with a long press like anything else.",
+    profileDownload: "Download the profile",
+    pr1t: "Open this page in Safari",
+    pr1p: "Safari specifically, on the iPhone itself: other browsers don't install profiles. Tap “Download the profile” and confirm.",
+    pr2t: "Install the profile",
+    pr2p: "Settings → “Profile Downloaded” appears at the very top → Install. iOS will ask for your passcode as usual.",
+    pr3t: "The icon lands on your Home Screen",
+    pr3p: "iOS warns that the profile isn't signed — that only means it wasn't bought from Apple, not that anything is wrong with it. You can inspect its contents right there, before installing.",
 
     aboutTitle: "What makes it different",
     f1tag: "Link",
@@ -96,29 +80,26 @@
     f3t: "No account, no phone number",
     f3p: "Signing up means picking a name. No phone, no email, no password. A name belongs to a device, and nobody can take one that's already taken.",
 
-    videoTitle: "Installation video",
-    playVideo: "Watch on YouTube",
-
     faqTitle: "Common questions",
-    q1: "The file previews instead of downloading",
-    a1: "Press and hold “Download .ipa” and choose “Download Linked File” — Safari will save it into Files.",
-    q2: "It downloaded, but there's no icon on the Home Screen",
-    a2: "That's expected: an .ipa installs nothing by itself. It has to be signed through iLoader or AltStore — then the icon appears.",
-    q3: "It asks me to sign in to Apple ID",
-    a3: "That's normal and both ways require it: this is how the app gets signed for you personally, on install and on every renewal.",
-    q4: "It says “Untrusted Developer”",
-    a4: "Settings → General → VPN &amp; Device Management → pick the profile → Trust.",
-    q5: "The app stopped opening after a week",
-    a5: "That's the free Apple ID limit: a signature lasts 7 days. In AltStore tap Refresh, in iLoader reinstall with the same file. Your data stays put.",
-    q6: "Can I use both ways at once?",
-    a6: "No, pick one. It's the same app with the same identifier: installing the second way simply replaces the first.",
+    q1: "It says the profile isn't signed",
+    a1: "That only means it wasn't bought from Apple, not that anything is wrong with it. Tap “More Details” — iOS shows exactly what is inside before you install: one single shortcut.",
+    q2: "It downloaded and nothing happened",
+    a2: "Profiles don't install themselves. Open Settings — “Profile Downloaded” appears at the very top, above your name. It sits there for about eight minutes, after that download it again.",
+    q3: "I opened it in Chrome and the button does nothing",
+    a3: "Only Safari can install profiles — that is an iOS rule. Open this page there and tap again.",
+    q4: "How is this different from Safari's “Add to Home Screen”",
+    a4: "In substance it isn't, but it takes three taps and no hunting through the Share menu. Either way the icon opens in its own window, with no address bar.",
+    q5: "How do I remove it",
+    a5: "Long-press the icon, like any app. Or all at once: Settings → General → VPN &amp; Device Management → NijatMessenger → Remove Profile.",
+    q6: "Will my conversations survive?",
+    a6: "Yes — they live in the phone's own storage and survive a restart. They only go away with the site data, if you clear it in Safari settings.",
 
     closingTitle: "Ready to try it?",
-    closingSub: "Version <span data-version></span>, <span data-size></span>, iOS 16 and newer.",
+    closingSub: "Version <span data-version></span>, iOS 16 and newer. Three taps to install.",
     footerNote: "Messages and calls are encrypted on the device. No ads, no data collected about you.",
 
     docTitle: "NijatMessenger — a messenger with no servers and no accounts",
-    docDesc: "A messenger for iPhone: messages go straight between devices and are encrypted on them. Works even without the internet — nearby over Wi-Fi and Bluetooth. Download the .ipa and install it with iLoader."
+    docDesc: "A messenger for iPhone: messages go straight between devices and are encrypted on them. Install the profile and the icon lands on your Home Screen — no computer, no Apple ID."
   };
 
   /* Русские значения снимаем с разметки при первом запуске: держать их ещё и
@@ -169,7 +150,7 @@
   }
 
   /* ------------------------------------------------------------------ */
-  /* Версия и размер — из source.json                                    */
+  /* Версия — из source.json                                             */
   /* ------------------------------------------------------------------ */
   /* Одно место вместо шести. Раньше число было вписано руками в index.html
      (трижды), source.json, manifest.plist и README, и дважды разъезжалось:
@@ -250,45 +231,9 @@
 
   /* ------------------------------------------------------------------ */
   /* Способ установки                                                    */
-  /* ------------------------------------------------------------------ */
-  function initInstallTabs() {
-    var tabs = [
-      { btn: $("#tabILoader"),  panel: $("#panelILoader") },
-      { btn: $("#tabAltStore"), panel: $("#panelAltStore") }
-    ];
-    if (!tabs[0].btn || !tabs[1].btn) return;
-    tabs.forEach(function (t) {
-      t.btn.addEventListener("click", function () {
-        tabs.forEach(function (o) {
-          var on = o === t;
-          o.btn.setAttribute("aria-selected", String(on));
-          o.panel.hidden = !on;
-          // Панель могла появиться уже после прохода наблюдателя.
-          if (on) o.panel.classList.add("is-visible");
-        });
-      });
-    });
-  }
 
   /* ------------------------------------------------------------------ */
   /* Видео по нажатию                                                    */
-  /* ------------------------------------------------------------------ */
-  /* Iframe на загрузке тянул скрипты YouTube каждому, кто просто открыл
-     страницу. На мобильном интернете это заметно, а видео смотрят единицы. */
-  function initVideo() {
-    var box = $("#videoBox"), play = $("#videoPlay");
-    if (!box || !play) return;
-    play.addEventListener("click", function () {
-      var f = document.createElement("iframe");
-      f.src = box.dataset.embed;
-      f.title = "NijatMessenger";
-      f.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-      f.referrerPolicy = "strict-origin-when-cross-origin";
-      f.allowFullscreen = true;
-      box.innerHTML = "";
-      box.appendChild(f);
-    });
-  }
 
   /* ------------------------------------------------------------------ */
   /* Запуск                                                              */
@@ -314,8 +259,6 @@
     if (year) year.textContent = String(new Date().getFullYear());
 
     initReveal();
-    initInstallTabs();
-    initVideo();
     loadRelease();
   }
 

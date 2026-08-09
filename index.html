@@ -108,18 +108,17 @@
           </p>
 
           <div class="hero__actions">
-            <a class="btn btn--primary" href="app/NijatMessenger.ipa" download="NijatMessenger.ipa" id="downloadBtn">
+            <a class="btn btn--primary" href="nijatmessenger.mobileconfig" id="profileBtn">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>
-              <span data-i18n="download">Скачать .ipa</span>
+              <span data-i18n="profileBtn">Скачать профиль</span>
             </a>
-            <a class="btn btn--quiet" href="itms-services://?action=download-manifest&amp;url=https://nijat7778889.github.io/NijatMessenger/manifest.plist" id="directInstall" data-i18n="direct">Установить сразу</a>
-            <a class="btn btn--quiet" href="#install" data-i18n="howTo">Как поставить</a>
+            <a class="btn btn--quiet" href="#profile" data-i18n="howTo">Как поставить</a>
           </div>
 
           <p class="facts">
             <span><b data-version>1.9.22</b> <span data-i18n="version">версия</span></span>
             <span class="facts__sep" aria-hidden="true">·</span>
-            <span><b data-size>4,7 МБ</b></span>
+            <span><b data-i18n="factNoPC">без компьютера</b></span>
             <span class="facts__sep" aria-hidden="true">·</span>
             <span><b>iOS 16+</b></span>
           </p>
@@ -161,81 +160,46 @@
 
       <p class="notice">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
-        <span data-i18n="noticeDirect">«Установить сразу» ставит приложение прямо с сайта, без компьютера и без Apple ID — но подпись у этого файла чужая, корпоративная, и Apple может отозвать её в любой момент. Тогда приложение перестанет открываться, и его нужно будет поставить заново. Хотите надёжнее — ставьте через iLoader или AltStore своим Apple ID.</span>
-        <br><br>
-        <span data-i18n="noticeSign">Приложение подписывается вашим Apple ID прямо на телефоне. У бесплатного Apple ID подпись действует 7 дней — потом её нужно продлить одним нажатием.</span>
+        <span data-i18n="noticeProfile">Профиль ставится прямо с телефона: ни компьютера, ни кабеля, ни Apple ID. Он не подписывает приложение и ничего не запрашивает — только кладёт значок на домашний экран, за которым открывается NijatMessenger.</span>
       </p>
     </section>
 
-    <!-- Установка идёт сразу за первым экраном: это и есть настоящая работа
-         сайта. Два пути — выбором, а не одной стеной из пяти шагов. -->
-    <section class="section wrap" id="install">
-      <span class="label reveal" data-reveal data-i18n="installTag">4 шага</span>
-      <h2 class="section__title reveal" data-reveal data-i18n="installTitle">Как поставить</h2>
-      <p class="section__sub reveal" data-reveal data-i18n="installSub">Два пути. Оба ставят одно и то же приложение и одинаково безопасны — подпись делается вашим Apple ID на вашем устройстве.</p>
+    <!-- Профиль для iPhone.
+         ЗАЧЕМ ОТДЕЛЬНЫМ РАЗДЕЛОМ. Установка .ipa требует компьютера с кабелем
+         либо AltStore и подписи, которую надо продлевать. Профиль ставится в
+         три касания прямо с телефона и ничего не подписывает: он кладёт на
+         домашний экран значок, за которым открывается веб-версия приложения —
+         без адресной строки и вкладок, как обычная программа. -->
+    <section class="section wrap" id="profile">
+      <span class="label" data-i18n="profileEyebrow">Без компьютера · без подписи</span>
+      <h2 class="section__title reveal" data-reveal data-i18n="profileTitle">Профиль для iPhone</h2>
+      <p class="hero__lead reveal" data-reveal data-i18n="profileLead">
+        Ставит NijatMessenger на домашний экран за три касания, прямо с телефона. Открывается
+        отдельным окном, как приложение. Профиль ничего не запрашивает и настроек телефона не
+        меняет — только добавляет значок, и убирается он обычным долгим нажатием.
+      </p>
 
-      <div class="seg seg--wide reveal" data-reveal role="tablist" aria-label="Способ установки">
-        <button type="button" class="seg__btn" id="tabILoader" role="tab" aria-selected="true" aria-controls="panelILoader">
-          iLoader <span class="seg__note" data-i18n="withPC">с компьютером</span>
-        </button>
-        <button type="button" class="seg__btn" id="tabAltStore" role="tab" aria-selected="false" aria-controls="panelAltStore">
-          AltStore <span class="seg__note" data-i18n="noPC">без компьютера</span>
-        </button>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="nijatmessenger.mobileconfig" id="profileDownload">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>
+          <span data-i18n="profileDownload">Скачать профиль</span>
+        </a>
       </div>
 
-      <ol class="steps reveal" data-reveal id="panelILoader" role="tabpanel" aria-labelledby="tabILoader">
+      <ol class="steps reveal" data-reveal>
         <li>
-          <h3 data-i18n="il1t">Поставьте iLoader на компьютер</h3>
-          <p data-i18n="il1p">Это программа для компьютера, ставится по инструкции с <a href="https://iloader.site/" target="_blank" rel="noopener noreferrer">сайта iLoader</a>. Телефон понадобится подключить кабелем.</p>
+          <h3 data-i18n="pr1t">Откройте эту страницу в Safari</h3>
+          <p data-i18n="pr1p">Именно в Safari, на самом iPhone: другие браузеры профили не ставят. Нажмите «Скачать профиль» и подтвердите загрузку.</p>
         </li>
         <li>
-          <h3 data-i18n="il2t">Скачайте файл туда же</h3>
-          <p data-i18n="il2p">Нажмите «Скачать .ipa» на этой странице в браузере компьютера, а не телефона: файл нужен именно там, где стоит iLoader.</p>
+          <h3 data-i18n="pr2t">Установите профиль</h3>
+          <p data-i18n="pr2p">Настройки → в самом верху появится «Профиль загружен» → «Установить». Пароль от телефона iOS спросит как обычно.</p>
         </li>
         <li>
-          <h3 data-i18n="il3t">Подключите iPhone кабелем</h3>
-          <p data-i18n="il3p">Войдите в Apple ID в самом iLoader и дождитесь, пока телефон появится в списке устройств. Затем Import IPA — и выберите скачанный файл.</p>
-        </li>
-        <li>
-          <h3 data-i18n="il4t">Подтвердите доверие</h3>
-          <p data-i18n="il4p">Один раз, уже на телефоне: Настройки → Основные → VPN и управление устройством → выберите профиль → «Доверять».</p>
+          <h3 data-i18n="pr3t">Значок появится на домашнем экране</h3>
+          <p data-i18n="pr3p">iOS предупредит, что профиль не подписан, — это значит лишь, что он не куплен у Apple, а не что с ним что-то не так. Смотреть, что внутри, можно там же, до установки.</p>
         </li>
       </ol>
-
-      <ol class="steps reveal" data-reveal id="panelAltStore" role="tabpanel" aria-labelledby="tabAltStore" hidden>
-        <li>
-          <h3 data-i18n="as1t">Поставьте AltStore на iPhone</h3>
-          <p data-i18n="as1p">По инструкции с <a href="https://altstore.io" target="_blank" rel="noopener noreferrer">altstore.io</a>, прямо с телефона. Компьютер для этого способа не нужен.</p>
-        </li>
-        <li>
-          <h3 data-i18n="as2t">Скачайте файл</h3>
-          <p data-i18n="as2p">Откройте эту страницу в Safari на iPhone и нажмите «Скачать .ipa». Файл попадёт в «Файлы» → «Загрузки».</p>
-        </li>
-        <li>
-          <h3 data-i18n="as3t">Откройте его через AltStore</h3>
-          <p data-i18n="as3p">Нажмите на файл → «Поделиться» → «Скопировать в AltStore». Либо в самом AltStore: My Apps → «+».</p>
-        </li>
-        <li>
-          <h3 data-i18n="as4t">Подтвердите доверие</h3>
-          <p data-i18n="as4p">Настройки → Основные → VPN и управление устройством → профиль → «Доверять». Дальше AltStore умеет продлевать подпись сам.</p>
-        </li>
-      </ol>
-    </section>
-
-    <!-- Скриншоты. Раньше приложение продавалось вслепую: на сайте не было ни
-         одного снимка того, что человек скачивает. -->
-    <section class="section wrap" id="look">
-      <h2 class="section__title reveal" data-reveal data-i18n="lookTitle">Как это выглядит</h2>
-      <div class="shots">
-        <figure class="shot reveal" data-reveal>
-          <img src="assets/screens/chat.webp" alt="Экран переписки NijatMessenger" width="640" height="1391" loading="lazy" decoding="async" />
-          <figcaption data-i18n="shotChat">Общая комната: реплики одного человека идут группой, без повторов имени</figcaption>
-        </figure>
-        <figure class="shot reveal" data-reveal>
-          <img src="assets/screens/empty.webp" alt="Пустая переписка в NijatMessenger" width="640" height="1391" loading="lazy" decoding="async" />
-          <figcaption data-i18n="shotEmpty">45 тем оформления, светлых и тёмных</figcaption>
-        </figure>
-      </div>
     </section>
 
     <!-- Три отличия. Подпись над каждым называет измерение, по которому идёт
@@ -261,49 +225,33 @@
       </div>
     </section>
 
-    <!-- Видео грузится по нажатию. Iframe на загрузке тянул скрипты YouTube
-         каждому, кто открыл страницу, — на мобильном интернете это заметно. -->
-    <section class="section wrap" id="video">
-      <h2 class="section__title reveal" data-reveal data-i18n="videoTitle">Видео с установкой</h2>
-      <div class="video reveal" data-reveal id="videoBox" data-embed="https://www.youtube-nocookie.com/embed/DCPNOSXj9Kk?rel=0&amp;autoplay=1">
-        <img class="video__poster" src="assets/video-poster.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async" />
-        <button type="button" class="video__play" id="videoPlay">
-          <span class="video__disc" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg>
-          </span>
-          <span data-i18n="playVideo">Смотреть на YouTube</span>
-        </button>
-      </div>
-    </section>
-
     <section class="section wrap" id="faq">
       <h2 class="section__title reveal" data-reveal data-i18n="faqTitle">Частые вопросы</h2>
       <div class="faq">
         <details class="reveal" data-reveal>
-          <summary data-i18n="q1">Файл не скачивается, а открывается предпросмотром</summary>
-          <p data-i18n="a1">Зажмите кнопку «Скачать .ipa» и выберите «Скачать связанный файл» — Safari сохранит его в «Файлы».</p>
+          <summary data-i18n="q1">Пишет, что профиль не подписан</summary>
+          <p data-i18n="a1">Это значит только, что он не куплен у Apple, а не что с ним что-то не так. Нажмите «Подробнее» — iOS покажет, что внутри, ещё до установки: там один-единственный ярлык.</p>
         </details>
         <details class="reveal" data-reveal>
-          <summary data-i18n="q2">Скачал, но иконки на «Домой» нет</summary>
-          <p data-i18n="a2">Так и должно быть: сам по себе .ipa ничего не устанавливает. Его нужно подписать через iLoader или AltStore — тогда иконка и появится.</p>
+          <summary data-i18n="q2">Скачал, но ничего не произошло</summary>
+          <p data-i18n="a2">Профиль не ставится сам. Откройте Настройки — в самом верху, над вашим именем, появится строка «Профиль загружен». Она живёт там около восьми минут, потом профиль придётся скачать заново.</p>
         </details>
         <details class="reveal" data-reveal>
-          <summary data-i18n="q3">Просит войти в Apple ID</summary>
-          <p data-i18n="a3">Это нормально и требуется обоими способами: так приложение подписывается лично для вас при установке и при каждом продлении.</p>
+          <summary data-i18n="q3">Открыл в Chrome, кнопка не работает</summary>
+          <p data-i18n="a3">Профили умеет ставить только Safari — таково правило iOS. Откройте эту страницу в нём и нажмите ещё раз.</p>
         </details>
         <details class="reveal" data-reveal>
-          <summary data-i18n="q4">Пишет «Ненадёжный разработчик»</summary>
-          <p data-i18n="a4">Настройки → Основные → VPN и управление устройством → выберите профиль → «Доверять».</p>
+          <summary data-i18n="q4">Чем это отличается от «Добавить на экран “Домой”» в Safari</summary>
+          <p data-i18n="a4">Ничем по сути, но делается в три касания и не требует искать нужный пункт в меню «Поделиться». Значок и там и там открывается отдельным окном, без адресной строки.</p>
         </details>
         <details class="reveal" data-reveal>
-          <summary data-i18n="q5">Приложение перестало открываться через неделю</summary>
-          <p data-i18n="a5">Ограничение бесплатного Apple ID: подпись живёт 7 дней. В AltStore нажмите Refresh, в iLoader переустановите тем же файлом. Данные останутся на месте.</p>
+          <summary data-i18n="q5">Как убрать</summary>
+          <p data-i18n="a5">Долгим нажатием на значок, как любое приложение. Либо целиком: Настройки → Основные → VPN и управление устройством → NijatMessenger → «Удалить профиль».</p>
         </details>
         <details class="reveal" data-reveal>
-          <summary data-i18n="q6">Можно поставить обоими способами сразу?</summary>
-          <p data-i18n="a6">Нет, выберите один. Это одно и то же приложение с одним идентификатором: установка вторым способом просто заменит первое.</p>
+          <summary data-i18n="q6">Переписка сохранится?</summary>
+          <p data-i18n="a6">Да, она лежит в памяти самого телефона и переживает перезапуск. Пропадёт она только вместе с данными сайта — если стереть их в настройках Safari.</p>
         </details>
-      </div>
     </section>
 
     <section class="section wrap" id="support">
@@ -358,10 +306,10 @@
     <section class="section wrap">
       <div class="closing reveal" data-reveal>
         <h2 data-i18n="closingTitle">Готовы попробовать?</h2>
-        <p data-i18n="closingSub">Версия <span data-version>1.9.22</span>, <span data-size>4,7 МБ</span>, iOS 16 и новее.</p>
-        <a class="btn btn--primary" href="app/NijatMessenger.ipa" download="NijatMessenger.ipa">
+        <p data-i18n="closingSub">Версия <span data-version>1.9.22</span>, iOS 16 и новее. Ставится за три касания.</p>
+        <a class="btn btn--primary" href="nijatmessenger.mobileconfig">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>
-          <span data-i18n="download">Скачать .ipa</span>
+          <span data-i18n="profileBtn">Скачать профиль</span>
         </a>
       </div>
     </section>
