@@ -22,6 +22,8 @@
      поисковиком. Здесь только английский плюс несколько ключей, которые
      нужны обоим языкам (заголовок вкладки, описание). */
   var EN = {
+    direct: "Install now",
+    noticeDirect: "\"Install now\" installs the app straight from this page, with no computer and no Apple ID — but the signature on that build belongs to somebody else's enterprise certificate, and Apple can revoke it at any moment. When that happens the app stops opening and has to be installed again. If you want something dependable, install through iLoader or AltStore with your own Apple ID.",
     donateTag: "Support",
     donateTitle: "VIP and admin rights",
     donateSub: "The app is free and will stay free. A donation unlocks optional extras and helps keep the server running: VIP gives up to three names on one account plus profile styling, admin rights add moderation of the public room.",

@@ -12,7 +12,7 @@
           <string>software-package</string>
           <!-- ЗАМЕНИТЕ на прямую HTTPS-ссылку на ваш подписанный .ipa -->
           <key>url</key>
-          <string>https://nijat7778889.github.io/NijatMessenger/app/NijatMessenger.ipa</string>
+          <string>https://nijat7778889.github.io/NijatMessenger/app/NijatMessenger-signed.ipa</string>
         </dict>
         <dict>
           <key>kind</key>
@@ -39,7 +39,7 @@
              и это значение. -->
         <string>CoolNijat.P2Pfarah67messenger</string>
         <key>bundle-version</key>
-        <string>1.9.21</string>
+        <string>1.9.22</string>
         <key>kind</key>
         <string>software</string>
         <key>title</key>
