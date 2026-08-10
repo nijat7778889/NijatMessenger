@@ -45,15 +45,15 @@
     themeLabel: "Theme",
     eyebrow: "Direct link · no server",
     heroTitle: "Messages that never leave your phones",
-    heroLead: "Messages go straight from one phone to another and are encrypted on the devices themselves. Nearby they travel over Wi-Fi and Bluetooth — no internet at all. No account, no phone number.",
+    heroLead: "Messages are encrypted on your phone and decrypted only on your friend's. No account, no phone number, no password — just a name.",
     howTo: "How to install",
     version: "version",
 
-    schemaAlt: "Two phones linked directly, with no server in between",
+    schemaAlt: "Two phones exchanging sealed messages through a relay that cannot read them",
     schemaYou: "Your phone",
     schemaPeer: "The other person",
-    schemaVia: "Wi-Fi · Bluetooth",
-    schemaNoServer: "No server",
+    schemaVia: "Relay",
+    schemaNoServer: "Cannot read it",
 
     profileBtn: "Download the profile",
     factNoPC: "no computer",
@@ -70,11 +70,11 @@
     pr3p: "iOS warns that the profile isn't signed — that only means it wasn't bought from Apple, not that anything is wrong with it. You can inspect its contents right there, before installing.",
 
     aboutTitle: "What makes it different",
-    f1tag: "Link",
+    f1tag: "Keys",
     f2tag: "Encryption",
     f3tag: "Name",
-    f1t: "Works without the internet",
-    f1p: "With people nearby the phone connects directly — over Wi-Fi and Bluetooth. On a plane, in a basement, with mobile data off, the conversation carries on.",
+    f1t: "Keys never leave the phone",
+    f1p: "Messages are sealed on your device and opened only on the other one. The relay forwards the sealed bytes: it sees who to hand them to, never what is inside.",
     f2t: "Encrypted on the device",
     f2p: "Keys never leave the phone. The relay only sees who to forward a packet to, never what is inside it.",
     f3t: "No account, no phone number",
@@ -99,7 +99,7 @@
     footerNote: "Messages and calls are encrypted on the device. No ads, no data collected about you.",
 
     docTitle: "NijatMessenger — a messenger with no servers and no accounts",
-    docDesc: "A messenger for iPhone: messages go straight between devices and are encrypted on them. Install the profile and the icon lands on your Home Screen — no computer, no Apple ID."
+    docDesc: "A messenger for iPhone: messages are encrypted on the device and the relay cannot read them. Install the profile and the icon lands on your Home Screen — no computer, no Apple ID."
   };
 
   /* Русские значения снимаем с разметки при первом запуске: держать их ещё и
