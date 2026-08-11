@@ -267,6 +267,8 @@ p { margin: 0; }
 .seg__btn[aria-pressed="true"], .seg__btn[aria-selected="true"] {
   background: var(--signal); color: var(--signal-ink);
 }
+.seg--wide { display: grid; grid-template-columns: 1fr 1fr; width: 100%; margin-bottom: 4px; }
+.seg--wide .seg__btn { padding: 12px 8px; font-size: 13px; }
 .seg__note {
   display: block; margin-top: 3px;
   font-size: 10.5px; font-weight: 400; letter-spacing: 0.02em; opacity: .8;
@@ -441,9 +443,18 @@ p { margin: 0; }
 .steps p { color: var(--muted); font-size: var(--t-small); line-height: 1.55; }
 
 /* ------------------------------------------------------------------ */
-/* 9. Отличия                                                          */
+/* 9. Снимки экрана и отличия                                          */
 /* ------------------------------------------------------------------ */
-/* Три колонки на линиях, без подложки. Подложка делала их такими же
+.shots { display: grid; gap: var(--gap); grid-template-columns: 1fr 1fr; margin-top: 24px; }
+.shot { margin: 0; }
+.shot img {
+  width: 100%;
+  border: 1px solid var(--rule);
+  border-radius: 18px;              /* радиус устройства, а не карточки */
+}
+.shot figcaption { margin-top: 12px; color: var(--muted); font-size: 13px; line-height: 1.45; }
+
+/* Отличия — три колонки на линиях, без подложки. Подложка делала их такими же
    коробками, как шаги и вопросы, и разделы переставали отличаться друг от друга. */
 .features { display: grid; gap: 0; margin-top: 24px; }
 .feature { padding: 20px 0; border-top: 1px solid var(--rule-soft); }
@@ -457,8 +468,32 @@ p { margin: 0; }
 .feature p { color: var(--muted); font-size: var(--t-small); line-height: 1.55; }
 
 /* ------------------------------------------------------------------ */
-/* 10. Вопросы, финал, подвал                                          */
+/* 10. Видео, вопросы, финал, подвал                                   */
 /* ------------------------------------------------------------------ */
+/* Раньше здесь зияла пустая коробка 16:9 во всю ширину — на десктопе больше
+   тысячи пикселей серого с крошечным треугольником посередине. Теперь у блока
+   есть предел ширины и настоящий кадр под кнопкой. */
+.video {
+  position: relative; aspect-ratio: 16 / 9; overflow: hidden;
+  max-width: 720px; margin-top: 24px;
+  background: var(--raised);
+  border: 1px solid var(--rule); border-radius: 4px;
+}
+.video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.video__poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.video__play {
+  position: absolute; inset: 0; width: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+  background: color-mix(in srgb, var(--ground) 45%, transparent);
+  border: 0; cursor: pointer;
+  color: var(--ink); font: inherit; font-weight: 600; font-size: 15px;
+}
+.video__play svg { width: 30px; height: 30px; fill: var(--signal-ink); stroke: none; }
+.video__disc {
+  display: grid; place-items: center;
+  width: 62px; height: 62px; border-radius: 50%;
+  background: var(--signal);
+}
 
 .faq { margin-top: 24px; }
 .faq details { border-top: 1px solid var(--rule-soft); }
@@ -516,6 +551,7 @@ p { margin: 0; }
   .schema { margin-top: 0; }
   .schema text { font-size: 11px; }
   .hero__title { margin-bottom: 20px; }
+  .shots { grid-template-columns: repeat(2, minmax(0, 296px)); }
 }
 
 /* ------------------------------------------------------------------ */
@@ -530,6 +566,7 @@ p { margin: 0; }
   .seg__btn[aria-pressed="true"]:hover, .seg__btn[aria-selected="true"]:hover { color: var(--signal-ink); }
   .icon-btn:hover { border-color: var(--ink); }
   .faq summary:hover { color: var(--signal); }
+  .video__play:hover .video__disc { background: color-mix(in srgb, var(--signal) 86%, var(--ink)); }
 }
 
 @media (prefers-reduced-motion: reduce) {

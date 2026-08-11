@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>items</key>
+  <array>
+    <dict>
+      <key>assets</key>
+      <array>
+        <dict>
+          <key>kind</key>
+          <string>software-package</string>
+          <!-- ЗАМЕНИТЕ на прямую HTTPS-ссылку на ваш подписанный .ipa -->
+          <key>url</key>
+          <string>https://nijat7778889.github.io/NijatMessenger/app/NijatMessenger.ipa</string>
+        </dict>
+        <dict>
+          <key>kind</key>
+          <string>display-image</string>
+          <!-- Иконка, показывается во время установки (iOS сама уменьшит) -->
+          <key>url</key>
+          <string>https://nijat7778889.github.io/NijatMessenger/assets/icons/green.png</string>
+        </dict>
+        <dict>
+          <key>kind</key>
+          <string>full-size-image</string>
+          <!-- Та же иконка в полном размере, показывается на экране установки -->
+          <key>url</key>
+          <string>https://nijat7778889.github.io/NijatMessenger/assets/icons/green.png</string>
+        </dict>
+      </array>
+      <key>metadata</key>
+      <dict>
+        <key>bundle-identifier</key>
+        <!-- ВАЖНО: должен ТОЧНО совпадать с CFBundleIdentifier внутри подписанного .ipa,
+             иначе iOS покажет "Cannot Download App". Текущая сборка
+             (app/NijatMessenger.ipa) реально несёт CoolNijat.P2Pfarah67messenger —
+             если пересоберёте .ipa с другим Bundle Identifier в Xcode, обновите
+             и это значение. -->
+        <string>CoolNijat.P2Pfarah67messenger</string>
+        <key>bundle-version</key>
+        <string>1.9.21</string>
+        <key>kind</key>
+        <string>software</string>
+        <key>title</key>
+        <string>NijatMessenger</string>
+      </dict>
+    </dict>
+  </array>
+</dict>
+</plist>

@@ -8,16 +8,16 @@
       "bundleIdentifier": "CoolNijat.P2Pfarah67messenger",
       "developerName": "NijatMessenger",
       "subtitle": "Быстрый и приватный мессенджер",
-      "localizedDescription": "Установка профилем: значок на домашний экран за три касания, без компьютера и Apple ID. Голосовые сообщения, сквозное шифрование переписки.",
+      "localizedDescription": "Три новые игры: «Шпион», «Мафия» и «Алиас». В голосовых играх появился чат для тех, у кого нет микрофона, и значок состояния микрофона. Боты позволяют проверить игру в одиночку. Исправлены выход из партии и выбор роли ночью.",
       "iconURL": "https://nijat7778889.github.io/NijatMessenger/assets/icons/green.png",
       "category": "social",
       "versions": [
         {
           "version": "1.9.22",
           "date": "2026-08-09T00:00:00Z",
-          "localizedDescription": "Установка профилем: значок на домашний экран за три касания, без компьютера и Apple ID. Голосовые сообщения, сквозное шифрование переписки.",
-          "downloadURL": "https://nijat7778889.github.io/NijatMessenger/nijatmessenger.mobileconfig",
-          "size": 71278,
+          "localizedDescription": "Три новые игры: «Шпион», «Мафия» и «Алиас». В играх с микрофоном появился чат для тех, у кого его нет, и боты — чтобы проверять партию на одном устройстве. Исправлены выход из игры и подтверждение ночного выбора в «Мафии».",
+          "downloadURL": "https://nijat7778889.github.io/NijatMessenger/app/NijatMessenger.ipa",
+          "size": 4900275,
           "minOSVersion": "16.0"
         }
       ]
