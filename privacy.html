@@ -54,6 +54,9 @@
 <tr><td>Образ персонажа и статистика игр</td>
     <td>Чтобы не терялись при переустановке</td>
     <td>Пока вы не удалите аккаунт</td></tr>
+<tr><td>Токен уведомлений вашего телефона</td>
+    <td>Чтобы сообщение застало вас при закрытом приложении</td>
+    <td>Пока вы не удалите аккаунт или приложение</td></tr>
 <tr><td>Сообщения для тех, кто сейчас не в сети</td>
     <td>Чтобы дошли, когда человек вернётся</td>
     <td>До доставки, затем удаляются</td></tr>
@@ -78,6 +81,17 @@
 разбирать было бы нечего: само сообщение зашифровано. Отправляя жалобу, вы
 соглашаетесь передать эту выдержку.
 </div>
+
+<h2>Уведомления</h2>
+<p>Чтобы сообщение застало вас при закрытом приложении, телефон будит служба
+уведомлений Apple. Иначе никак: закрытое приложение iOS не запускает сама.</p>
+<p>В уведомление кладётся <strong>только зашифрованный кусок письма</strong>.
+Apple видит ваш телефон, который и так её, и набор байтов. Ни имени
+отправителя, ни имени получателя, ни текста в нём нет — сервер их и сам не
+знает. Имя и текст, которые вы видите на экране, приложение достаёт уже у вас,
+своим ключом, в момент показа уведомления.</p>
+<p>Отключить это можно как обычно: в настройках телефона выключить уведомления
+для приложения.</p>
 
 <h2>Встроенные плееры (совместный просмотр)</h2>
 <p>В комнате «Смотреть» видео проигрывается официальным плеером той площадки, с
@@ -156,6 +170,9 @@ its own section below, because there the data does not reach us at all.</p>
 <tr><td>Character look and game statistics</td>
     <td>So they survive a reinstall</td>
     <td>Until you delete your account</td></tr>
+<tr><td>Your device's notification token</td>
+    <td>So a message can reach you while the app is closed</td>
+    <td>Until you delete your account or the app</td></tr>
 <tr><td>Messages for people currently offline</td>
     <td>So they arrive when the person returns</td>
     <td>Until delivered, then deleted</td></tr>
@@ -178,6 +195,17 @@ messages waiting for an offline recipient.
 an excerpt yourself, and that excerpt is stored in plain text. Otherwise there
 would be nothing to review, since the message itself is encrypted.
 </div>
+
+<h2>Notifications</h2>
+<p>So a message can reach you while the app is closed, your phone is woken by
+Apple's push service. There is no other way: iOS does not start a closed app on
+its own.</p>
+<p>The notification carries <strong>only an encrypted piece of the message</strong>.
+Apple sees your device, which it already knows, and a blob of bytes. There is no
+sender name, no recipient name and no text in it — the server does not know them
+either. The name and text you see on screen are unlocked on your own device,
+with your own key, at the moment the notification is shown.</p>
+<p>You can turn this off the usual way, in your phone's notification settings.</p>
 
 <h2>Embedded players (watching together)</h2>
 <p>In a watch room the video plays in the official player of whichever platform
