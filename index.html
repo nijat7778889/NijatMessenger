@@ -1,376 +1,291 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dexichs — мессенджер, который связывает телефоны напрямую</title>
+<meta name="description" content="Dexichs находит собеседника рядом по Wi-Fi и Bluetooth и соединяется с ним без интернета. Переписка шифруется на устройстве. Ни номера телефона, ни почты.">
+<meta name="theme-color" content="#0a0a0b">
 
-  <!-- Заголовок и описание переписываются скриптом при смене языка (см. i18n
-       в script.js). Здесь — русский вариант: он же и язык по умолчанию. -->
-  <title>NijatMessenger — мессенджер без серверов и аккаунтов</title>
-  <meta name="description" content="Мессенджер для iPhone: сообщения идут напрямую между устройствами и шифруются на них же. Работает даже без интернета — рядом по Wi-Fi и Bluetooth. Скачайте .ipa и поставьте через iLoader." />
-  <meta name="theme-color" content="#E7E4DC" media="(prefers-color-scheme: light)" />
-  <meta name="theme-color" content="#1A2422" media="(prefers-color-scheme: dark)" />
-  <meta name="color-scheme" content="light dark" />
+<link rel="icon" href="assets/icons/dexichs-64.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/icons/dexichs-180.png">
 
-  <!-- .ico идёт первым и без указания размера: часть краулеров и старых
-       браузеров запрашивает /favicon.ico напрямую, не читая разметку вовсе. -->
-  <link rel="icon" href="favicon.ico" sizes="any" />
-  <link rel="icon" type="image/png" sizes="64x64" href="assets/icons/green-64.png" />
-  <link rel="icon" type="image/png" sizes="256x256" href="assets/icons/green-256.png" />
-  <link rel="apple-touch-icon" href="assets/icons/green-180.png" />
+<meta property="og:type" content="website">
+<meta property="og:title" content="Dexichs">
+<meta property="og:description" content="Мессенджер, который связывает телефоны напрямую. Рядом — вообще без интернета.">
+<meta property="og:image" content="assets/icons/dexichs-512.png">
 
-  <!-- Ссылки здесь абсолютные, и это обязательно: превью собирают серверы
-       соцсетей и мессенджеров, где относительный путь разрешать не от чего. -->
-  <link rel="canonical" href="https://nijat7778889.github.io/NijatMessenger/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://nijat7778889.github.io/NijatMessenger/" />
-  <meta property="og:site_name" content="NijatMessenger" />
-  <meta property="og:title" content="NijatMessenger — мессенджер без серверов и аккаунтов" />
-  <meta property="og:description" content="Сообщения идут напрямую между устройствами и шифруются на них же. Работает даже без интернета." />
-  <meta property="og:image" content="https://nijat7778889.github.io/NijatMessenger/assets/icons/green.png" />
-  <meta property="og:image:width" content="1500" />
-  <meta property="og:image:height" content="1500" />
-  <meta property="og:image:alt" content="Иконка NijatMessenger" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="NijatMessenger — мессенджер без серверов и аккаунтов" />
-  <meta name="twitter:description" content="Сообщения идут напрямую между устройствами и шифруются на них же. Работает даже без интернета." />
-  <meta name="twitter:image" content="https://nijat7778889.github.io/NijatMessenger/assets/icons/green.png" />
-
-  <!-- Шрифты лежат рядом, а не на Google Fonts: страница обещает, что данные
-       никуда не уходят, и тянуть ради шрифта чужой домен было бы обещанию
-       противоположно. Заранее просим два подмножества, которыми набран первый
-       экран по-русски; латиница и остальные веса подтянутся сами.
-       crossorigin обязателен даже для своего домена — без него браузер скачает
-       файл второй раз. -->
-  <link rel="preload" href="assets/fonts/golostext-cyrillic.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="assets/fonts/martianmono-latin.woff2" as="font" type="font/woff2" crossorigin />
-
-  <!-- Тема ставится ДО отрисовки, отдельным блокирующим скриптом.
-       Иначе при тёмной теме первый кадр всё равно белый — знаменитое мигание
-       на весь экран, которое особенно бьёт по глазам ночью. -->
-  <script>
-    (function () {
-      var d = document.documentElement;
-      d.classList.add("js");
-      try {
-        var t = localStorage.getItem("nm-theme");
-        if (!t) t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-        d.dataset.theme = t;
-        var l = localStorage.getItem("nm-lang");
-        if (!l) l = (navigator.language || "ru").toLowerCase().indexOf("ru") === 0 ? "ru" : "en";
-        d.lang = l;
-      } catch (e) { d.dataset.theme = "light"; }
-    })();
-  </script>
-
-  <!-- ?v= проставляет release.sh. Без него обновление ломает страницу тем, кто
-       уже заходил: разметка приходит новая, а стили и скрипт достаются из кэша
-       старые. Один раз это уже стоило странице всего содержимого ниже шапки. -->
-  <link rel="stylesheet" href="styles.css?v=1.9.22" />
+<link rel="preload" href="assets/fonts/golostext-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <a class="skip-link" href="#main" data-i18n="skip">К содержимому</a>
 
-  <header class="nav">
-    <div class="nav__inner wrap">
-      <a class="brand" href="#top" aria-label="NijatMessenger">
-        <img src="assets/icons/green-64.png" alt="" width="28" height="28" decoding="async" />
-        <span>Nijat<b>Messenger</b></span>
-      </a>
+<!-- Знак один на всю страницу: определён здесь, дальше подставляется ссылкой.
+     Две одинаковые фигуры и прямая между ними — ровно то, что делает
+     приложение, и ровно то, что нарисовано на иконке. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="mark">
+      <rect x="118" y="112" width="196" height="196" rx="52"
+            fill="none" stroke="currentColor" stroke-width="44"/>
+      <rect x="398" y="392" width="196" height="196" rx="52"
+            fill="none" stroke="currentColor" stroke-width="44"/>
+      <line x1="300" y1="296" x2="412" y2="404"
+            stroke="currentColor" stroke-width="44" stroke-linecap="round"/>
+    </g>
+  </defs>
+</svg>
 
-      <div class="nav__tools">
-        <div class="seg" role="group" aria-label="Язык / Language">
-          <button type="button" class="seg__btn" data-lang="ru" aria-pressed="false">RU</button>
-          <button type="button" class="seg__btn" data-lang="en" aria-pressed="false">EN</button>
-        </div>
-        <button type="button" class="icon-btn" id="themeToggle" aria-label="Тема" data-i18n-aria="themeLabel">
-          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.6M12 19.4V22M2 12h2.6M19.4 12H22M4.9 4.9l1.9 1.9M17.2 17.2l1.9 1.9M19.1 4.9l-1.9 1.9M6.8 17.2l-1.9 1.9"/></svg>
-          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.4 8.4 0 1 0 10.2 10.2z"/></svg>
-        </button>
-      </div>
+<header class="top" id="top">
+  <div class="progress" aria-hidden="true"></div>
+  <div class="wrap top__row">
+    <a class="brand" href="#top">
+      <svg viewBox="96 90 520 520" aria-hidden="true"><use href="#mark" color="currentColor"/></svg>
+      <span>Dexichs</span>
+    </a>
+    <nav class="nav">
+      <a href="#how" data-i18n="navHow">Как работает</a>
+      <a href="#inside" data-i18n="navInside">Что внутри</a>
+      <a href="#privacy" data-i18n="navPrivacy">Приватность</a>
+      <a href="support.html" data-i18n="navSupport">Поддержка</a>
+    </nav>
+    <div class="lang" role="group" aria-label="Язык / Language">
+      <button type="button" data-lang="ru" aria-pressed="true">RU</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
     </div>
-  </header>
+  </div>
+</header>
 
-  <main id="main">
-    <!-- Первый экран.
-         Ни одного data-reveal: всё, что человек должен увидеть сразу, приходит
-         видимым из разметки. Раньше здесь было пусто около секунды, а без JS —
-         навсегда. -->
-    <section class="hero wrap" id="top">
-      <div class="hero__grid">
-        <div class="hero__text">
-          <span class="label" data-i18n="eyebrow">Прямая связь · без сервера</span>
+<main>
 
-          <h1 class="hero__title" data-i18n="heroTitle">Переписка, которая никуда не уходит</h1>
-          <p class="hero__lead" data-i18n="heroLead">
-            Сообщения идут напрямую с телефона на телефон и шифруются на них же. Рядом —
-            по Wi-Fi и Bluetooth, вообще без интернета. Ни аккаунта, ни номера телефона.
-          </p>
-
-          <div class="hero__actions">
-            <a class="btn btn--primary" href="app/NijatMessenger.ipa" download="NijatMessenger.ipa" id="downloadBtn">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>
-              <span data-i18n="download">Скачать .ipa</span>
-            </a>
-            <a class="btn btn--quiet" href="#install" data-i18n="howTo">Как поставить</a>
-          </div>
-
-          <p class="facts">
-            <span><b data-version>1.9.22</b> <span data-i18n="version">версия</span></span>
-            <span class="facts__sep" aria-hidden="true">·</span>
-            <span><b data-size>4,7 МБ</b></span>
-            <span class="facts__sep" aria-hidden="true">·</span>
-            <span><b>iOS 16+</b></span>
-          </p>
+  <section class="hero wrap">
+    <div class="hero__grid">
+      <div>
+        <p class="eyebrow" data-i18n="heroEyebrow">P2P · без сервера посередине</p>
+        <h1 class="hero__title" data-i18n-html="heroTitle"><span class="line"><span>Связывает</span></span><span class="line"><span>два телефона</span></span><span class="line"><span><em>напрямую</em></span></span></h1>
+        <p class="lede" data-i18n="heroLede">Если собеседник рядом, интернет не нужен вовсе: приложение находит его по Wi-Fi или Bluetooth и соединяется само. Если далеко — сообщение доходит через ретранслятор, зашифрованным.</p>
+        <div class="hero__note">
+          <span class="chip" data-i18n="chip1">Без номера телефона</span>
+          <span class="chip" data-i18n="chip2">Шифруется на устройстве</span>
+          <span class="chip" data-i18n="chip3">iPhone · iOS 16+</span>
         </div>
-
-        <!-- Схема связи: два телефона, кольца охвата, дуга и пакет, идущий по
-             ней. Весь продукт одной картинкой — посередине ничего нет.
-             Дуга продублирована в offset-path в styles.css; при правке одной
-             править обе. -->
-        <svg class="schema" viewBox="0 0 520 190" role="img" aria-labelledby="schemaTitle">
-          <title id="schemaTitle" data-i18n="schemaAlt">Два телефона связаны напрямую, без сервера посередине</title>
-
-          <!-- кольца охвата: слева открыты вправо, справа — влево -->
-          <g stroke-width="1.4">
-            <path class="schema__ring"            d="M 115.3 93 A 30 30 0 0 1 115.3 139" />
-            <path class="schema__ring schema__ring--2" d="M 123 83.8 A 42 42 0 0 1 123 148.2" />
-            <path class="schema__ring schema__ring--3" d="M 130.7 74.6 A 54 54 0 0 1 130.7 157.4" />
-            <path class="schema__ring"            d="M 404.7 139 A 30 30 0 0 1 404.7 93" />
-            <path class="schema__ring schema__ring--2" d="M 401 148.2 A 42 42 0 0 1 401 83.8" />
-            <path class="schema__ring schema__ring--3" d="M 393.3 157.4 A 54 54 0 0 1 393.3 74.6" />
-          </g>
-
-          <!-- дуга связи и пакет на ней -->
-          <path class="schema__link" d="M 128 116 Q 260 46 392 116" />
-          <circle class="schema__packet" r="4" />
-
-          <!-- телефоны -->
-          <rect class="schema__screen" x="83" y="90" width="26" height="52" rx="3" />
-          <rect class="schema__body"   x="79" y="85" width="34" height="62" rx="7" />
-          <rect class="schema__screen" x="411" y="90" width="26" height="52" rx="3" />
-          <rect class="schema__body"   x="407" y="85" width="34" height="62" rx="7" />
-
-          <text x="96"  y="170" text-anchor="middle" data-i18n="schemaYou">Ваш телефон</text>
-          <text x="424" y="170" text-anchor="middle" data-i18n="schemaPeer">Собеседник</text>
-          <text x="260" y="32"  text-anchor="middle" data-i18n="schemaVia">Wi-Fi · Bluetooth</text>
-          <text x="260" y="108" text-anchor="middle" class="schema__hint" data-i18n="schemaNoServer">Сервера нет</text>
+      </div>
+      <div class="hero__mark">
+        <svg viewBox="96 90 520 520" aria-label="Dexichs">
+          <rect x="118" y="112" width="196" height="196" rx="52" fill="none"
+                stroke="currentColor" stroke-width="44" class="draw" style="--len:900"/>
+          <line x1="300" y1="296" x2="412" y2="404" stroke="currentColor"
+                stroke-width="44" stroke-linecap="round" class="draw" style="--len:160"/>
+          <rect x="398" y="392" width="196" height="196" rx="52" fill="none"
+                stroke="currentColor" stroke-width="44" class="draw" style="--len:900"/>
+          <circle class="spark" r="15" fill="currentColor">
+            <animateMotion dur="2.6s" begin="1.2s" repeatCount="indefinite"
+                           keyPoints="0;1" keyTimes="0;1"
+                           calcMode="spline" keySplines="0.65 0 0.35 1"
+                           path="M300,296 L412,404"/>
+          </circle>
         </svg>
       </div>
-
-      <p class="notice">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
-        <span data-i18n="noticeSign">Приложение подписывается вашим Apple ID прямо на телефоне. У бесплатного Apple ID подпись действует 7 дней — потом её нужно продлить одним нажатием.</span>
-      </p>
-    </section>
-
-    <!-- Установка идёт сразу за первым экраном: это и есть настоящая работа
-         сайта. Два пути — выбором, а не одной стеной из пяти шагов. -->
-    <section class="section wrap" id="install">
-      <span class="label reveal" data-reveal data-i18n="installTag">4 шага</span>
-      <h2 class="section__title reveal" data-reveal data-i18n="installTitle">Как поставить</h2>
-      <p class="section__sub reveal" data-reveal data-i18n="installSub">Два пути. Оба ставят одно и то же приложение и одинаково безопасны — подпись делается вашим Apple ID на вашем устройстве.</p>
-
-      <div class="seg seg--wide reveal" data-reveal role="tablist" aria-label="Способ установки">
-        <button type="button" class="seg__btn" id="tabILoader" role="tab" aria-selected="true" aria-controls="panelILoader">
-          iLoader <span class="seg__note" data-i18n="withPC">с компьютером</span>
-        </button>
-        <button type="button" class="seg__btn" id="tabAltStore" role="tab" aria-selected="false" aria-controls="panelAltStore">
-          AltStore <span class="seg__note" data-i18n="noPC">без компьютера</span>
-        </button>
-      </div>
-
-      <ol class="steps reveal" data-reveal id="panelILoader" role="tabpanel" aria-labelledby="tabILoader">
-        <li>
-          <h3 data-i18n="il1t">Поставьте iLoader на компьютер</h3>
-          <p data-i18n="il1p">Это программа для компьютера, ставится по инструкции с <a href="https://iloader.site/" target="_blank" rel="noopener noreferrer">сайта iLoader</a>. Телефон понадобится подключить кабелем.</p>
-        </li>
-        <li>
-          <h3 data-i18n="il2t">Скачайте файл туда же</h3>
-          <p data-i18n="il2p">Нажмите «Скачать .ipa» на этой странице в браузере компьютера, а не телефона: файл нужен именно там, где стоит iLoader.</p>
-        </li>
-        <li>
-          <h3 data-i18n="il3t">Подключите iPhone кабелем</h3>
-          <p data-i18n="il3p">Войдите в Apple ID в самом iLoader и дождитесь, пока телефон появится в списке устройств. Затем Import IPA — и выберите скачанный файл.</p>
-        </li>
-        <li>
-          <h3 data-i18n="il4t">Подтвердите доверие</h3>
-          <p data-i18n="il4p">Один раз, уже на телефоне: Настройки → Основные → VPN и управление устройством → выберите профиль → «Доверять».</p>
-        </li>
-      </ol>
-
-      <ol class="steps reveal" data-reveal id="panelAltStore" role="tabpanel" aria-labelledby="tabAltStore" hidden>
-        <li>
-          <h3 data-i18n="as1t">Поставьте AltStore на iPhone</h3>
-          <p data-i18n="as1p">По инструкции с <a href="https://altstore.io" target="_blank" rel="noopener noreferrer">altstore.io</a>, прямо с телефона. Компьютер для этого способа не нужен.</p>
-        </li>
-        <li>
-          <h3 data-i18n="as2t">Скачайте файл</h3>
-          <p data-i18n="as2p">Откройте эту страницу в Safari на iPhone и нажмите «Скачать .ipa». Файл попадёт в «Файлы» → «Загрузки».</p>
-        </li>
-        <li>
-          <h3 data-i18n="as3t">Откройте его через AltStore</h3>
-          <p data-i18n="as3p">Нажмите на файл → «Поделиться» → «Скопировать в AltStore». Либо в самом AltStore: My Apps → «+».</p>
-        </li>
-        <li>
-          <h3 data-i18n="as4t">Подтвердите доверие</h3>
-          <p data-i18n="as4p">Настройки → Основные → VPN и управление устройством → профиль → «Доверять». Дальше AltStore умеет продлевать подпись сам.</p>
-        </li>
-      </ol>
-    </section>
-
-    <!-- Скриншоты. Раньше приложение продавалось вслепую: на сайте не было ни
-         одного снимка того, что человек скачивает. -->
-    <section class="section wrap" id="look">
-      <h2 class="section__title reveal" data-reveal data-i18n="lookTitle">Как это выглядит</h2>
-      <div class="shots">
-        <figure class="shot reveal" data-reveal>
-          <img src="assets/screens/chat.webp" alt="Экран переписки NijatMessenger" width="640" height="1391" loading="lazy" decoding="async" />
-          <figcaption data-i18n="shotChat">Общая комната: реплики одного человека идут группой, без повторов имени</figcaption>
-        </figure>
-        <figure class="shot reveal" data-reveal>
-          <img src="assets/screens/empty.webp" alt="Пустая переписка в NijatMessenger" width="640" height="1391" loading="lazy" decoding="async" />
-          <figcaption data-i18n="shotEmpty">45 тем оформления, светлых и тёмных</figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <!-- Три отличия. Подпись над каждым называет измерение, по которому идёт
-         сравнение, — это не украшение, а то, чего в заголовке нет. -->
-    <section class="section wrap" id="about">
-      <h2 class="section__title reveal" data-reveal data-i18n="aboutTitle">Чем отличается</h2>
-      <div class="features">
-        <article class="feature reveal" data-reveal>
-          <span class="feature__tag" data-i18n="f1tag">Связь</span>
-          <h3 data-i18n="f1t">Работает без интернета</h3>
-          <p data-i18n="f1p">С теми, кто рядом, телефон связывается напрямую — по Wi-Fi и Bluetooth. В самолёте, в подвале, при отключённой сети переписка продолжается.</p>
-        </article>
-        <article class="feature reveal" data-reveal>
-          <span class="feature__tag" data-i18n="f2tag">Шифрование</span>
-          <h3 data-i18n="f2t">Шифруется на устройстве</h3>
-          <p data-i18n="f2p">Ключи не покидают телефон. Ретранслятор в интернете видит только, кому переслать пакет, но не то, что внутри.</p>
-        </article>
-        <article class="feature reveal" data-reveal>
-          <span class="feature__tag" data-i18n="f3tag">Имя</span>
-          <h3 data-i18n="f3t">Без аккаунта и номера</h3>
-          <p data-i18n="f3p">Регистрация — это выбрать имя. Ни телефона, ни почты, ни пароля. Имя закрепляется за устройством, и занять чужое нельзя.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- Видео грузится по нажатию. Iframe на загрузке тянул скрипты YouTube
-         каждому, кто открыл страницу, — на мобильном интернете это заметно. -->
-    <section class="section wrap" id="video">
-      <h2 class="section__title reveal" data-reveal data-i18n="videoTitle">Видео с установкой</h2>
-      <div class="video reveal" data-reveal id="videoBox" data-embed="https://www.youtube-nocookie.com/embed/DCPNOSXj9Kk?rel=0&amp;autoplay=1">
-        <img class="video__poster" src="assets/video-poster.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async" />
-        <button type="button" class="video__play" id="videoPlay">
-          <span class="video__disc" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg>
-          </span>
-          <span data-i18n="playVideo">Смотреть на YouTube</span>
-        </button>
-      </div>
-    </section>
-
-    <section class="section wrap" id="faq">
-      <h2 class="section__title reveal" data-reveal data-i18n="faqTitle">Частые вопросы</h2>
-      <div class="faq">
-        <details class="reveal" data-reveal>
-          <summary data-i18n="q1">Файл не скачивается, а открывается предпросмотром</summary>
-          <p data-i18n="a1">Зажмите кнопку «Скачать .ipa» и выберите «Скачать связанный файл» — Safari сохранит его в «Файлы».</p>
-        </details>
-        <details class="reveal" data-reveal>
-          <summary data-i18n="q2">Скачал, но иконки на «Домой» нет</summary>
-          <p data-i18n="a2">Так и должно быть: сам по себе .ipa ничего не устанавливает. Его нужно подписать через iLoader или AltStore — тогда иконка и появится.</p>
-        </details>
-        <details class="reveal" data-reveal>
-          <summary data-i18n="q3">Просит войти в Apple ID</summary>
-          <p data-i18n="a3">Это нормально и требуется обоими способами: так приложение подписывается лично для вас при установке и при каждом продлении.</p>
-        </details>
-        <details class="reveal" data-reveal>
-          <summary data-i18n="q4">Пишет «Ненадёжный разработчик»</summary>
-          <p data-i18n="a4">Настройки → Основные → VPN и управление устройством → выберите профиль → «Доверять».</p>
-        </details>
-        <details class="reveal" data-reveal>
-          <summary data-i18n="q5">Приложение перестало открываться через неделю</summary>
-          <p data-i18n="a5">Ограничение бесплатного Apple ID: подпись живёт 7 дней. В AltStore нажмите Refresh, в iLoader переустановите тем же файлом. Данные останутся на месте.</p>
-        </details>
-        <details class="reveal" data-reveal>
-          <summary data-i18n="q6">Можно поставить обоими способами сразу?</summary>
-          <p data-i18n="a6">Нет, выберите один. Это одно и то же приложение с одним идентификатором: установка вторым способом просто заменит первое.</p>
-        </details>
-      </div>
-    </section>
-
-    <section class="section wrap" id="support">
-      <span class="label reveal" data-reveal data-i18n="donateTag">Поддержать</span>
-      <h2 class="section__title reveal" data-reveal data-i18n="donateTitle">VIP и права администратора</h2>
-      <p class="section__sub reveal" data-reveal data-i18n="donateSub">Приложение бесплатное и останется таким. Донат открывает необязательные вещи и помогает держать сервер: VIP даёт до трёх имён на один аккаунт и оформление профиля, права администратора — модерацию общей комнаты.</p>
-
-      <div class="cards reveal" data-reveal>
-        <article class="card">
-          <h3 data-i18n="donateVip">VIP</h3>
-          <p data-i18n="donateVipText">До трёх имён на одном аккаунте, цвет ника, рамка аватара и корона.</p>
-          <ul class="price">
-            <li><span data-i18n="p30">30 дней</span><b>3 ₼</b></li>
-            <li><span data-i18n="p90">90 дней</span><b>8 ₼</b></li>
-            <li><span data-i18n="p365best">365 дней · выгоднее всего</span><b>25 ₼</b></li>
-          </ul>
-        </article>
-        <article class="card">
-          <h3 data-i18n="donateAdmin">Администратор</h3>
-          <p data-i18n="donateAdminText">Всё из VIP, плюс модерация общей комнаты: мут, кик и бан.</p>
-          <ul class="price">
-            <li><span data-i18n="p30">30 дней</span><b>6 ₼</b></li>
-            <li><span data-i18n="p90">90 дней</span><b>16 ₼</b></li>
-            <li><span data-i18n="p365best">365 дней · выгоднее всего</span><b>50 ₼</b></li>
-          </ul>
-        </article>
-      </div>
-
-      <ol class="steps reveal" data-reveal>
-        <li>
-          <h3 data-i18n="donate1t">Отправьте донат</h3>
-          <p data-i18n="donate1p">Отправьте сумму из таблицы выше. В комментарии обязательно укажите: ваш ник в приложении, что берёте — VIP или админа, и на сколько дней. Без ника выписать ключ не на кого.</p>
-        </li>
-        <li>
-          <h3 data-i18n="donate2t">Дождитесь ключа</h3>
-          <p data-i18n="donate2p">Ключ придёт ответом туда же, откуда пришёл донат. Обычно в течение суток — выдача пока ручная, автоматической оплаты на сайте нет.</p>
-        </li>
-        <li>
-          <h3 data-i18n="donate3t">Введите его в приложении</h3>
-          <p data-i18n="donate3p">Настройки → Магазин → «У меня есть ключ». Ключ выписан на ваш ник и на другом не сработает.</p>
-        </li>
-      </ol>
-
-      <div class="closing reveal" data-reveal>
-        <a class="btn btn--primary" href="https://www.donationalerts.com/r/dexivdlil" target="_blank" rel="noopener noreferrer">
-          <span data-i18n="donateBtn">Отправить донат</span>
-        </a>
-        <p class="section__sub" data-i18n="donateNote">Оплата идёт через DonationAlerts. Это не покупка в App Store: возврат средств Apple тут ни при чём, и вопросы решаются напрямую со мной.</p>
-      </div>
-    </section>
-
-    <section class="section wrap">
-      <div class="closing reveal" data-reveal>
-        <h2 data-i18n="closingTitle">Готовы попробовать?</h2>
-        <p data-i18n="closingSub">Версия <span data-version>1.9.22</span>, <span data-size>4,7 МБ</span>, iOS 16 и новее.</p>
-        <a class="btn btn--primary" href="app/NijatMessenger.ipa" download="NijatMessenger.ipa">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>
-          <span data-i18n="download">Скачать .ipa</span>
-        </a>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="wrap footer__inner">
-      <p data-i18n="footerNote">Сообщения и звонки шифруются на устройстве. Рекламы нет, данные о вас не собираются.</p>
-      <p class="footer__copy">© <span id="year">2026</span> NijatMessenger</p>
     </div>
-  </footer>
+  </section>
 
-  <script src="script.js?v=1.9.22" defer></script>
+  <hr class="rule">
+
+  <section class="section wrap" id="how">
+    <p class="eyebrow" data-reveal data-i18n="howEyebrow">Как работает</p>
+    <h2 class="section__title" data-reveal data-i18n="howTitle">Две дороги до собеседника</h2>
+    <p class="lede" data-reveal data-i18n="howLede">Одна работает там, где нет сети вообще. Вторая — когда человек далеко. Переключить можно прямо в общей комнате, не заходя в настройки.</p>
+
+    <div class="pillars">
+      <div class="pillar" data-reveal>
+        <span class="pillar__num">01</span>
+        <h3 data-i18n="p1t">Рядом — без интернета</h3>
+        <p data-i18n="p1d">Wi-Fi и Bluetooth напрямую между телефонами. В самолёте, в метро, в горах, в лагере, при отключённой сети. Сервер в этом случае не участвует вовсе.</p>
+      </div>
+      <div class="pillar" data-reveal>
+        <span class="pillar__num">02</span>
+        <h3 data-i18n="p2t">Далеко — через ретранслятор</h3>
+        <p data-i18n="p2d">Он возит зашифрованные байты и не может их прочитать. Если вас нет в сети, сообщение ждёт в почтовом ящике и приходит, когда вы вернётесь.</p>
+      </div>
+      <div class="pillar" data-reveal>
+        <span class="pillar__num">03</span>
+        <h3 data-i18n="p3t">Имя вместо номера</h3>
+        <p data-i18n="p3d">Регистрация — это одно имя, которое вы придумываете сами. Оно закреплено за ключом вашего устройства: занять его чужому нельзя, а вы вернёте его после переустановки.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap" id="inside">
+    <p class="eyebrow" data-reveal data-i18n="insideEyebrow">Что внутри</p>
+    <h2 class="section__title" data-reveal data-i18n="insideTitle">Всё, что есть в приложении</h2>
+    <p class="lede" data-reveal data-i18n="insideLede">Ознакомительно: ниже перечислено то, что работает сегодня.</p>
+
+    <div class="features">
+      <div class="feature" data-reveal>
+        <h3 data-i18n="f1t">Переписка</h3>
+        <ul>
+          <li data-i18n="f1a">Текст, фотографии, стикеры, голосовые</li>
+          <li data-i18n="f1b">Ответы на сообщение и правка отправленного</li>
+          <li data-i18n="f1c">Поиск по переписке и пересылка</li>
+          <li data-i18n="f1d">Группы и общая комната</li>
+        </ul>
+      </div>
+      <div class="feature" data-reveal>
+        <h3 data-i18n="f2t">Звонки</h3>
+        <ul>
+          <li data-i18n="f2a">Голос и видео, один на один и компанией</li>
+          <li data-i18n="f2b">Демонстрация экрана</li>
+          <li data-i18n="f2c">Приходят как обычный звонок телефона</li>
+        </ul>
+      </div>
+      <div class="feature" data-reveal>
+        <h3 data-i18n="f3t">Смотреть вместе</h3>
+        <ul>
+          <li data-i18n="f3a">YouTube, TikTok, VK Видео или прямая ссылка</li>
+          <li data-i18n="f3b">Ведущий управляет, остальные подтягиваются</li>
+          <li data-i18n="f3c">Свой чат и голос в комнате</li>
+        </ul>
+      </div>
+      <div class="feature" data-reveal>
+        <h3 data-i18n="f4t">Игры для компании</h3>
+        <ul>
+          <li data-i18n="f4a">Дурак, Мафия, Шпион, Слова</li>
+          <li data-i18n="f4b">Общий чат и голос прямо в партии</li>
+          <li data-i18n="f4c">Статистика переживает переустановку</li>
+          <li data-i18n="f4d">Работают и без интернета, если все рядом</li>
+        </ul>
+      </div>
+      <div class="feature" data-reveal>
+        <h3 data-i18n="f5t">Профиль</h3>
+        <ul>
+          <li data-i18n="f5a">Отображаемое имя, о себе, эмодзи-статус</li>
+          <li data-i18n="f5b">Аватар, обложка, цвет ника</li>
+          <li data-i18n="f5c">Тёмная и светлая темы</li>
+          <li data-i18n="f5d">Перенос аккаунта на другой телефон</li>
+        </ul>
+      </div>
+      <div class="feature" data-reveal>
+        <h3 data-i18n="f6t">Уведомления</h3>
+        <ul>
+          <li data-i18n="f6a">Со звуком, беззвучно или выключены совсем</li>
+          <li data-i18n="f6b">Имя и текст видны на закрытом телефоне</li>
+          <li data-i18n="f6c">Расшифровываются у вас, а не по дороге</li>
+        </ul>
+      </div>
+      <div class="feature" data-reveal>
+        <h3 data-i18n="f7t">Порядок в сети</h3>
+        <ul>
+          <li data-i18n="f7a">Жалоба на человека или сообщение</li>
+          <li data-i18n="f7b">Блокировка только для себя</li>
+          <li data-i18n="f7c">Бан по ключу устройства, а не по имени</li>
+        </ul>
+      </div>
+      <div class="feature" data-reveal>
+        <h3 data-i18n="f8t">Три языка</h3>
+        <p data-i18n="f8d">Интерфейс переведён целиком на русский, английский и азербайджанский. Имена людей, названия комнат и сами сообщения остаются как их написали.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap" id="look">
+    <p class="eyebrow" data-reveal data-i18n="lookEyebrow">Оформление</p>
+    <h2 class="section__title" data-reveal data-i18n="lookTitle">Своё лицо у приложения<br>и у вас</h2>
+
+    <p class="eyebrow" style="margin-top:44px" data-reveal data-i18n="tintEyebrow">Цвет иконки</p>
+    <p class="lede" data-reveal data-i18n="tintLede">Иконку на экране «Домой» можно перекрасить — восемь вариантов, меняется сразу.</p>
+    <div class="tints" data-reveal>
+      <img src="assets/icons/dexichs-64.png" alt="Чёрный" loading="lazy" width="62" height="62">
+      <img src="assets/icons/tint-blue.png" alt="Синий" loading="lazy" width="62" height="62">
+      <img src="assets/icons/tint-aqua.png" alt="Бирюзовый" loading="lazy" width="62" height="62">
+      <img src="assets/icons/tint-green.png" alt="Зелёный" loading="lazy" width="62" height="62">
+      <img src="assets/icons/tint-yellow.png" alt="Жёлтый" loading="lazy" width="62" height="62">
+      <img src="assets/icons/tint-red.png" alt="Красный" loading="lazy" width="62" height="62">
+      <img src="assets/icons/tint-purple.png" alt="Пурпурный" loading="lazy" width="62" height="62">
+      <img src="assets/icons/tint-grey.png" alt="Серый" loading="lazy" width="62" height="62">
+    </div>
+  </section>
+
+  <section class="section wrap" id="privacy">
+    <p class="eyebrow" data-reveal data-i18n="privEyebrow">Приватность</p>
+    <h2 class="section__title" data-reveal data-i18n="privTitle">Что о вас известно и кому</h2>
+
+    <dl class="facts">
+      <div class="fact" data-reveal>
+        <dt data-i18n="pr1t">Переписка</dt>
+        <dd data-i18n-html="pr1d"><strong>Шифруется на вашем устройстве</strong> ключом получателя и расшифровывается только у него. Ретранслятор видит набор байтов и имя адресата — этого хватает, чтобы переслать, и не хватает, чтобы прочитать.</dd>
+      </div>
+      <div class="fact" data-reveal>
+        <dt data-i18n="pr2t">Не спрашиваем</dt>
+        <dd data-i18n="pr2d">Номер телефона, адрес почты, настоящее имя, контакты из адресной книги, геопозицию. Рекламы нет, аналитика не подключена, сторонних библиотек в приложении нет вовсе.</dd>
+      </div>
+      <div class="fact" data-reveal>
+        <dt data-i18n="pr3t">Уведомления</dt>
+        <dd data-i18n-html="pr3d">В толчок от Apple кладётся <strong>только зашифрованный кусок письма</strong>. Ни имени, ни текста в нём нет — сервер их и сам не знает. Настоящее имя появляется на экране уже у вас, ключом вашего телефона.</dd>
+      </div>
+      <div class="fact" data-reveal>
+        <dt data-i18n="pr4t">Исключение</dt>
+        <dd data-i18n-html="pr4d">Жалоба. Когда вы жалуетесь на сообщение, вы <strong>сами</strong> прикладываете его выдержку, и она сохраняется в открытом виде: иначе разбирать было бы нечего.</dd>
+      </div>
+      <div class="fact" data-reveal>
+        <dt data-i18n="pr5t">Удаление</dt>
+        <dd data-i18n-html="pr5d">Аккаунт удаляется прямо в приложении: <em>Профиль → Аккаунт → Удалить аккаунт</em>. Стираются имя, профиль, образ и статистика.</dd>
+      </div>
+    </dl>
+
+    <p class="lede" style="margin-top:34px" data-reveal>
+      <a href="privacy.html" data-i18n="privLink">Полная политика конфиденциальности →</a>
+    </p>
+  </section>
+
+  <section class="section wrap" id="faq">
+    <p class="eyebrow" data-reveal data-i18n="faqEyebrow">Вопросы</p>
+    <h2 class="section__title" data-reveal data-i18n="faqTitle">Коротко о главном</h2>
+
+    <div class="qa">
+      <details data-reveal>
+        <summary data-i18n="q1">Правда работает без интернета?</summary>
+        <p data-i18n="a1">Да, если собеседник рядом — примерно в пределах комнаты или этажа. Телефоны находят друг друга по Wi-Fi и Bluetooth и соединяются напрямую. Интернет нужен только чтобы достать человека далеко.</p>
+      </details>
+      <details data-reveal>
+        <summary data-i18n="q2">Кто может прочитать мою переписку?</summary>
+        <p data-i18n="a2">Только тот, кому вы пишете. Сообщения шифруются на вашем устройстве ключом получателя. У нас нет ключа и нет способа его получить.</p>
+      </details>
+      <details data-reveal>
+        <summary data-i18n="q3">Я переустановил приложение — потеряю имя?</summary>
+        <p data-i18n="a3">Нет. Имя закреплено за ключом устройства, а ключ живёт в связке ключей и переживает переустановку. Вместе с именем возвращаются профиль и статистика игр.</p>
+      </details>
+      <details data-reveal>
+        <summary data-i18n="q4">Где скачать?</summary>
+        <p data-i18n="a4">Приложение готовится к публикации в App Store. Этот сайт — ознакомительный: здесь описано, что оно умеет. Ссылка появится здесь же, как только выйдет.</p>
+      </details>
+      <details data-reveal>
+        <summary data-i18n="q5">Сколько стоит?</summary>
+        <p data-i18n="a5">Переписка, звонки, игры и совместный просмотр — бесплатно. Платного доступа к общению нет и не планируется.</p>
+      </details>
+      <details data-reveal>
+        <summary data-i18n="q6">Что с Android?</summary>
+        <p data-i18n="a6">Пока только iPhone, iOS 16 и новее. Связь рядом построена на технологии Apple, и версия для Android потребует другой.</p>
+      </details>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__row">
+    <a class="brand" href="#top">
+      <svg viewBox="96 90 520 520" aria-hidden="true"><use href="#mark"/></svg>
+      <span>Dexichs</span>
+    </a>
+    <div class="foot__links">
+      <a href="privacy.html" data-i18n="fPrivacy">Политика конфиденциальности</a>
+      <a href="support.html" data-i18n="fSupport">Поддержка</a>
+      <a href="mailto:nijat85piriyev85@gmail.com">nijat85piriyev85@gmail.com</a>
+    </div>
+    <p class="foot__note" data-i18n="fNote">Сайт ознакомительный. Приложение не распространяется отсюда: дождитесь публикации в App Store.</p>
+  </div>
+</footer>
+
+<script src="script.js" defer></script>
 </body>
 </html>

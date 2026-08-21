@@ -4,251 +4,279 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Политика конфиденциальности — Dexichs</title>
-<link rel="icon" href="favicon.ico">
-<style>
-  :root { color-scheme: light dark; }
-  body { margin: 0 auto; padding: 32px 20px 80px; max-width: 720px;
-         font: 16px/1.6 -apple-system, "Segoe UI", Roboto, sans-serif; }
-  h1 { font-size: 30px; letter-spacing: -.02em; margin: 0 0 6px; }
-  h2 { font-size: 20px; margin: 36px 0 10px; }
-  .sub { opacity: .6; margin: 0 0 28px; font-size: 14px; }
-  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 15px; }
-  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid rgba(128,128,128,.3);
-           vertical-align: top; }
-  th { font-weight: 600; }
-  code { font-size: 14px; background: rgba(128,128,128,.15); padding: 1px 5px; border-radius: 4px; }
-  .note { border-left: 3px solid currentColor; padding: 2px 0 2px 14px; opacity: .85; margin: 18px 0; }
-  hr { border: 0; border-top: 1px solid rgba(128,128,128,.3); margin: 48px 0 32px; }
-  a { color: inherit; }
-</style>
+<meta name="theme-color" content="#0a0a0b">
+<link rel="icon" href="assets/icons/dexichs-64.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/icons/dexichs-180.png">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<h1>Политика конфиденциальности</h1>
-<p class="sub">Dexichs · последнее изменение: 20 августа 2026</p>
+<header class="top">
+  <div class="wrap top__row">
+    <a class="brand" href="index.html">
+      <svg viewBox="96 90 520 520" aria-hidden="true">
+        <rect x="118" y="112" width="196" height="196" rx="52" fill="none" stroke="currentColor" stroke-width="44"/>
+        <rect x="398" y="392" width="196" height="196" rx="52" fill="none" stroke="currentColor" stroke-width="44"/>
+        <line x1="300" y1="296" x2="412" y2="404" stroke="currentColor" stroke-width="44" stroke-linecap="round"/>
+      </svg>
+      <span>Dexichs</span>
+    </a>
+    <nav class="nav">
+      <a href="index.html">На главную</a>
+      <a href="privacy.html">Приватность</a>
+      <a href="support.html">Поддержка</a>
+    </nav>
+  </div>
+</header>
 
-<p>Коротко: переписка шифруется на устройстве и на сервере не читается. Ни номера
-телефона, ни электронной почты приложение не спрашивает. Ниже — что именно
-хранится и зачем.</p>
+<main class="doc wrap">
+  <div class="doc__inner">
+  <h1>Политика конфиденциальности</h1>
+  <p class="doc__sub">Dexichs · последнее изменение: 20 августа 2026</p>
+  
+  <p>Коротко: переписка шифруется на устройстве и на сервере не читается. Ни номера
+  телефона, ни электронной почты приложение не спрашивает. Ниже — что именно
+  хранится и зачем.</p>
+  
+  <h2>Что приложение не собирает</h2>
+  <p>Номер телефона, адрес почты, настоящее имя, контакты из адресной книги,
+  геопозицию, рекламные идентификаторы. Своей рекламы у приложения нет, аналитика
+  не подключена, и мы не передаём ваши данные третьим лицам.</p>
+  <p>Наш сервер не записывает IP-адреса в журналы.</p>
+  <p>Одно исключение — встроенные плееры в комнатах совместного просмотра. Оно
+  описано ниже отдельно, потому что там данные видим уже не мы.</p>
+  
+  <h2>Что хранится на сервере</h2>
+  <p>Сервер нужен для двух вещей: связать двух людей, когда они не в одной сети, и
+  сохранить закреплённое за вами имя. Хранится следующее.</p>
+  
+  <table>
+  <tr><th>Что</th><th>Зачем</th><th>Сколько</th></tr>
+  <tr><td>Имя пользователя и открытый ключ вашего устройства</td>
+      <td>Чтобы имя нельзя было занять чужому и чтобы вы вернули его после переустановки</td>
+      <td>Пока вы не удалите аккаунт</td></tr>
+  <tr><td>Профиль: отображаемое имя, обложка, значок</td>
+      <td>Чтобы собеседники видели вас так, как вы себя настроили</td>
+      <td>Пока вы не удалите аккаунт</td></tr>
+  <tr><td>Образ персонажа и статистика игр</td>
+      <td>Чтобы не терялись при переустановке</td>
+      <td>Пока вы не удалите аккаунт</td></tr>
+  <tr><td>Токен уведомлений вашего телефона</td>
+      <td>Чтобы сообщение застало вас при закрытом приложении</td>
+      <td>Пока вы не удалите аккаунт или приложение</td></tr>
+  <tr><td>Сообщения для тех, кто сейчас не в сети</td>
+      <td>Чтобы дошли, когда человек вернётся</td>
+      <td>До доставки, затем удаляются</td></tr>
+  <tr><td>Жалобы: кто пожаловался, на кого, причина и выдержка из сообщения</td>
+      <td>Чтобы разобрать нарушение — иначе жалобу нечем подтвердить</td>
+      <td>До разбора</td></tr>
+  <tr><td>Блокировки нарушителей</td>
+      <td>Чтобы забаненный не вернулся под новым именем</td>
+      <td>Бессрочно</td></tr>
+  </table>
+  
+  <div class="note">
+  <strong>Про сообщения.</strong> Они шифруются на вашем устройстве ключом
+  получателя и расшифровываются только у него. Сервер видит зашифрованный набор
+  байтов и имя адресата — этого хватает, чтобы переслать, и не хватает, чтобы
+  прочитать. Это относится и к сообщениям, ждущим человека не в сети.
+  </div>
+  
+  <div class="note">
+  <strong>Исключение — жалобы.</strong> Когда вы жалуетесь на сообщение, вы сами
+  прикладываете к жалобе его выдержку, и она сохраняется в открытом виде. Иначе
+  разбирать было бы нечего: само сообщение зашифровано. Отправляя жалобу, вы
+  соглашаетесь передать эту выдержку.
+  </div>
+  
+  <h2>Уведомления</h2>
+  <p>Чтобы сообщение застало вас при закрытом приложении, телефон будит служба
+  уведомлений Apple. Иначе никак: закрытое приложение iOS не запускает сама.</p>
+  <p>В уведомление кладётся <strong>только зашифрованный кусок письма</strong>.
+  Apple видит ваш телефон, который и так её, и набор байтов. Ни имени
+  отправителя, ни имени получателя, ни текста в нём нет — сервер их и сам не
+  знает. Имя и текст, которые вы видите на экране, приложение достаёт уже у вас,
+  своим ключом, в момент показа уведомления.</p>
+  <p>Отключить это можно как обычно: в настройках телефона выключить уведомления
+  для приложения.</p>
+  
+  <h2>Встроенные плееры (совместный просмотр)</h2>
+  <p>В комнате «Смотреть» видео проигрывается официальным плеером той площадки, с
+  которой взята ссылка: YouTube, TikTok или VK Видео. Плеер загружается с их
+  серверов прямо на ваше устройство.</p>
+  <p>Это значит, что площадка получает ваш IP-адрес, сведения об устройстве и
+  браузере, ставит свои файлы cookie и может показать собственную рекламу — ровно
+  так же, как если бы вы открыли то же видео у неё на сайте. Мы этих данных не
+  видим и не получаем. Что с ними делает площадка, описано у неё:</p>
+  <ul>
+  <li>YouTube — <a href="https://policies.google.com/privacy">политика Google</a></li>
+  <li>TikTok — <a href="https://www.tiktok.com/legal/privacy-policy">политика TikTok</a></li>
+  <li>VK Видео — <a href="https://vk.com/privacy">политика VK</a></li>
+  </ul>
+  <p>Плеер загружается только когда вы сами открываете комнату с таким видео. Если
+  вы туда не заходите, ни с одной из этих площадок приложение не связывается.</p>
+  
+  <h2>Покупки</h2>
+  <p>Оплата проходит через App Store. Приложение не видит и не хранит данные вашей
+  карты. С сервером связывается только факт покупки — чтобы значок и права
+  вернулись после переустановки.</p>
+  
+  <h2>Ваши права</h2>
+  <p>Вы можете удалить аккаунт прямо в приложении: <em>Профиль → Удалить
+  аккаунт</em>. Удаляются имя, профиль, образ персонажа и статистика. Сообщения,
+  уже доставленные собеседникам, остаются на их устройствах — забрать их оттуда
+  невозможно ни нам, ни вам.</p>
+  <p>Если вы в Европейской экономической зоне или Великобритании, у вас есть право
+  запросить копию своих данных, исправить их или потребовать удаления. Напишите на
+  адрес ниже, ответим в течение месяца.</p>
+  <p>Основание обработки — исполнение договора с вами (доставка сообщений) и наш
+  законный интерес в безопасности сервиса (жалобы и блокировки).</p>
+  
+  <h2>Дети</h2>
+  <p>Приложение не предназначено для детей младше 13 лет. Мы сознательно не
+  собираем их данные. Если вы родитель и считаете, что ребёнок оставил здесь
+  данные, напишите нам — удалим.</p>
+  
+  <h2>Где хранятся данные</h2>
+  <p>Сервер работает на Cloudflare Workers, данные могут обрабатываться на
+  серверах Cloudflare в разных странах.</p>
+  
+  <h2>Изменения</h2>
+  <p>Если политика изменится, дата вверху страницы обновится. Существенные
+  изменения будут объявлены в приложении.</p>
+  
+  <h2>Связь</h2>
+  <p>Вопросы о данных, запросы на удаление, жалобы: <a href="mailto:nijat85piriyev85@gmail.com">nijat85piriyev85@gmail.com</a></p>
+  
+  <hr>
+  
+  <h1>Privacy Policy</h1>
+  <p class="doc__sub">Dexichs · last updated 20 August 2026</p>
+  
+  <p>In short: messages are encrypted on your device and cannot be read by the
+  server. The app never asks for a phone number or an email address. Here is what
+  is stored and why.</p>
+  
+  <h2>What the app does not collect</h2>
+  <p>Phone number, email address, real name, address book, location, advertising
+  identifiers. The app carries no advertising of its own, no analytics are
+  integrated, and we do not share your data with third parties. Our server does not
+  log IP addresses.</p>
+  <p>There is one exception — the embedded players in watch-together rooms. It has
+  its own section below, because there the data does not reach us at all.</p>
+  
+  <h2>What the server stores</h2>
+  <table>
+  <tr><th>What</th><th>Why</th><th>How long</th></tr>
+  <tr><td>Username and your device's public key</td>
+      <td>So nobody else can take your name, and so you get it back after reinstalling</td>
+      <td>Until you delete your account</td></tr>
+  <tr><td>Profile: display name, banner, badge</td>
+      <td>So others see you as you set yourself up</td>
+      <td>Until you delete your account</td></tr>
+  <tr><td>Character look and game statistics</td>
+      <td>So they survive a reinstall</td>
+      <td>Until you delete your account</td></tr>
+  <tr><td>Your device's notification token</td>
+      <td>So a message can reach you while the app is closed</td>
+      <td>Until you delete your account or the app</td></tr>
+  <tr><td>Messages for people currently offline</td>
+      <td>So they arrive when the person returns</td>
+      <td>Until delivered, then deleted</td></tr>
+  <tr><td>Reports: reporter, target, reason and a quoted excerpt</td>
+      <td>To review the violation — a report cannot be checked without it</td>
+      <td>Until reviewed</td></tr>
+  <tr><td>Bans</td><td>So a banned device cannot return under a new name</td>
+      <td>Indefinitely</td></tr>
+  </table>
+  
+  <div class="note">
+  <strong>About messages.</strong> They are encrypted on your device with the
+  recipient's key and decrypted only on theirs. The server sees an encrypted blob
+  and a recipient name — enough to forward, not enough to read. This includes
+  messages waiting for an offline recipient.
+  </div>
+  
+  <div class="note">
+  <strong>One exception — reports.</strong> When you report a message, you attach
+  an excerpt yourself, and that excerpt is stored in plain text. Otherwise there
+  would be nothing to review, since the message itself is encrypted.
+  </div>
+  
+  <h2>Notifications</h2>
+  <p>So a message can reach you while the app is closed, your phone is woken by
+  Apple's push service. There is no other way: iOS does not start a closed app on
+  its own.</p>
+  <p>The notification carries <strong>only an encrypted piece of the message</strong>.
+  Apple sees your device, which it already knows, and a blob of bytes. There is no
+  sender name, no recipient name and no text in it — the server does not know them
+  either. The name and text you see on screen are unlocked on your own device,
+  with your own key, at the moment the notification is shown.</p>
+  <p>You can turn this off the usual way, in your phone's notification settings.</p>
+  
+  <h2>Embedded players (watching together)</h2>
+  <p>In a watch room the video plays in the official player of whichever platform
+  the link came from: YouTube, TikTok or VK Video. That player is loaded from their
+  servers straight onto your device.</p>
+  <p>This means the platform receives your IP address, device and browser details,
+  sets its own cookies and may show its own advertising — exactly as if you had
+  opened the same video on their site. We neither see nor receive any of it. What
+  they do with it is described by them:</p>
+  <ul>
+  <li>YouTube — <a href="https://policies.google.com/privacy">Google privacy policy</a></li>
+  <li>TikTok — <a href="https://www.tiktok.com/legal/privacy-policy">TikTok privacy policy</a></li>
+  <li>VK Video — <a href="https://vk.com/privacy">VK privacy policy</a></li>
+  </ul>
+  <p>A player loads only when you open such a room yourself. If you never do, the
+  app never contacts any of these platforms.</p>
+  
+  <h2>Purchases</h2>
+  <p>Payments go through the App Store. The app never sees or stores your card
+  details. Only the fact of a purchase reaches the server, so your badge and perks
+  come back after a reinstall.</p>
+  
+  <h2>Your rights</h2>
+  <p>You can delete your account inside the app: <em>Profile → Delete the
+  account</em>. Your name, profile, character and statistics are removed. Messages
+  already delivered to other people remain on their devices — neither you nor we
+  can reach them there.</p>
+  <p>If you are in the EEA or the UK you may request a copy of your data, ask for
+  corrections, or ask for erasure. Write to the address below; we reply within one
+  month. We process data to perform our agreement with you (delivering messages)
+  and under our legitimate interest in keeping the service safe (reports and bans).</p>
+  
+  <h2>Children</h2>
+  <p>This app is not intended for children under 13 and we do not knowingly
+  collect their data. Parents may write to us and we will delete it.</p>
+  
+  <h2>Where data is stored</h2>
+  <p>The server runs on Cloudflare Workers; data may be processed on Cloudflare
+  servers in various countries.</p>
+  
+  <h2>Contact</h2>
+  <p>Data questions, deletion requests, complaints:
+  <a href="mailto:nijat85piriyev85@gmail.com">nijat85piriyev85@gmail.com</a></p>
+  </div>
+</main>
 
-<h2>Что приложение не собирает</h2>
-<p>Номер телефона, адрес почты, настоящее имя, контакты из адресной книги,
-геопозицию, рекламные идентификаторы. Своей рекламы у приложения нет, аналитика
-не подключена, и мы не передаём ваши данные третьим лицам.</p>
-<p>Наш сервер не записывает IP-адреса в журналы.</p>
-<p>Одно исключение — встроенные плееры в комнатах совместного просмотра. Оно
-описано ниже отдельно, потому что там данные видим уже не мы.</p>
-
-<h2>Что хранится на сервере</h2>
-<p>Сервер нужен для двух вещей: связать двух людей, когда они не в одной сети, и
-сохранить закреплённое за вами имя. Хранится следующее.</p>
-
-<table>
-<tr><th>Что</th><th>Зачем</th><th>Сколько</th></tr>
-<tr><td>Имя пользователя и открытый ключ вашего устройства</td>
-    <td>Чтобы имя нельзя было занять чужому и чтобы вы вернули его после переустановки</td>
-    <td>Пока вы не удалите аккаунт</td></tr>
-<tr><td>Профиль: отображаемое имя, обложка, значок</td>
-    <td>Чтобы собеседники видели вас так, как вы себя настроили</td>
-    <td>Пока вы не удалите аккаунт</td></tr>
-<tr><td>Образ персонажа и статистика игр</td>
-    <td>Чтобы не терялись при переустановке</td>
-    <td>Пока вы не удалите аккаунт</td></tr>
-<tr><td>Токен уведомлений вашего телефона</td>
-    <td>Чтобы сообщение застало вас при закрытом приложении</td>
-    <td>Пока вы не удалите аккаунт или приложение</td></tr>
-<tr><td>Сообщения для тех, кто сейчас не в сети</td>
-    <td>Чтобы дошли, когда человек вернётся</td>
-    <td>До доставки, затем удаляются</td></tr>
-<tr><td>Жалобы: кто пожаловался, на кого, причина и выдержка из сообщения</td>
-    <td>Чтобы разобрать нарушение — иначе жалобу нечем подтвердить</td>
-    <td>До разбора</td></tr>
-<tr><td>Блокировки нарушителей</td>
-    <td>Чтобы забаненный не вернулся под новым именем</td>
-    <td>Бессрочно</td></tr>
-</table>
-
-<div class="note">
-<strong>Про сообщения.</strong> Они шифруются на вашем устройстве ключом
-получателя и расшифровываются только у него. Сервер видит зашифрованный набор
-байтов и имя адресата — этого хватает, чтобы переслать, и не хватает, чтобы
-прочитать. Это относится и к сообщениям, ждущим человека не в сети.
-</div>
-
-<div class="note">
-<strong>Исключение — жалобы.</strong> Когда вы жалуетесь на сообщение, вы сами
-прикладываете к жалобе его выдержку, и она сохраняется в открытом виде. Иначе
-разбирать было бы нечего: само сообщение зашифровано. Отправляя жалобу, вы
-соглашаетесь передать эту выдержку.
-</div>
-
-<h2>Уведомления</h2>
-<p>Чтобы сообщение застало вас при закрытом приложении, телефон будит служба
-уведомлений Apple. Иначе никак: закрытое приложение iOS не запускает сама.</p>
-<p>В уведомление кладётся <strong>только зашифрованный кусок письма</strong>.
-Apple видит ваш телефон, который и так её, и набор байтов. Ни имени
-отправителя, ни имени получателя, ни текста в нём нет — сервер их и сам не
-знает. Имя и текст, которые вы видите на экране, приложение достаёт уже у вас,
-своим ключом, в момент показа уведомления.</p>
-<p>Отключить это можно как обычно: в настройках телефона выключить уведомления
-для приложения.</p>
-
-<h2>Встроенные плееры (совместный просмотр)</h2>
-<p>В комнате «Смотреть» видео проигрывается официальным плеером той площадки, с
-которой взята ссылка: YouTube, TikTok или VK Видео. Плеер загружается с их
-серверов прямо на ваше устройство.</p>
-<p>Это значит, что площадка получает ваш IP-адрес, сведения об устройстве и
-браузере, ставит свои файлы cookie и может показать собственную рекламу — ровно
-так же, как если бы вы открыли то же видео у неё на сайте. Мы этих данных не
-видим и не получаем. Что с ними делает площадка, описано у неё:</p>
-<ul>
-<li>YouTube — <a href="https://policies.google.com/privacy">политика Google</a></li>
-<li>TikTok — <a href="https://www.tiktok.com/legal/privacy-policy">политика TikTok</a></li>
-<li>VK Видео — <a href="https://vk.com/privacy">политика VK</a></li>
-</ul>
-<p>Плеер загружается только когда вы сами открываете комнату с таким видео. Если
-вы туда не заходите, ни с одной из этих площадок приложение не связывается.</p>
-
-<h2>Покупки</h2>
-<p>Оплата проходит через App Store. Приложение не видит и не хранит данные вашей
-карты. С сервером связывается только факт покупки — чтобы значок и права
-вернулись после переустановки.</p>
-
-<h2>Ваши права</h2>
-<p>Вы можете удалить аккаунт прямо в приложении: <em>Профиль → Удалить
-аккаунт</em>. Удаляются имя, профиль, образ персонажа и статистика. Сообщения,
-уже доставленные собеседникам, остаются на их устройствах — забрать их оттуда
-невозможно ни нам, ни вам.</p>
-<p>Если вы в Европейской экономической зоне или Великобритании, у вас есть право
-запросить копию своих данных, исправить их или потребовать удаления. Напишите на
-адрес ниже, ответим в течение месяца.</p>
-<p>Основание обработки — исполнение договора с вами (доставка сообщений) и наш
-законный интерес в безопасности сервиса (жалобы и блокировки).</p>
-
-<h2>Дети</h2>
-<p>Приложение не предназначено для детей младше 13 лет. Мы сознательно не
-собираем их данные. Если вы родитель и считаете, что ребёнок оставил здесь
-данные, напишите нам — удалим.</p>
-
-<h2>Где хранятся данные</h2>
-<p>Сервер работает на Cloudflare Workers, данные могут обрабатываться на
-серверах Cloudflare в разных странах.</p>
-
-<h2>Изменения</h2>
-<p>Если политика изменится, дата вверху страницы обновится. Существенные
-изменения будут объявлены в приложении.</p>
-
-<h2>Связь</h2>
-<p>Вопросы о данных, запросы на удаление, жалобы: <a href="mailto:nijat85piriyev85@gmail.com">nijat85piriyev85@gmail.com</a></p>
-
-<hr>
-
-<h1>Privacy Policy</h1>
-<p class="sub">Dexichs · last updated 20 August 2026</p>
-
-<p>In short: messages are encrypted on your device and cannot be read by the
-server. The app never asks for a phone number or an email address. Here is what
-is stored and why.</p>
-
-<h2>What the app does not collect</h2>
-<p>Phone number, email address, real name, address book, location, advertising
-identifiers. The app carries no advertising of its own, no analytics are
-integrated, and we do not share your data with third parties. Our server does not
-log IP addresses.</p>
-<p>There is one exception — the embedded players in watch-together rooms. It has
-its own section below, because there the data does not reach us at all.</p>
-
-<h2>What the server stores</h2>
-<table>
-<tr><th>What</th><th>Why</th><th>How long</th></tr>
-<tr><td>Username and your device's public key</td>
-    <td>So nobody else can take your name, and so you get it back after reinstalling</td>
-    <td>Until you delete your account</td></tr>
-<tr><td>Profile: display name, banner, badge</td>
-    <td>So others see you as you set yourself up</td>
-    <td>Until you delete your account</td></tr>
-<tr><td>Character look and game statistics</td>
-    <td>So they survive a reinstall</td>
-    <td>Until you delete your account</td></tr>
-<tr><td>Your device's notification token</td>
-    <td>So a message can reach you while the app is closed</td>
-    <td>Until you delete your account or the app</td></tr>
-<tr><td>Messages for people currently offline</td>
-    <td>So they arrive when the person returns</td>
-    <td>Until delivered, then deleted</td></tr>
-<tr><td>Reports: reporter, target, reason and a quoted excerpt</td>
-    <td>To review the violation — a report cannot be checked without it</td>
-    <td>Until reviewed</td></tr>
-<tr><td>Bans</td><td>So a banned device cannot return under a new name</td>
-    <td>Indefinitely</td></tr>
-</table>
-
-<div class="note">
-<strong>About messages.</strong> They are encrypted on your device with the
-recipient's key and decrypted only on theirs. The server sees an encrypted blob
-and a recipient name — enough to forward, not enough to read. This includes
-messages waiting for an offline recipient.
-</div>
-
-<div class="note">
-<strong>One exception — reports.</strong> When you report a message, you attach
-an excerpt yourself, and that excerpt is stored in plain text. Otherwise there
-would be nothing to review, since the message itself is encrypted.
-</div>
-
-<h2>Notifications</h2>
-<p>So a message can reach you while the app is closed, your phone is woken by
-Apple's push service. There is no other way: iOS does not start a closed app on
-its own.</p>
-<p>The notification carries <strong>only an encrypted piece of the message</strong>.
-Apple sees your device, which it already knows, and a blob of bytes. There is no
-sender name, no recipient name and no text in it — the server does not know them
-either. The name and text you see on screen are unlocked on your own device,
-with your own key, at the moment the notification is shown.</p>
-<p>You can turn this off the usual way, in your phone's notification settings.</p>
-
-<h2>Embedded players (watching together)</h2>
-<p>In a watch room the video plays in the official player of whichever platform
-the link came from: YouTube, TikTok or VK Video. That player is loaded from their
-servers straight onto your device.</p>
-<p>This means the platform receives your IP address, device and browser details,
-sets its own cookies and may show its own advertising — exactly as if you had
-opened the same video on their site. We neither see nor receive any of it. What
-they do with it is described by them:</p>
-<ul>
-<li>YouTube — <a href="https://policies.google.com/privacy">Google privacy policy</a></li>
-<li>TikTok — <a href="https://www.tiktok.com/legal/privacy-policy">TikTok privacy policy</a></li>
-<li>VK Video — <a href="https://vk.com/privacy">VK privacy policy</a></li>
-</ul>
-<p>A player loads only when you open such a room yourself. If you never do, the
-app never contacts any of these platforms.</p>
-
-<h2>Purchases</h2>
-<p>Payments go through the App Store. The app never sees or stores your card
-details. Only the fact of a purchase reaches the server, so your badge and perks
-come back after a reinstall.</p>
-
-<h2>Your rights</h2>
-<p>You can delete your account inside the app: <em>Profile → Delete the
-account</em>. Your name, profile, character and statistics are removed. Messages
-already delivered to other people remain on their devices — neither you nor we
-can reach them there.</p>
-<p>If you are in the EEA or the UK you may request a copy of your data, ask for
-corrections, or ask for erasure. Write to the address below; we reply within one
-month. We process data to perform our agreement with you (delivering messages)
-and under our legitimate interest in keeping the service safe (reports and bans).</p>
-
-<h2>Children</h2>
-<p>This app is not intended for children under 13 and we do not knowingly
-collect their data. Parents may write to us and we will delete it.</p>
-
-<h2>Where data is stored</h2>
-<p>The server runs on Cloudflare Workers; data may be processed on Cloudflare
-servers in various countries.</p>
-
-<h2>Contact</h2>
-<p>Data questions, deletion requests, complaints:
-<a href="mailto:nijat85piriyev85@gmail.com">nijat85piriyev85@gmail.com</a></p>
+<footer class="foot">
+  <div class="wrap foot__row">
+    <a class="brand" href="index.html">
+      <svg viewBox="96 90 520 520" aria-hidden="true">
+        <rect x="118" y="112" width="196" height="196" rx="52" fill="none" stroke="currentColor" stroke-width="44"/>
+        <rect x="398" y="392" width="196" height="196" rx="52" fill="none" stroke="currentColor" stroke-width="44"/>
+        <line x1="300" y1="296" x2="412" y2="404" stroke="currentColor" stroke-width="44" stroke-linecap="round"/>
+      </svg>
+      <span>Dexichs</span>
+    </a>
+    <div class="foot__links">
+      <a href="index.html">На главную</a>
+      <a href="privacy.html">Политика конфиденциальности</a>
+      <a href="support.html">Поддержка</a>
+      <a href="mailto:nijat85piriyev85@gmail.com">nijat85piriyev85@gmail.com</a>
+    </div>
+  </div>
+</footer>
 
 </body>
 </html>
