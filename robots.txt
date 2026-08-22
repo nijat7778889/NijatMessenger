@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nijat7778889.github.io/dexichs/sitemap.xml
+Sitemap: https://dexichs.is-a.dev/sitemap.xml
